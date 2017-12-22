@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Meghan_BugTracker.Models.Project>
+
+
+<h2>Projects</h2>
+
+<p>
+    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var proj in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => proj.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => proj.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id=proj.Id }) |
+
+            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+            {
+                @Html.ActionLink("Tickets", "ProjectTickets", "Tickets", new { projectId = proj.Id }, null) @:|
+                @Html.ActionLink("Edit", "Edit", "Projects", new { id = proj.Id }, null) @:|
+                @Html.ActionLink("Delete", "Delete", "Projects", new { id = proj.Id }, null)
+            }
+
+            @if (User.IsInRole("Developer"))
+            {
+                @Html.ActionLink("My Tickets", "DevProjectTickets", "Tickets", new { projectId = proj.Id }, null)
+            }
+
+        </td>
+    </tr>
+}
+
+</table>

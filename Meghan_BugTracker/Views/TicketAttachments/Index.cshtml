@@ -1,0 +1,84 @@
+﻿@model IEnumerable<Meghan_BugTracker.Models.TicketAttachment>
+
+
+<h2>Attachments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table" id="attachmentTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ticket.Title)
+            </th>
+            <th>
+                @Html.DisplayName("Added By")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FileUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Created)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var attachment in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => attachment.Ticket.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => attachment.User.FirstName)
+                </td>
+                <td>
+                    @if (attachment.FileUrl.Contains(".pdf"))
+                    {
+                        <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-pdf-o text-danger"></i></a>
+                    }
+                    @if (attachment.FileUrl.Contains(".doc") || attachment.FileUrl.Contains(".docx"))
+                    {
+                        <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-word-o text-info"></i></a>
+                    }
+                    @if (attachment.FileUrl.Contains(".xls") || attachment.FileUrl.Contains(".xlsx"))
+                    {
+                        <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-excel-o text-success"></i></a>
+                    }
+                    @if (attachment.FileUrl.Contains(".txt"))
+                    {
+                        <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-text-o text-warning"></i></a>
+                    }
+                    @if (attachment.FileUrl.Contains(".jpg") || attachment.FileUrl.Contains(".jpeg") || attachment.FileUrl.Contains(".gif") || attachment.FileUrl.Contains(".png") || attachment.FileUrl.Contains(".bmp"))
+                    {
+                        <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-image-o text-primary"></i></a>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => attachment.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => attachment.Created)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = attachment.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = attachment.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = attachment.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts
+{
+    <script>
+        $('#attachmentTable').DataTable();
+    </script>
+}

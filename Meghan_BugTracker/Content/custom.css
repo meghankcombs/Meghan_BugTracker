@@ -1,0 +1,56 @@
+﻿/* IN-LINE CSS FROM TEMPLATE */
+
+.page-header-form .input-group-addon,
+.page-header-form .form-control {
+    background: rgba(0,0,0,.05);
+}
+
+/* MY CSS */
+
+.myBrand {
+    font-family: 'Satisfy';
+    font-size: 25px;
+}
+
+.myfa {
+    padding-left: 15px;
+}
+
+#forgotPassBtn {
+    margin-left: 5px;
+}
+
+.btn-label-icon {
+    line-height: 21px;
+}
+
+#socialLoginBtns {
+    margin-left: -150px;
+}
+
+.myprimary {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+}
+
+.myprimary.focus, .myprimary:focus {
+    color: #fff;
+    background-color: #286090;
+    border-color: #122b40;
+}
+
+#mySpan {
+    font-size: 11px;
+    font-family: 'Open Sans';
+}
+
+.myFloat {
+    margin-right: 69px;
+}
+
+.myBtnMargin {
+    margin-bottom: 1px;
+}
+
+

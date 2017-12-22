@@ -1,0 +1,358 @@
+﻿@using Meghan_BugTracker.Models;
+@using Meghan_BugTracker.Helpers;
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <title>Kink Fix - BMS</title>
+
+    <!-- FAVICON -->
+    <link rel="icon" type="image.png" href="~/MyImages/cat--5-512-85909.png" />
+
+    <!-- FONTS -->
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- MY GOOGLE FONT -->
+    <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
+
+    <!-- Core stylesheets -->
+    <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/pixeladmin.min.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/css/widgets.min.css" rel="stylesheet" type="text/css">
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+
+    <!-- Theme -->
+    <link href="~/assets/css/themes/clean.min.css" rel="stylesheet" type="text/css">
+
+    <!-- MY CSS -->
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- SIDE NAV BAR -->
+    <nav class="px-nav px-nav-left">
+        <button type="button" class="px-nav-toggle" data-toggle="px-nav">
+            <span class="px-nav-toggle-arrow"></span>
+            <span class="navbar-toggle-icon"></span>
+            <span class="px-nav-toggle-label font-size-11">HIDE MENU</span>
+        </button>
+        <ul class="px-nav-content">
+            <li class="px-nav-box p-a-3 b-b-1" id="demo-px-nav-box">
+                <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <img src="~/assets/demo/avatars/1.jpg" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
+                }
+                else
+                {
+                    <img src="~/MyImages/user_default.png" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
+                }
+
+                <div class="font-size-16"><span class="font-weight-light">Welcome, </span>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <strong>@NameHelper.UserFirstName()!</strong>
+                }
+                else
+                {
+                    <strong>Guest!</strong>
+                }
+                </div>
+                <div class="btn-group" style="margin-top: 4px;">
+                    <a href="@Url.Action("Index", "Manage")" class="btn btn-xs btn-primary btn-outline"><i class="fa fa-user"></i></a>
+                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-xs btn-danger btn-outline myBtnMargin"><i class="fa fa-power-off"></i></a>
+                    }
+                </div>
+            </li>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <li class="px-nav-item px-nav-dropdown">
+                    <a href="#"><i class="px-nav-icon fa fa-dashboard"></i><span class="px-nav-label">Demo Dashboards</span></a>
+                    <ul class="px-nav-dropdown-menu">
+                        <li class="px-nav-item"><a href=""><i class="px-nav-icon fa fa-adn"></i><span class="px-nav-label">Admin</span></a></li>
+                        <li class="px-nav-item"><a href=""><i class="px-nav-icon fa fa-black-tie"></i><span class="px-nav-label">Project Manager</span></a></li>
+                        <li class="px-nav-item"><a href=""><i class="px-nav-icon fa fa-code"></i><span class="px-nav-label">Developer</span></a></li>
+                        <li class="px-nav-item"><a href=""><i class="px-nav-icon fa fa-id-badge"></i><span class="px-nav-label">Submitter</span></a></li>
+                    </ul>
+                </li>
+                <li class="px-nav-item">
+                    <a href="@Url.Action("About", "Home")"><i class="px-nav-icon fa fa-info"></i><span class="px-nav-label">About</span></a>
+                </li>
+                <li class="px-nav-item">
+                    <a href="@Url.Action("Contact", "Home")"><i class="px-nav-icon fa fa-envelope"></i><span class="px-nav-label">Contact</span></a>
+                </li>
+            }
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                if (User.IsInRole("Admin"))
+                {
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Home")"><i class="px-nav-icon fa fa-dashboard"></i><span class="px-nav-label">Dashboard</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Manage")"><i class="px-nav-icon fa fa-user-circle"></i><span class="px-nav-label">Manage Profile</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Projects")"><i class="px-nav-icon fa fa-book"></i><span class="px-nav-label">Projects</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("MyIndex", "Projects")"><i class="px-nav-icon fa fa-bookmark"></i><span class="px-nav-label">My Projects</span></a>
+                    </li>
+                    <li class="px-nav-item px-nav-dropdown">
+                        <a href="#"><i class="px-nav-icon fa fa-ticket"></i><span class="px-nav-label">Tickets</span></a>
+                        <ul class="px-nav-dropdown-menu">
+                            <li class="px-nav-item"><a href="@Url.Action("Index", "Tickets")"><i class="px-nav-icon fa fa-in"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("Index", "TicketAttachments")"><i class="px-nav-icon fa fa-file-o"></i><span class="px-nav-label">Attachments</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("Index", "TicketComments")"><i class="px-nav-icon fa fa-comments-o"></i><span class="px-nav-label">Comments</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("Index", "TicketHistories")"><i class="px-nav-icon fa fa-history"></i><span class="px-nav-label">Histories</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="px-nav-item px-nav-dropdown">
+                        <a href="#"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Users</span></a>
+                        <ul class="px-nav-dropdown-menu">
+                            <li class="px-nav-item"><a href="@Url.Action("UserIndex", "Admin")"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("IndexOfPMs", "Admin")"><i class="px-nav-icon fa fa-black-tie"></i><span class="px-nav-label">Project Managers</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("IndexOfDevs", "Admin")"><i class="px-nav-icon fa fa-code"></i><span class="px-nav-label">Developers</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("IndexOfSubs", "Admin")"><i class="px-nav-icon fa fa-id-badge"></i><span class="px-nav-label">Submitters</span></a></li>
+                        </ul>
+                    </li>
+                }
+
+                if (User.IsInRole("Project Manager"))
+                {
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Home")"><i class="px-nav-icon fa fa-dashboard"></i><span class="px-nav-label">Dashboard</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Manage")"><i class="px-nav-icon fa fa-user-circle"></i><span class="px-nav-label">Manage Profile</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Projects")"><i class="px-nav-icon fa fa-book"></i><span class="px-nav-label">Projects</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("MyIndex", "Projects")"><i class="px-nav-icon fa fa-bookmark"></i><span class="px-nav-label">My Projects</span></a>
+                    </li>
+                    <li class="px-nav-item px-nav-dropdown">
+                        <a href="#"><i class="px-nav-icon fa fa-ticket"></i><span class="px-nav-label">Tickets</span></a>
+                        <ul class="px-nav-dropdown-menu">
+                            <li class="px-nav-item"><a href="@Url.Action("PMProjectTickets", "Tickets")"><i class="px-nav-icon fa fa-in"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("PMTicketAttachments", "TicketAttachments")"><i class="px-nav-icon fa fa-file-o"></i><span class="px-nav-label">Attachments</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("PMTicketComments", "TicketComments")"><i class="px-nav-icon fa fa-comments-o"></i><span class="px-nav-label">Comments</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("PMTicketHistories", "TicketHistories")"><i class="px-nav-icon fa fa-history"></i><span class="px-nav-label">Histories</span></a></li>
+                        </ul>
+                    </li>
+                    <li class="px-nav-item px-nav-dropdown">
+                        <a href="#"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Users</span></a>
+                        <ul class="px-nav-dropdown-menu">
+                            <li class="px-nav-item"><a href="@Url.Action("UserIndex", "Admin")"><i class="px-nav-icon fa fa-users"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("IndexOfPMs", "Admin")"><i class="px-nav-icon fa fa-black-tie"></i><span class="px-nav-label">Project Managers</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("IndexOfDevs", "Admin")"><i class="px-nav-icon fa fa-code"></i><span class="px-nav-label">Developers</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("IndexOfSubs", "Admin")"><i class="px-nav-icon fa fa-id-badge"></i><span class="px-nav-label">Submitters</span></a></li>
+                        </ul>
+                    </li>
+                }
+
+                if (User.IsInRole("Developer"))
+                {
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Home")"><i class="px-nav-icon fa fa-dashboard"></i><span class="px-nav-label">Dashboard</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Manage")"><i class="px-nav-icon fa fa-user-circle"></i><span class="px-nav-label">Manage Profile</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("MyIndex", "Projects")"><i class="px-nav-icon fa fa-book"></i><span class="px-nav-label">My Projects</span></a>
+                    </li>
+                    <li class="px-nav-item px-nav-dropdown">
+                        <a href="#"><i class="px-nav-icon fa fa-ticket"></i><span class="px-nav-label">Tickets</span></a>
+                        <ul class="px-nav-dropdown-menu">
+                            <li class="px-nav-item"><a href="@Url.Action("MyIndex", "Tickets")"><i class="px-nav-icon fa fa-in"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("DevSubTicketAttachments", "TicketAttachments")"><i class="px-nav-icon fa fa-file-o"></i><span class="px-nav-label">Attachments</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("DevSubTicketComments", "TicketComments")"><i class="px-nav-icon fa fa-comments-o"></i><span class="px-nav-label">Comments</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("DevSubTicketHistories", "TicketHistories")"><i class="px-nav-icon fa fa-history"></i><span class="px-nav-label">Histories</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("MyIndex", "TicketNotifications")"><i class="px-nav-icon fa fa-paper-plane"></i><span class="px-nav-label">Notifications</span></a></li>
+                        </ul>
+                    </li>
+                }
+
+                if (User.IsInRole("Submitter"))
+                {
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Home")"><i class="px-nav-icon fa fa-dashboard"></i><span class="px-nav-label">Dashboard</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("Index", "Manage")"><i class="px-nav-icon fa fa-user-circle"></i><span class="px-nav-label">Manage Profile</span></a>
+                    </li>
+                    <li class="px-nav-item">
+                        <a href="@Url.Action("MyIndex", "Projects")"><i class="px-nav-icon fa fa-book"></i><span class="px-nav-label">My Projects</span></a>
+                    </li>
+                    <li class="px-nav-item px-nav-dropdown">
+                        <a href="#"><i class="px-nav-icon fa fa-ticket"></i><span class="px-nav-label">Tickets</span></a>
+                        <ul class="px-nav-dropdown-menu">
+                            <li class="px-nav-item"><a href="@Url.Action("SubmitterIndex", "Tickets")"><i class="px-nav-icon fa fa-in"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("DevSubTicketAttachments", "TicketAttachments")"><i class="px-nav-icon fa fa-file-o"></i><span class="px-nav-label">Attachments</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("DevSubTicketComments", "TicketComments")"><i class="px-nav-icon fa fa-comments-o"></i><span class="px-nav-label">Comments</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("DevSubTicketHistories", "TicketHistories")"><i class="px-nav-icon fa fa-history"></i><span class="px-nav-label">Histories</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("Create", "Tickets")"><i class="px-nav-icon fa fa-plus-circle"></i><span class="px-nav-label">Create New Ticket</span></a></li>
+                        </ul>
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+
+    <!-- UPPER NAV BAR -->
+    <nav class="navbar px-navbar">
+        <!-- Header -->
+        <div class="navbar-header">
+            <a class="navbar-brand px-demo-brand myBrand" href="@Url.Action("Index", "Home")"><i class="fa fa-bug text-warning"></i> Kink Fix <span id="mySpan"> Bug Management System</span></a>
+        </div>
+        <!-- Navbar togglers -->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#px-demo-navbar-collapse" aria-expanded="false"><i class="navbar-toggle-icon"></i></button>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="px-demo-navbar-collapse">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <ul class="nav navbar-nav">
+                    <li><a href="@Url.Action("Login", "Account")"><i class="fa fa-arrow-circle-right"></i> Login</a></li>
+                    <li><a href="@Url.Action("Register", "Account")"><i class="fa fa-user"></i> Register</a></li>
+                </ul>
+            }
+            
+            <ul class="nav navbar-nav navbar-right">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="px-navbar-icon fa fa-bullhorn font-size-14"></i>
+                            <span class="px-navbar-icon-label">Notifications</span>
+                            <span class="px-navbar-label label label-success">@TicketsHelper.NotificationCount()</span>
+                        </a>
+                        <div class="dropdown-menu p-a-0" style="width: 300px">
+                            <div id="navbar-notifications" style="height: 280px; position: relative;">
+                                @foreach (var notification in TicketsHelper.GetFirstFour())
+                                {
+                                <div class="widget-notifications-item">
+                                    <div class="widget-notifications-title text-primary">TICKET: @notification.Ticket.Title</div>
+                                    <div class="widget-notifications-description"><strong>From</strong>: @notification.Sender.FirstName</div>
+                                    <div class="widget-notifications-date">@notification.Created.ToString("MM/dd/yy")</div>
+                                    <div class="widget-notifications-icon fa fa-clock-o bg-warning"></div>
+                                </div>
+                                }
+                            </div>
+                            <a href="@Url.Action("MyIndex", "TicketNotifications")" class="widget-more-link">MORE NOTIFICATIONS</a>
+                        </div>
+                    </li>
+                }
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <img src="~/assets/demo/avatars/1.jpg" alt="" class="px-navbar-image">
+                            <span class="hidden-md">@NameHelper.UserFirstName()</span>
+                        }
+                        else
+                        {
+                            <img src="~/MyImages/user_default.png" alt="" class="px-navbar-image">
+                            <span class="hidden-md">Guest</span>
+                        }
+
+                    </a>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <ul class="dropdown-menu">
+                            <li><a href="@Url.Action("Index", "Manage")"><i class="dropdown-icon fa fa-user"></i>&nbsp;&nbsp;Manage Profile</a></li>
+                            <li><a href="@Url.Action("MyIndex", "Projects")"><i class="dropdown-icon fa fa-book"></i>&nbsp;&nbsp;My Projects</a></li>
+                            <li><a href="@Url.Action("MyIndex", "Tickets")"><i class="dropdown-icon fa fa-ticket"></i>&nbsp;&nbsp;My Tickets</a></li>
+                            <li class="divider"></li>
+                            <li>
+                                @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <a href="javascript:document.getElementById('logoutForm').submit()" class="myFloat"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Log out</a>
+                                }
+                            </li>
+                        </ul>
+                    }
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </nav>
+
+    <!-- MAKES SIDE NAV BEHAVE -->
+    <div class="px-content">
+        @RenderBody()
+    </div>
+
+        <footer class="px-footer px-footer-bottom p-t-0">
+            <div class="box m-a-0 bg-transparent">
+                <div class="box-cell col-md-3 p-t-3">
+                    <h5 class="m-t-0 m-b-1 font-size-13">About</h5>
+                    <a href="@Url.Action("About", "Home")">What is Kink Fix?</a><br>
+                    <a href="http://mcombs-portfolio.azurewebsites.net/">Meghan's Portfolio</a><br>
+                </div>
+                <div class="box-cell col-md-3 p-t-3">
+                    <h5 class="m-t-0 m-b-1 font-size-13">Contact</h5>
+                    <a href="@Url.Action("Contact", "Home")">Kink Fix Support</a><br>
+                    <a href="http://mcombs-portfolio.azurewebsites.net/#Contact">Meghan's Contact Page</a><br>
+                </div>
+                <div class="box-cell col-md-3 p-t-3">
+                    <h5 class="m-t-0 m-b-1 font-size-13">Home</h5>
+                    <a href="@Url.Action("Index", "Home")">Back to Home</a><br>
+                </div>
+                <div class="box-cell col-md-3 p-t-3 valign-middle">
+                    <a href="https://www.linkedin.com/in/meghankcombs/" class="display-block m-b-1 text-nowrap"><i class="fa fa-linkedin"></i>&nbsp;&nbsp;LinkedIn</a>
+                    <a href="https://github.com/meghankcombs" class="display-block m-b-1 text-nowrap"><i class="fa fa-github"></i>&nbsp;&nbsp;GitHub</a>
+                </div>
+            </div>
+            <hr class="page-wide-block">
+            <span class="text-muted">Copyright © 2017 Meghan Combs, All rights reserved.</span>
+        </footer>
+
+        <!-- TEMPLATE SCRIPTS -->
+        <!-- DEMO ONLY: Function for the proper stylesheet loading according to the demo settings -->
+        <script>function _pxDemo_loadStylesheet(a, b, c) { var c = c || decodeURIComponent((new RegExp(";\\s*" + encodeURIComponent("px-demo-theme") + "\\s*=\\s*([^;]+)\\s*;", "g").exec(";" + document.cookie + ";") || [])[1] || "clean"), d = "rtl" === document.getElementsByTagName("html")[0].getAttribute("dir"); document.write(a.replace(/^(.*?)((?:\.min)?\.css)$/, '<link href="$1' + (c.indexOf("dark") !== -1 && a.indexOf("/css/") !== -1 && a.indexOf("/themes/") === -1 ? "-dark" : "") + (!d || 0 !== a.indexOf("~/assets/css") && 0 !== a.indexOf("~/assets/demo") ? "" : ".rtl") + '$2" rel="stylesheet" type="text/css"' + (b ? 'class="' + b + '"' : "") + ">")) }</script>
+        <!-- DEMO ONLY: Set RTL direction -->
+        <script>"ltr" !== document.getElementsByTagName("html")[0].getAttribute("dir") && "1" === decodeURIComponent((new RegExp(";\\s*" + encodeURIComponent("px-demo-rtl") + "\\s*=\\s*([^;]+)\\s*;", "g").exec(";" + document.cookie + ";") || [])[1] || "0") && document.getElementsByTagName("html")[0].setAttribute("dir", "rtl");</script>
+        <!-- DEMO ONLY: Load PixelAdmin core stylesheets -->
+        <script>
+        _pxDemo_loadStylesheet('~/assets/css/bootstrap.min.css', 'px-demo-stylesheet-bs');
+        _pxDemo_loadStylesheet('~/assets/css/pixeladmin.min.css', 'px-demo-stylesheet-core');
+        _pxDemo_loadStylesheet('~/assets/css/widgets.min.css', 'px-demo-stylesheet-widgets');
+        </script>
+        <!-- DEMO ONLY: Load theme -->
+        <script>
+        function _pxDemo_loadTheme(a) { var b = decodeURIComponent((new RegExp(";\\s*" + encodeURIComponent("px-demo-theme") + "\\s*=\\s*([^;]+)\\s*;", "g").exec(";" + document.cookie + ";") || [])[1] || "clean"); _pxDemo_loadStylesheet(a + b + ".min.css", "px-demo-stylesheet-theme", b) }
+        _pxDemo_loadTheme('~/assets/css/themes/');
+        </script>
+        <!-- Demo assets -->
+        <script>_pxDemo_loadStylesheet('~/assets/demo/demo.css');</script>
+        <!-- / Demo assets -->
+        <!-- holder.js -->
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
+        <!-- Pace.js -->
+        <script src="~/assets/pace/pace.min.js"></script>
+        <script src="~/assets/demo/demo.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="~/assets/js/bootstrap.min.js"></script>
+        <script src="~/assets/js/pixeladmin.js"></script>
+        <!-- MY SCRIPTS -->
+        <script src="~/Scripts/sweetalert.min.js"></script>
+        <script src="~/Scripts/jquery.dataTables.min.js"></script>
+        <script src="~/Scripts/custom.js"></script>
+
+        @RenderSection("scripts", required: false)
+</body>
+</html>

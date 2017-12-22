@@ -1,0 +1,20 @@
+﻿
+
+<h2>Role Assign</h2>
+
+@using (Html.BeginForm("RoleAssign", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("userId", (string)ViewBag.UserId) //cast: stating what type the ViewBag is i.e. string in this instance
+
+    <div class="form-group">
+        @Html.Label("Role", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("AllRoles", null, "--- Select role ---", htmlAttributes: new { @class = "form-control" })
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-default">Assign</button>
+}
+
+

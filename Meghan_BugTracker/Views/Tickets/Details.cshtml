@@ -1,0 +1,206 @@
+﻿@using Meghan_BugTracker.Helpers
+@using Microsoft.AspNet.Identity
+@model Meghan_BugTracker.Models.Ticket
+
+<h2>Ticket Details</h2>
+
+<div>
+    <h4>Ticket</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("Assigned To")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AssignedToUser.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Created By")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OwnerUser.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Project.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Project.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketPriority.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketPriority.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketStatus.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketStatus.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketType.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TicketType.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Created)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Created)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Updated)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Updated)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketComments)
+        </dt>
+
+        <dd>
+            <a href="@Url.Action("TicketCommentIndex", "TicketComments", new { ticketId = Model.Id })">@Html.DisplayFor(model => model.TicketComments.Count)</a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketAttachments)
+        </dt>
+
+        <dd>
+            <a href="@Url.Action("TicketAttachmentIndex", "TicketAttachments", new { ticketId = Model.Id })">@Html.DisplayFor(model => model.TicketAttachments.Count)</a>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TicketHistories)
+        </dt>
+
+        <dd>
+            <a href="@Url.Action("TicketHistoryIndex", "TicketHistories", new { ticketId = Model.Id })">@Html.DisplayFor(model => model.TicketHistories.Count)</a>
+        </dd>
+
+    </dl>
+</div>
+
+@*@if (User.IsInRole("Admin"))
+{
+    using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("TicketId", Model.TicketComments)
+        <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+        <div class="panel col-md-6">
+            <div class="panel-heading">
+                <div class="panel-title">Add Comment</div>
+            </div>
+            <div class="panel-body">
+                <textarea id="Comment" name="Comment" rows="3" class="form-control"></textarea>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-sm btn-default">Post</button>
+        </div>
+    }
+}
+
+<!-- Recent comments -->
+<div class="panel panel-warning col-md-6">
+    <div class="panel-heading">
+        <span class="panel-title"><i class="panel-title-icon fa fa-fire text-danger"></i>Recent</span>
+        <ul class="nav nav-tabs nav-xs">
+            <li class="active"><a href="#comments" data-toggle="tab">Comments</a></li>
+        </ul>
+    </div>
+    <div class="tab-content p-a-0">
+        <div id="comments" class="ps-block tab-pane fade in active" style="height: 300px">
+            @foreach (var comment in Model.TicketComments)
+            {
+                <div class="widget-comments-item">
+                    <img src="assets/demo/avatars/5.jpg" alt="" class="widget-comments-avatar">
+                    <div class="widget-comments-header">
+                        <a href="#" title="">@comment.UserId</a> commented on <a href="#" title="">@comment.Ticket</a>
+                    </div>
+                    <div class="widget-comments-text">
+                        @comment.Comment
+                    </div>
+                    <div class="widget-comments-footer">
+                        @comment.Created
+                        <div class="pull-right">
+                            <a href="@Url.Action("Edit", "TicketComments")"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
+                            <a href="@Url.Action("Delete", "TicketComments")"><i class="fa fa-times"></i>&nbsp;Remove</a>
+                        </div>
+                    </div>
+                </div>
+            } 
+        </div>
+    </div>
+</div>
+<!-- / Recent comments -->*@
+
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Comment", "Create", "TicketComments", new { id = Model.Id }, null) @:|
+        @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = Model.Id }, null) @:|
+    }
+
+    @if (User.IsInRole("Project Manager"))
+    {
+        if (TicketsHelper.IsTicketOnPMProject(Model.Id))
+        {
+            @Html.ActionLink("Comment", "Create", "TicketComments", new { id = Model.Id }, null) @:|
+            @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = Model.Id }, null) @:|
+        }
+    }
+
+    @if (User.IsInRole("Developer"))
+    {
+        if (TicketsHelper.IsUserOnTicket(User.Identity.GetUserId(), Model.Id))
+        {
+            @Html.ActionLink("Comment", "Create", "TicketComments", new { id = Model.Id }, null) @:|
+            @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = Model.Id }, null) @:|
+        }
+    }
+
+    @if (User.IsInRole("Submitter"))
+    {
+        if (TicketsHelper.DoesUserOwnTicket(User.Identity.GetUserId(), Model.Id))
+        {
+            @Html.ActionLink("Comment", "Create", "TicketComments", new { id = Model.Id }, null) @:|
+            @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = Model.Id }, null) @:|
+        }
+    }
+
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("All Tickets", "Index", "Tickets")
+</p>

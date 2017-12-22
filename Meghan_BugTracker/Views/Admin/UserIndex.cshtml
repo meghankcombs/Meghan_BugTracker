@@ -1,0 +1,113 @@
+﻿@using Meghan_BugTracker.Helpers;
+@using Meghan_BugTracker.Models;
+@model IEnumerable<Meghan_BugTracker.Models.ApplicationUser>
+
+<h2>Users</h2>
+
+<table id="userTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("First Name")
+            </th>
+            <th>
+                @Html.DisplayName("Last Name")
+            </th>
+            <th>
+                @Html.DisplayName("Display Name")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayName("Roles")
+            </th>
+            <th>
+                @Html.DisplayName("Projects")
+            </th>
+            <th>
+                @Html.DisplayName("Projects")
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => user.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => user.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => user.DisplayName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => user.Email)
+                </td>
+                <td>
+                    @{
+                        var roleHelper = new UserRolesHelper();
+                    }
+                    @roleHelper.ListUserRoles(user.Id).FirstOrDefault() @*only have one role at a time so can display this way*@
+                </td>
+                <td>
+                    @{
+                        var projHelper = new ProjectsHelper();
+                        var occupiedProjs = projHelper.ListUserProjects(user.Id);
+                    }
+                    @foreach (var proj in occupiedProjs)
+                    {
+                        @proj.Name;
+                        <br />
+                    }
+                </td>
+                <td>
+                    @{
+                        var ticketHelper = new TicketsHelper();
+                        var occupiedTickets = ticketHelper.ListUserTickets(user.Id);
+                    }
+                    @foreach (var ticket in occupiedTickets)
+                    {
+                        @ticket.Title;
+                        <br />
+                    }
+                </td>
+                <td>
+                    @{
+                        var userHelper = new UserRolesHelper();
+                        var adminRole = userHelper.IsUserInRole(user.Id, "Admin");
+                    }
+                    @if (User.IsInRole("Admin") && adminRole == false)
+                    {
+                        @Html.ActionLink("Assign Role", "RoleAssign", "Admin", new { id = user.Id }, null) @:|
+                        @Html.ActionLink("Remove Role", "RemoveRole", "Admin", new { userId = user.Id }, null) @:| @*"userId" coming from GET method, not POST*@
+                    }
+
+                    @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Assign Project", "ProjectAssign", "Admin", new { id = user.Id }, null) @:|
+                    }
+                    @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
+                    {
+                        if (roleHelper.ListUserRoles(user.Id).FirstOrDefault() == "Developer")
+                        {
+                            @Html.ActionLink("Assign Ticket", "TicketAssign", "Admin", new { id = user.Id }, null)
+                        }
+                    }
+                      
+                    
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts 
+{
+    <script>
+        $('#userTable').DataTable();
+    </script>
+}
