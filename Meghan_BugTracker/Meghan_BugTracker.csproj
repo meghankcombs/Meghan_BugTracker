@@ -396,6 +396,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="MyImages\cat--5-512-85909.png" />
+    <Content Include="MyImages\Test IMG Attachment.jpg" />
+    <Content Include="MyImages\Test Txt attachment.txt" />
     <Content Include="MyImages\user_default.png" />
     <Content Include="private.config" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -407,6 +409,8 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="MyImages\BugTracker Deliverables %28Week 2%29.pdf" />
+    <Content Include="MyImages\Project Deliverables - Week 6 - BugTracker.pdf" />
+    <Content Include="MyImages\Test Doc attachment.docx" />
     <None Include="Properties\PublishProfiles\mcombs-bugtracker - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\mcombs-bugtracker - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
