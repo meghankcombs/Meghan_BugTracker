@@ -22,6 +22,7 @@ namespace Meghan_BugTracker.Models
         {
             this.Tickets = new HashSet<Ticket>();
             this.Users = new HashSet<ApplicationUser>();
+
         }
     }
 }
