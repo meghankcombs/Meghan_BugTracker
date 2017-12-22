@@ -17,6 +17,8 @@ namespace Meghan_BugTracker.Migrations
 
         protected override void Seed(Meghan_BugTracker.Models.ApplicationDbContext context)
         {
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
             #region Creating Roles
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
@@ -44,10 +46,8 @@ namespace Meghan_BugTracker.Migrations
                 roleManager.Create(new IdentityRole { Name = "Submitter" });
             }
             #endregion
-
+            
             #region Creating Users
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
             //ADMIN
             if (!context.Users.Any(u => u.Email == "meghankcombs@gmail.com"))
             {
@@ -213,6 +213,74 @@ namespace Meghan_BugTracker.Migrations
 
             var userId10 = userManager.FindByEmail("Submitter3@mailinator.com").Id;
             userManager.AddToRole(userId10, "Submitter");
+            #endregion
+
+            #region Creating Demo Users
+            if (!context.Users.Any(u => u.Email == "DemoAdmin@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoAdmin@mailinator.com",
+                    Email = "DemoAdmin@mailinator.com",
+                    FirstName = "Demo Admin",
+                    LastName = "DA",
+                    DisplayName = "DemoAdmin"
+                }, "password");
+            }
+
+            if (!context.Users.Any(u => u.Email == "DemoProjectManager@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoProjectManager@mailinator.com",
+                    Email = "DemoProjectManager@mailinator.com",
+                    FirstName = "Demo Project Manager",
+                    LastName = "DemoPM",
+                    DisplayName = "DemoPM"
+                }, "password");
+            }
+
+            if (!context.Users.Any(u => u.Email == "DemoDeveloper@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoDeveloper@mailinator.com",
+                    Email = "DemoDeveloper@mailinator.com",
+                    FirstName = "Demo Developer",
+                    LastName = "DemoDev",
+                    DisplayName = "DemoDev"
+                }, "password");
+            }
+
+            if (!context.Users.Any(u => u.Email == "DemoSubmitter@mailinator.com"))
+            {
+                userManager.Create(new ApplicationUser
+                {
+                    UserName = "DemoSubmitter@mailinator.com",
+                    Email = "DemoSubmitter@mailinator.com",
+                    FirstName = "Demo Submitter",
+                    LastName = "DemoSub",
+                    DisplayName = "DemoSub"
+                }, "password");
+            }
+            #endregion
+
+            #region Assigning Demo Users to Roles
+            //DEMO ADMIN
+            var userId11 = userManager.FindByEmail("DemoAdmin@mailinator.com").Id;
+            userManager.AddToRole(userId11, "Admin");
+
+            //DEMO PROJECT MANAGER
+            var userId12 = userManager.FindByEmail("DemoProjectManager@mailinator.com").Id;
+            userManager.AddToRole(userId12, "Project Manager");
+
+            //DEMO DEVELOPER
+            var userId13 = userManager.FindByEmail("DemoDeveloper@mailinator.com").Id;
+            userManager.AddToRole(userId13, "Developer");
+
+            //DEMO SUBMITTER
+            var userId14 = userManager.FindByEmail("DemoSubmitter@mailinator.com").Id;
+            userManager.AddToRole(userId14, "Submitter");
             #endregion
 
             #region Creating Projects

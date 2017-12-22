@@ -80,10 +80,42 @@
                 <li class="px-nav-item px-nav-dropdown">
                     <a href="#"><i class="px-nav-icon fa fa-dashboard"></i><span class="px-nav-label">Demo Dashboards</span></a>
                     <ul class="px-nav-dropdown-menu">
-                        <li class="px-nav-item"><a href=""><i class="px-nav-icon fa fa-adn"></i><span class="px-nav-label">Admin</span></a></li>
-                        <li class="px-nav-item"><a href=""><i class="px-nav-icon fa fa-black-tie"></i><span class="px-nav-label">Project Manager</span></a></li>
-                        <li class="px-nav-item"><a href=""><i class="px-nav-icon fa fa-code"></i><span class="px-nav-label">Developer</span></a></li>
-                        <li class="px-nav-item"><a href=""><i class="px-nav-icon fa fa-id-badge"></i><span class="px-nav-label">Submitter</span></a></li>
+                        <li class="px-nav-item">
+                            @using (Html.BeginForm("DemoLogin", "Account", FormMethod.Post, new { id = "demoAdminForm", role = "Admin" }))
+                            {
+                                @Html.Hidden("Role", "Admin")
+                                @Html.AntiForgeryToken()
+                                <a href="javascript:document.getElementById('demoAdminForm').submit()">
+                                <i class="px-nav-icon fa fa-adn"></i><span class="px-nav-label">Demo Admin</span></a>
+                            }
+                        </li>
+                        <li class="px-nav-item">
+                            @using (Html.BeginForm("DemoLogin", "Account", FormMethod.Post, new { id = "demoProjectManagerForm", role = "Project Manager" }))
+                            {
+                                @Html.Hidden("Role", "Project Manager")
+                                @Html.AntiForgeryToken()
+                                <a href="javascript:document.getElementById('demoProjectManagerForm').submit()">
+                                <i class="px-nav-icon fa fa-black-tie"></i><span class="px-nav-label">Demo Project Manager</span></a>
+                            }
+                        </li>
+                        <li class="px-nav-item">
+                            @using (Html.BeginForm("DemoLogin", "Account", FormMethod.Post, new { id = "demoDeveloperForm", role = "Developer" }))
+                            {
+                                @Html.Hidden("Role", "Developer")
+                                @Html.AntiForgeryToken()
+                                <a href="javascript:document.getElementById('demoDeveloperForm').submit()">
+                                <i class="px-nav-icon fa fa-code"></i><span class="px-nav-label">Demo Developer</span></a>
+                            }
+                        </li>
+                        <li class="px-nav-item">
+                            @using (Html.BeginForm("DemoLogin", "Account", FormMethod.Post, new { id = "demoSubmitterForm", role = "Submitter" }))
+                            {
+                                @Html.Hidden("Role", "Submitter")
+                                @Html.AntiForgeryToken()
+                                <a href="javascript:document.getElementById('demoSubmitterForm').submit()">
+                                <i class="px-nav-icon fa fa-id-badge"></i><span class="px-nav-label">Demo Submitter</span></a>
+                            }
+                        </li>
                     </ul>
                 </li>
                 <li class="px-nav-item">

@@ -20,10 +20,6 @@ namespace Meghan_BugTracker.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
-        {
-        }
-
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
@@ -90,6 +86,48 @@ namespace Meghan_BugTracker.Controllers
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
+            }
+        }
+
+        // POST: /Account/DemoLogin
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DemoLogin(string role)
+        {
+            var email = "";
+            var password = "password";
+            //var returnUrl = ""; //NEED BASIC DASHBOARD DISPLAY FOR NOT LOGGED IN USER
+            switch (role)
+            {
+                case "Admin":
+                    email = "DemoAdmin@mailinator.com";
+                    break;
+                case "Project Manager":
+                    email = "DemoProjectManager@mailinator.com";
+                    break;
+                case "Developer":
+                    email = "DemoDeveloper@mailinator.com";
+                    break;
+                case "Submitter":
+                    email = "DemoSubmitter@mailinator.com";
+                    break;
+                default:
+                    break;
+            }
+
+            var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
+            switch (result)
+            {
+                //case SignInStatus.Success:
+                    //return RedirectToLocal(returnUrl);
+                case SignInStatus.LockedOut:
+                    return View("Lockout");
+                //case SignInStatus.RequiresVerification:
+                    //return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+                case SignInStatus.Failure:
+                default:
+                    return RedirectToAction("Index", "Home");
             }
         }
 
