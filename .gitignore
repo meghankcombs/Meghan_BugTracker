@@ -300,4 +300,5 @@ __pycache__/
 
 # Don't push private files
 private.config
-web.release.config
+web.config
+
