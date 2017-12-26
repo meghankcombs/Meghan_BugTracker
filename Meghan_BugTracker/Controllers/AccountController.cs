@@ -97,7 +97,7 @@ namespace Meghan_BugTracker.Controllers
         {
             var email = "";
             var password = "password";
-            //var returnUrl = ""; //NEED BASIC DASHBOARD DISPLAY FOR NOT LOGGED IN USER
+            var returnUrl = "/Dashboard/BasicDashboard";
             switch (role)
             {
                 case "Admin":
@@ -119,12 +119,12 @@ namespace Meghan_BugTracker.Controllers
             var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
             switch (result)
             {
-                //case SignInStatus.Success:
-                    //return RedirectToLocal(returnUrl);
+                case SignInStatus.Success:
+                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                //case SignInStatus.RequiresVerification:
-                    //return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
+                case SignInStatus.RequiresVerification:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
                     return RedirectToAction("Index", "Home");

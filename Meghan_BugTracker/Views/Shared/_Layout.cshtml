@@ -49,7 +49,8 @@
                 <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <img src="~/assets/demo/avatars/1.jpg" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
+                    //TODO: insert user's own image here
+                    <img src="~/MyImages/user_default.png" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
                 }
                 else
                 {
@@ -77,7 +78,7 @@
             </li>
             @if (!User.Identity.IsAuthenticated)
             {
-                <li class="px-nav-item px-nav-dropdown">
+                @*<li class="px-nav-item px-nav-dropdown">
                     <a href="#"><i class="px-nav-icon fa fa-dashboard"></i><span class="px-nav-label">Demo Dashboards</span></a>
                     <ul class="px-nav-dropdown-menu">
                         <li class="px-nav-item">
@@ -117,6 +118,9 @@
                             }
                         </li>
                     </ul>
+                </li>*@
+                <li class="px-nav-item">
+                    <a href="@Url.Action("Index", "Home")"><i class="px-nav-icon fa fa-home"></i><span class="px-nav-label">Home</span></a>
                 </li>
                 <li class="px-nav-item">
                     <a href="@Url.Action("About", "Home")"><i class="px-nav-icon fa fa-info"></i><span class="px-nav-label">About</span></a>

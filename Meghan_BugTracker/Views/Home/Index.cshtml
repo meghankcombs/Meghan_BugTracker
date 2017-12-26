@@ -1,491 +1,378 @@
-﻿
-
+﻿@model Meghan_BugTracker.ViewModels.DashboardVM
     
-<ol class="breadcrumb page-breadcrumb">
-    <li><a>Home</a></li>
-</ol>
-<div class="page-header">
-    <div class="row">
-        <div class="col-md-4 text-xs-center text-md-left text-nowrap">
-            <h1><i class="page-header-icon ion-ios-pulse-strong"></i>Dashboard</h1>
-        </div>
-        <hr class="page-wide-block visible-xs visible-sm">
-        <div class="col-xs-12 width-md-auto width-lg-auto width-xl-auto pull-md-right">
-            <a href="#" class="btn btn-primary btn-block"><span class="btn-label-icon left ion-plus-round"></span>Create project</a>
-        </div>
-        <!-- Spacer -->
-        <div class="m-b-2 visible-xs visible-sm clearfix"></div>
-        <form action="" class="page-header-form col-xs-12 col-md-4 pull-md-right">
-            <div class="input-group">
-                <span class="input-group-addon b-a-0 font-size-16"><i class="ion-search"></i></span>
-                <input type="text" placeholder="Search..." class="form-control p-l-0 b-a-0">
-            </div>
-        </form>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-8">
-        <!-- Uploads -->
-        <div class="panel box">
-            <div class="box-row">
-                <div class="box-cell col-md-4 p-a-3 valign-top">
-                    <h4 class="m-y-1 font-weight-normal"><i class="fa fa-cloud-upload text-primary"></i>&nbsp;&nbsp;Uploads</h4>
-                    <ul class="list-group m-x-0 m-t-3 m-b-0">
-                        <li class="list-group-item p-x-1 b-x-0 b-t-0">
-                            <span class="label label-primary pull-right">34</span>
-                            Documents
-                        </li>
-                        <li class="list-group-item p-x-1 b-x-0">
-                            <span class="label label-danger pull-right">128</span>
-                            Audio
-                        </li>
-                        <li class="list-group-item p-x-1 b-x-0 b-b-0">
-                            <span class="label label-info pull-right">12</span>
-                            Videos
-                        </li>
-                    </ul>
-                </div>
-                <div class="box-cell col-md-8 p-a-1 bg-primary">
-                    <div id="hero-graph" style="height: 220px;"></div>
-                </div>
-            </div>
-        </div>
-        <!-- / Uploads -->
-        <!-- Pie charts -->
+@if (User.Identity.IsAuthenticated)
+{
+    <ol class="breadcrumb page-breadcrumb">
+        <li><a>Home</a></li>
+    </ol>
+    <div class="page-header">
         <div class="row">
-            <div class="col-xs-12 col-sm-4">
-                <div class="panel box">
-                    <div class="box-row">
-                        <div class="box-cell p-x-2 p-y-1 bg-black text-xs-center font-size-11 font-weight-semibold">
-                            <i class="fa fa-globe"></i>&nbsp;&nbsp;BANDWIDTH
-                        </div>
-                    </div>
-                    <div class="box-row">
-                        <div class="box-cell p-y-2">
-                            <div class="easy-pie-chart" data-suffix="TB" id="easy-pie-chart-1"><span class="font-size-14 font-weight-light"></span></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-4 text-xs-center text-md-left text-nowrap">
+                <h1><i class="page-header-icon ion-ios-pulse-strong"></i>Dashboard</h1>
             </div>
-            <div class="col-xs-12 col-sm-4">
-                <div class="panel box">
-                    <div class="box-row">
-                        <div class="box-cell p-x-2 p-y-1 bg-black text-xs-center font-size-11 font-weight-semibold">
-                            <i class="fa fa-flash"></i>&nbsp;&nbsp;PICK LOAD
-                        </div>
-                    </div>
-                    <div class="box-row">
-                        <div class="box-cell p-y-2">
-                            <div class="easy-pie-chart" data-suffix="%" id="easy-pie-chart-2"><span class="font-size-14 font-weight-light"></span></div>
-                        </div>
-                    </div>
+            <hr class="page-wide-block visible-xs visible-sm">
+            @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+            {
+                <div class="col-xs-12 width-md-auto width-lg-auto width-xl-auto pull-md-right">
+                    <a href="@Url.Action("Create", "Projects")" class="btn btn-primary btn-block"><span class="btn-label-icon left ion-plus-round"></span>Create project</a>
                 </div>
-            </div>
-            <div class="col-xs-12 col-sm-4">
-                <div class="panel box">
-                    <div class="box-row">
-                        <div class="box-cell p-x-2 p-y-1 bg-black text-xs-center font-size-11 font-weight-semibold">
-                            <i class="fa fa-cloud"></i>&nbsp;&nbsp;USED RAM
-                        </div>
-                    </div>
-                    <div class="box-row">
-                        <div class="box-cell p-y-2">
-                            <div class="easy-pie-chart" data-suffix="GB" id="easy-pie-chart-3"><span class="font-size-14 font-weight-light"></span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            }
+            <!-- Spacer -->
+            <div class="m-b-2 visible-xs visible-sm clearfix"></div>
         </div>
-        <!-- / Pie charts -->
     </div>
-    <div class="col-md-4">
-        <!-- Stats -->
-        <a href="#" class="box bg-danger">
-            <div class="box-cell p-a-3 valign-middle">
-                <i class="box-bg-icon middle right ion-arrow-graph-up-right"></i>
-                <span class="font-size-24">$<strong>145</strong></span><br>
-                <span class="font-size-15">Earned today</span>
-            </div>
-        </a>
-        <div class="panel box">
-            <div class="box-row">
-                <div class="box-container">
-                    <div class="box-cell p-a-1 bg-info">
-                        <div class="m-b-1 font-size-11">RETWEETS GRAPH</div>
-                        <div id="sparkline-1"></div>
+    <hr class="page-block m-t-0">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Support tickets -->
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <span class="panel-title"><i class="panel-title-icon fa fa-bullhorn"></i>Tickets</span>
+                    <div class="panel-heading-controls">
+                        <div class="panel-heading-text">
+                            <a href="@Url.Action("MyTickets", "Tickets")">New tickets</a>
+                        </div>
                     </div>
-                </div> <!-- / .box-container -->
-            </div>
-            <div class="box-row">
-                <div class="box-container valign-middle text-xs-center">
-                    <div class="box-cell p-y-1 b-r-1">
-                        <div class="font-size-17"><strong>312</strong></div>
-                        <div class="font-size-11">TWEETS</div>
-                    </div>
-                    <div class="box-cell p-y-1 b-r-1">
-                        <div class="font-size-17"><strong>1000</strong></div>
-                        <div class="font-size-11">FOLLOWERS</div>
-                    </div>
-                    <div class="box-cell p-y-1">
-                        <div class="font-size-17"><strong>523</strong></div>
-                        <div class="font-size-11">FOLLOWING</div>
-                    </div>
-                </div> <!-- / .box-container -->
-            </div>
-        </div>
-        <div class="box bg-warning">
-            <div class="box-row">
-                <div class="box-cell p-a-2">
-                    <div class="font-weight-semibold font-size-17">15% more</div>
-                    <div class="font-size-12">Monthly visitor statistics</div>
+                </div>
+                <div id="support-tickets" class="ps-block" style="height: 300px">
+                    @foreach (var ticket in Model.RecentTickets)
+                {
+                        <div class="widget-support-tickets-item">
+                            <span class="label label-success pull-right">@ticket.TicketStatus</span>
+                            <a href="@Url.Action("Details", "Tickets", new { id = ticket.Id })" class="widget-support-tickets-title">
+                                @ticket.Title
+                                <span class="widget-support-tickets-id">[@ticket.TicketType]</span>
+                            </a>
+                            <span class="widget-support-tickets-info">Opened by <a>@ticket.OwnerUser.FirstName</a> @ticket.Created.ToString("MM/dd/yy")</span>
+                        </div>
+                    }
                 </div>
             </div>
-            <div class="box-row">
-                <div class="box-cell p-x-2 p-b-1 valign-bottom text-xs-center">
-                    <span id="sparkline-2"></span>
+            <!-- / Support tickets -->
+        </div>
+        <div class="col-md-6">
+            <!-- Recent projects -->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <span class="panel-title"><i class="panel-title-icon fa fa-book"></i>Projects</span>
+                    <div class="panel-heading-controls">
+                        <div class="panel-heading-text">
+                            <a href="@Url.Action("MyIndex", "Projects")"># of Tickets</a>
+                        </div>
+                    </div>
+                </div>
+                <div id="support-tickets" class="ps-block" style="height: 300px">
+                    @foreach (var project in Model.RecentProjects)
+                {
+                        <div class="widget-support-tickets-item">
+                            <span class="label label-success pull-right">@project.Tickets.Count</span>
+                            <a href="@Url.Action("Details", "Projects", new { id = project.Id })" class="widget-support-tickets-title">
+                                @project.Name
+                            </a>
+                            <span class="widget-support-tickets-info">@project.Description</span>
+                        </div>
+                    }
                 </div>
             </div>
         </div>
-        <!-- / Stats -->
+        <!-- / Recent projects -->
     </div>
-</div>
-<hr class="page-block m-t-0">
-<div class="row">
-    <div class="col-md-6">
-        <!-- Support tickets -->
-        <div class="panel panel-success">
-            <div class="panel-heading">
-                <span class="panel-title"><i class="panel-title-icon fa fa-bullhorn"></i>Support tickets</span>
-                <div class="panel-heading-controls">
-                    <div class="panel-heading-text">
-                        <a href="#">15 new tickets</a>
-                    </div>
-                </div>
+
+    <hr class="page-block m-t-0">
+}
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <ol class="breadcrumb page-breadcrumb">
+        <li><a href="index.html">Home</a></li>
+        <li class="active">Demo Dashboard</li>
+    </ol>
+
+    <div class="page-header">
+        <div class="row">
+            <div class="col-md-4 text-xs-center text-md-left text-nowrap">
+                <h1><i class="page-header-icon ion-ios-pulse-strong"></i>Demo Dashboard</h1>
             </div>
-            <div id="support-tickets" class="ps-block" style="height: 300px">
-                <div class="widget-support-tickets-item">
-                    <span class="label label-success pull-right">Completed</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        Server unavaible
-                        <span class="widget-support-tickets-id">[#201798]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#" title="">Timothy Owens</a> today</span>
-                </div>
-                <div class="widget-support-tickets-item">
-                    <span class="label label-warning pull-right">Pending</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        Mobile App Problem
-                        <span class="widget-support-tickets-id">[#201797]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#">Denise Steiner</a> 2 days ago</span>
-                </div>
-                <div class="widget-support-tickets-item">
-                    <span class="label label-info pull-right">In progress</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        <i class="fa fa-warning text-danger"></i> PayPal issue
-                        <span class="widget-support-tickets-id">[#201796]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#">Robert Jang</a> 3 days ago</span>
-                </div>
-                <div class="widget-support-tickets-item">
-                    <span class="label label-danger pull-right">Rejected</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        IE8 problem
-                        <span class="widget-support-tickets-id">[#201795]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#">Robert Jang</a> 4 days ago</span>
-                </div>
-                <div class="widget-support-tickets-item">
-                    <span class="label label-success pull-right">Completed</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        Server unavaible
-                        <span class="widget-support-tickets-id">[#201794]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#">Timothy Owens</a> 5 days ago</span>
-                </div>
-                <div class="widget-support-tickets-item">
-                    <span class="label label-success pull-right">Completed</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        Server unavaible
-                        <span class="widget-support-tickets-id">[#201798]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#" title="">Timothy Owens</a> today</span>
-                </div>
-                <div class="widget-support-tickets-item">
-                    <span class="label label-warning pull-right">Pending</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        Mobile App Problem
-                        <span class="widget-support-tickets-id">[#201797]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#">Denise Steiner</a> 2 days ago</span>
-                </div>
-                <div class="widget-support-tickets-item">
-                    <span class="label label-info pull-right">In progress</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        <i class="fa fa-warning text-danger"></i> PayPal issue
-                        <span class="widget-support-tickets-id">[#201796]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#">Robert Jang</a> 3 days ago</span>
-                </div>
-                <div class="widget-support-tickets-item">
-                    <span class="label label-danger pull-right">Rejected</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        IE8 problem
-                        <span class="widget-support-tickets-id">[#201795]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#">Robert Jang</a> 4 days ago</span>
-                </div>
-                <div class="widget-support-tickets-item">
-                    <span class="label label-success pull-right">Completed</span>
-                    <a href="#" title="" class="widget-support-tickets-title">
-                        Server unavaible
-                        <span class="widget-support-tickets-id">[#201794]</span>
-                    </a>
-                    <span class="widget-support-tickets-info">Opened by <a href="#">Timothy Owens</a> 5 days ago</span>
-                </div>
+            <hr class="page-wide-block visible-xs visible-sm">
+            <div class="col-xs-12 width-md-auto width-lg-auto width-xl-auto pull-md-right">
+                <a href="#" class="btn btn-primary btn-block"><span class="btn-label-icon left ion-plus-round"></span>Create project</a>
             </div>
+            <!-- Spacer -->
+            <div class="m-b-2 visible-xs visible-sm clearfix"></div>
+            <form action="" class="page-header-form col-xs-12 col-md-4 pull-md-right">
+                <div class="input-group">
+                    <span class="input-group-addon b-a-0 font-size-16"><i class="ion-search"></i></span>
+                    <input type="text" placeholder="Search..." class="form-control p-l-0 b-a-0">
+                </div>
+            </form>
         </div>
-        <!-- / Support tickets -->
     </div>
-    <div class="col-md-6">
-        <!-- Recent comments / threads -->
-        <div class="panel panel-warning">
-            <div class="panel-heading">
-                <span class="panel-title"><i class="panel-title-icon fa fa-fire text-danger"></i>Recent</span>
-                <ul class="nav nav-tabs nav-xs">
-                    <li class="active"><a href="#comments" data-toggle="tab">Comments</a></li>
-                    <li><a href="#threads" data-toggle="tab">Forum threads</a></li>
-                </ul>
-            </div>
-            <div class="tab-content p-a-0">
-                <div id="comments" class="ps-block tab-pane fade in active" style="height: 300px">
-                    <div class="widget-comments-item">
-                        <img src="~/assets/demo/avatars/5.jpg" alt="" class="widget-comments-avatar">
-                        <div class="widget-comments-header">
-                            <a href="#" title="">Denise Steiner</a> commented on <a href="#" title="">Article Name</a>
-                        </div>
-                        <div class="widget-comments-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                        </div>
-                        <div class="widget-comments-footer">
-                            2 hours ago
-                            <div class="pull-right">
-                                <a href="#"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>&nbsp;Remove</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-comments-item">
-                        <img src="~/assets/demo/avatars/3.jpg" alt="" class="widget-comments-avatar">
-                        <div class="widget-comments-header">
-                            <a href="#" title="">Michelle Bortz</a> commented on <a href="#" title="">Article Name</a>
-                        </div>
-                        <div class="widget-comments-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                        </div>
-                        <div class="widget-comments-footer">
-                            2 hours ago
-                            <div class="pull-right">
-                                <a href="#"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>&nbsp;Remove</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-comments-item">
-                        <img src="~/assets/demo/avatars/2.jpg" alt="" class="widget-comments-avatar">
-                        <div class="widget-comments-header">
-                            <a href="#" title="">Robert Jang</a> commented on <a href="#" title="">Article Name</a>
-                        </div>
-                        <div class="widget-comments-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                        </div>
-                        <div class="widget-comments-footer">
-                            2 hours ago
-                            <div class="pull-right">
-                                <a href="#"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>&nbsp;Remove</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-comments-item">
-                        <img src="~/assets/demo/avatars/4.jpg" alt="" class="widget-comments-avatar">
-                        <div class="widget-comments-header">
-                            <a href="#" title="">Timothy Owens</a> commented on <a href="#" title="">Article Name</a>
-                        </div>
-                        <div class="widget-comments-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                        </div>
-                        <div class="widget-comments-footer">
-                            2 hours ago
-                            <div class="pull-right">
-                                <a href="#"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>&nbsp;Remove</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-comments-item">
-                        <img src="~/assets/demo/avatars/5.jpg" alt="" class="widget-comments-avatar">
-                        <div class="widget-comments-header">
-                            <a href="#" title="">Denise Steiner</a> commented on <a href="#" title="">Article Name</a>
-                        </div>
-                        <div class="widget-comments-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                        </div>
-                        <div class="widget-comments-footer">
-                            2 hours ago
-                            <div class="pull-right">
-                                <a href="#"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>&nbsp;Remove</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-comments-item">
-                        <img src="~/assets/demo/avatars/3.jpg" alt="" class="widget-comments-avatar">
-                        <div class="widget-comments-header">
-                            <a href="#" title="">Michelle Bortz</a> commented on <a href="#" title="">Article Name</a>
-                        </div>
-                        <div class="widget-comments-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                        </div>
-                        <div class="widget-comments-footer">
-                            2 hours ago
-                            <div class="pull-right">
-                                <a href="#"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>&nbsp;Remove</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-comments-item">
-                        <img src="~/assets/demo/avatars/2.jpg" alt="" class="widget-comments-avatar">
-                        <div class="widget-comments-header">
-                            <a href="#" title="">Robert Jang</a> commented on <a href="#" title="">Article Name</a>
-                        </div>
-                        <div class="widget-comments-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                        </div>
-                        <div class="widget-comments-footer">
-                            2 hours ago
-                            <div class="pull-right">
-                                <a href="#"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>&nbsp;Remove</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="widget-comments-item">
-                        <img src="~/assets/demo/avatars/4.jpg" alt="" class="widget-comments-avatar">
-                        <div class="widget-comments-header">
-                            <a href="#" title="">Timothy Owens</a> commented on <a href="#" title="">Article Name</a>
-                        </div>
-                        <div class="widget-comments-text">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                        </div>
-                        <div class="widget-comments-footer">
-                            2 hours ago
-                            <div class="pull-right">
-                                <a href="#"><i class="fa fa-pencil"></i>&nbsp;Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>&nbsp;Remove</a>
-                            </div>
+    
+    <hr class="page-block m-t-0">
+
+    <div class="row">
+        <div class="col-md-6">
+            <!-- DEMO Tickets -->
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <span class="panel-title"><i class="panel-title-icon fa fa-bullhorn"></i>Tickets</span>
+                    <div class="panel-heading-controls">
+                        <div class="panel-heading-text">
+                            <a href="#">New tickets</a>
                         </div>
                     </div>
                 </div>
-                <div id="threads" class="ps-block tab-pane fade" style="height: 300px">
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/2.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Robert Jang</a> in <a href="#" title="">Forum name</a></div>
+                <div id="support-tickets" class="ps-block" style="height: 300px">
+                    <div class="widget-support-tickets-item">
+                        <span class="label label-success pull-right">Unassigned</span>
+                        <a href="#" title="" class="widget-support-tickets-title">
+                            Server Unavailable
+                            <span class="widget-support-tickets-id">[Task]</span>
+                        </a>
+                        <span class="widget-support-tickets-info">Opened by <a href="#" title="">Submitter 1</a> 12/09/17</span>
                     </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/3.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Michelle Bortz</a> in <a href="#" title="">Forum name</a></div>
+                    <div class="widget-support-tickets-item">
+                        <span class="label label-warning pull-right">Assigned/In Progress</span>
+                        <a href="#" title="" class="widget-support-tickets-title">
+                            Bug Tracker Update
+                            <span class="widget-support-tickets-id">[Update]</span>
+                        </a>
+                        <span class="widget-support-tickets-info">Opened by <a href="#">Submitter 2</a> 11/29/17</span>
                     </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/4.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Timothy Owens</a> in <a href="#" title="">Forum name</a></div>
+                    <div class="widget-support-tickets-item">
+                        <span class="label label-info pull-right">Resolved</span>
+                        <a href="#" title="" class="widget-support-tickets-title">
+                            Blog Outdated
+                            <span class="widget-support-tickets-id">[Update]</span>
+                        </a>
+                        <span class="widget-support-tickets-info">Opened by <a href="#">Submitter 1</a> 11/13/17</span>
                     </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/5.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Denise Steiner</a> in <a href="#" title="">Forum name</a></div>
+                    <div class="widget-support-tickets-item">
+                        <span class="label label-danger pull-right">Archived</span>
+                        <a href="#" title="" class="widget-support-tickets-title">
+                            IE8 Problem
+                            <span class="widget-support-tickets-id">[Bug]</span>
+                        </a>
+                        <span class="widget-support-tickets-info">Opened by <a href="#">Submitter 3</a> 10/20/17</span>
                     </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/2.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Robert Jang</a> in <a href="#" title="">Forum name</a></div>
+                </div>
+            </div>
+            <!-- / Support tickets -->
+        </div>
+
+        <div class="col-md-6">
+            <!-- Recent projects -->
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <span class="panel-title"><i class="panel-title-icon fa fa-book"></i>Projects</span>
+                    <div class="panel-heading-controls">
+                        <div class="panel-heading-text">
+                            <a href="#"># of Tickets</a>
+                        </div>
                     </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/3.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Michelle Bortz</a> in <a href="#" title="">Forum name</a></div>
+                </div>
+                <div id="support-tickets" class="ps-block" style="height: 300px">
+                    <div class="widget-support-tickets-item">
+                        <span class="label label-success pull-right">3</span>
+                        <a href="#" class="widget-support-tickets-title">
+                            Project One
+                        </a>
+                        <span class="widget-support-tickets-info">Bug Tracker</span>
                     </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/4.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Timothy Owens</a> in <a href="#" title="">Forum name</a></div>
+                    <div class="widget-support-tickets-item">
+                        <span class="label label-success pull-right">2</span>
+                        <a href="#" class="widget-support-tickets-title">
+                            Project Two
+                        </a>
+                        <span class="widget-support-tickets-info">Blog Page</span>
                     </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/2.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Robert Jang</a> in <a href="#" title="">Forum name</a></div>
+                    <div class="widget-support-tickets-item">
+                        <span class="label label-success pull-right">5</span>
+                        <a href="#" class="widget-support-tickets-title">
+                            Project Three
+                        </a>
+                        <span class="widget-support-tickets-info">Shopping Cart</span>
                     </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/3.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Michelle Bortz</a> in <a href="#" title="">Forum name</a></div>
-                    </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/4.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Timothy Owens</a> in <a href="#" title="">Forum name</a></div>
-                    </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/5.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Denise Steiner</a> in <a href="#" title="">Forum name</a></div>
-                    </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/2.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Robert Jang</a> in <a href="#" title="">Forum name</a></div>
-                    </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/3.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Michelle Bortz</a> in <a href="#" title="">Forum name</a></div>
-                    </div>
-                    <div class="widget-threads-item">
-                        <img src="~/assets/demo/avatars/4.jpg" alt="" class="widget-threads-avatar">
-                        <span class="widget-threads-date">14h</span>
-                        <a href="#" class="widget-threads-title">Lorem ipsum dolor sit amet</a>
-                        <div class="widget-threads-info">started by <a href="#" title="">Timothy Owens</a> in <a href="#" title="">Forum name</a></div>
+                    <div class="widget-support-tickets-item">
+                        <span class="label label-success pull-right">7</span>
+                        <a href="#" class="widget-support-tickets-title">
+                            Project Four
+                        </a>
+                        <span class="widget-support-tickets-info">Portfolio Website</span>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- / Recent comments / threads -->
+        <!-- / Recent projects -->
     </div>
-</div>
-<hr class="page-block m-t-0">
-<div class="row">
+
+    <hr class="page-block m-t-0">
+
+    <div class="row">
+        <div class="col-md-7">
+            <!-- New users -->
+            <div class="panel panel-danger panel-dark">
+                <div class="panel-heading">
+                    <span class="panel-title"><i class="panel-title-icon fa fa-smile-o"></i>Users</span>
+                    <div class="panel-heading-controls">
+                        <ul class="pagination pagination-xs">
+                            <li><a href="#">«</a></li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">»</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Display Name</th>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody class="valign-middle">
+                            <tr>
+                                <td>1</td>
+                                <td>
+                                    <img src="~/MyImages/user_default.png" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">Admin</a>
+                                </td>
+                                <td>Meghan (Admin) Combs</td>
+                                <td>meghankcombs@gmail.com</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>
+                                    <img src="~/MyImages/user_default.png" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">PM1</a>
+                                </td>
+                                <td>Project Manager 1</td>
+                                <td>ProjectManager1@mailinator.com</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>
+                                    <img src="~/MyImages/user_default.png" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">PM2</a>
+                                </td>
+                                <td>Project Manager 2</td>
+                                <td>ProjectManager2@mailinator.com</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>
+                                    <img src="~/MyImages/user_default.png" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">Dev1</a>
+                                </td>
+                                <td>Developer 1</td>
+                                <td>Developer1@mailinator.com</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>
+                                    <img src="~/MyImages/user_default.png" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">Dev2</a>
+                                </td>
+                                <td>Developer 2</td>
+                                <td>Developer2@mailinator.com</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>6</td>
+                                <td>
+                                    <img src="~/MyImages/user_default.png" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">Sub1</a>
+                                </td>
+                                <td>Submitter 1</td>
+                                <td>Submitter1@mailinator.com</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>7</td>
+                                <td>
+                                    <img src="~/MyImages/user_default.png" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">Sub2</a>
+                                </td>
+                                <td>Submitter 1</td>
+                                <td>Submitter2@mailinator.com</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- / New users -->
+        </div>
+        <div class="col-md-5">
+            <!-- Recent tasks -->
+            <div class="panel panel-primary panel-dark">
+                <div class="panel-heading">
+                    <span class="panel-title"><i class="panel-title-icon fa fa-tasks"></i>Tickets By Priority</span>
+                </div>
+                <div class="widget-tasks-item">
+                    <span class="label label-danger pull-right">High</span>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="widget-tasks-title">Work on Bug Tracker</span>
+                    </label>
+                </div>
+                <div class="widget-tasks-item">
+                    <span class="label label-danger pull-right">High</span>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="widget-tasks-title">Update Bug Tracker</span>
+                    </label>
+                </div>
+                <div class="widget-tasks-item">
+                    <span class="label label-warning pull-right">Medium</span>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="widget-tasks-title">Fix bug in Shopping Cart</span>
+                    </label>
+                </div>
+                <div class="widget-tasks-item">
+                    <span class="label label-info pull-right">Low</span>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="widget-tasks-title">New Blog post</span>
+                    </label>
+                </div>
+                <div class="widget-tasks-item">
+                    <span class="label label-info pull-right">Low</span>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="widget-tasks-title">New Blog Post</span>
+                    </label>
+                </div>
+                <div class="widget-tasks-item">
+                    <span class="label label-info pull-right">Low</span>
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input">
+                        <span class="custom-control-indicator"></span>
+                        <span class="widget-tasks-title">Update Portfolio</span>
+                    </label>
+                </div>
+            </div>
+            <!-- /Recent tasks -->
+        </div>
+    </div>
+}
+
+//USE FOR USER INDEX TABLE:
+
+@*<div class="row">
     <div class="col-md-7">
         <!-- New users -->
         <div class="panel panel-danger panel-dark">
             <div class="panel-heading">
-                <span class="panel-title"><i class="panel-title-icon fa fa-smile-o"></i>New users</span>
+                <span class="panel-title"><i class="panel-title-icon fa fa-users"></i>Users</span>
                 <div class="panel-heading-controls">
                     <ul class="pagination pagination-xs">
                         <li><a href="#">«</a></li>
@@ -497,8 +384,9 @@
                 </div>
             </div>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="homeUserTable">
                     <thead>
+                        @foreach(var user in )
                         <tr>
                             <th>#</th>
                             <th>Username</th>
@@ -508,67 +396,14 @@
                         </tr>
                     </thead>
                     <tbody class="valign-middle">
+                        
                         <tr>
                             <td>1</td>
                             <td>
-                                <img src="~/assets/demo/avatars/2.jpg" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">rjang</a>
+                                <img src="~/MyImages/user_default.png" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">Display name</a>
                             </td>
                             <td>Robert Jang</td>
                             <td>rjang@example.com</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <img src="~/assets/demo/avatars/3.jpg" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">mbortz</a>
-                            </td>
-                            <td>Michelle Bortz</td>
-                            <td>mbortz@example.com</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <img src="~/assets/demo/avatars/4.jpg" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">towens</a>
-                            </td>
-                            <td>Timothy Owens</td>
-                            <td>towens@example.com</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>
-                                <img src="~/assets/demo/avatars/5.jpg" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">dsteiner</a>
-                            </td>
-                            <td>Denise Steiner</td>
-                            <td>dsteiner@example.com</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>
-                                <img src="~/assets/demo/avatars/2.jpg" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">rjang</a>
-                            </td>
-                            <td>Robert Jang</td>
-                            <td>rjang@example.com</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>6</td>
-                            <td>
-                                <img src="~/assets/demo/avatars/3.jpg" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">mbortz</a>
-                            </td>
-                            <td>Michelle Bortz</td>
-                            <td>mbortz@example.com</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td>7</td>
-                            <td>
-                                <img src="~/assets/demo/avatars/4.jpg" alt="" style="width:26px;height:26px;" class="border-round">&nbsp;&nbsp;<a href="#" title="">towens</a>
-                            </td>
-                            <td>Timothy Owens</td>
-                            <td>towens@example.com</td>
                             <td></td>
                         </tr>
                     </tbody>
@@ -592,71 +427,10 @@
                     <span class="widget-tasks-timer">1 hour left</span>
                 </label>
             </div>
-            <div class="widget-tasks-item">
-                <span class="label label-warning pull-right">High</span>
-                <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" checked="">
-                    <span class="custom-control-indicator"></span>
-                    <span class="widget-tasks-title">A very important task</span>&nbsp;&nbsp;
-                    <span class="widget-tasks-timer">58 minutes left</span>
-                </label>
-            </div>
-            <div class="widget-tasks-item">
-                <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" checked="">
-                    <span class="custom-control-indicator"></span>
-                    <span class="widget-tasks-title">A regular task</span>
-                </label>
-            </div>
-            <div class="widget-tasks-item">
-                <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
-                    <span class="custom-control-indicator"></span>
-                    <span class="widget-tasks-title">A regular task</span>
-                </label>
-            </div>
-            <div class="widget-tasks-item">
-                <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
-                    <span class="custom-control-indicator"></span>
-                    <span class="widget-tasks-title">A regular task</span>
-                </label>
-            </div>
-            <div class="widget-tasks-item">
-                <span class="label pull-right">Low</span>
-                <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
-                    <span class="custom-control-indicator"></span>
-                    <span class="widget-tasks-title">A regular task</span>
-                </label>
-            </div>
-            <div class="widget-tasks-item">
-                <span class="label pull-right">Low</span>
-                <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
-                    <span class="custom-control-indicator"></span>
-                    <span class="widget-tasks-title">An unimportant task</span>
-                </label>
-            </div>
-            <div class="widget-tasks-item">
-                <span class="label pull-right">Low</span>
-                <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
-                    <span class="custom-control-indicator"></span>
-                    <span class="widget-tasks-title">An unimportant task</span>
-                </label>
-            </div>
-            <div class="widget-tasks-item">
-                <label class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input">
-                    <span class="custom-control-indicator"></span>
-                    <span class="widget-tasks-title">An unimportant task</span>
-                </label>
-            </div>
         </div>
         <!-- /Recent tasks -->
     </div>
-</div>
+</div>*@
     
 
 @section scripts {
