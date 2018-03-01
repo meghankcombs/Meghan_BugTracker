@@ -14,9 +14,9 @@ namespace Meghan_BugTracker.Models
         public string Description { get; set; }
 
         //Navigation
-        //Children of Project
         public virtual ICollection<Ticket> Tickets { get; set; }
-        public virtual ICollection<ApplicationUser> Users { get; set; }
+        //many to many relationship, bc ICollection also in AppUser class
+        public virtual ICollection<ApplicationUser> Users { get; set; } 
 
         public Project()
         {

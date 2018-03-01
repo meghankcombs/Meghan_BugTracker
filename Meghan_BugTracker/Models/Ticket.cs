@@ -24,13 +24,15 @@ namespace Meghan_BugTracker.Models
 
         //Navigation Properties
 
-        //Children of Ticket
+        //Allowing access to collections of these types - only used when constructor called
+        //One to many relationship
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
         public virtual ICollection<TicketNotification> TicketNotifications { get; set; }
 
-        //Parents of Ticket
+        //Allow access to these types of classes
+        //One to one relationship
         public virtual TicketType TicketType { get; set; }
         public virtual TicketPriority TicketPriority { get; set; }
         public virtual TicketStatus TicketStatus { get; set; }
@@ -38,6 +40,7 @@ namespace Meghan_BugTracker.Models
         public virtual ApplicationUser OwnerUser { get; set; }
         public virtual ApplicationUser AssignedToUser { get; set; }
 
+        //Constructor
         public Ticket()
         {
             this.TicketAttachments = new HashSet<TicketAttachment>();

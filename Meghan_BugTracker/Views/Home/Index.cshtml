@@ -36,7 +36,7 @@
                 </div>
                 <div id="support-tickets" class="ps-block" style="height: 300px">
                     @foreach (var ticket in Model.RecentTickets)
-                {
+                    {
                         <div class="widget-support-tickets-item">
                             <span class="label label-success pull-right">@ticket.TicketStatus</span>
                             <a href="@Url.Action("Details", "Tickets", new { id = ticket.Id })" class="widget-support-tickets-title">

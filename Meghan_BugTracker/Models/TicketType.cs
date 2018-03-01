@@ -13,7 +13,6 @@ namespace Meghan_BugTracker.Models
         public string Name { get; set; }
 
         //Navigation
-        //Child of TicketType
         public virtual ICollection<Ticket> Tickets { get; set; }
 
         public TicketType()

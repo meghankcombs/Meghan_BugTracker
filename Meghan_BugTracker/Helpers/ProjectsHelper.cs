@@ -33,7 +33,7 @@ namespace Meghan_BugTracker.Helpers
                 var newUser = db.Users.Find(userId);
 
                 proj.Users.Add(newUser);
-                db.Entry(proj).State = EntityState.Modified; //modifies existing record; usually only used in an edit...
+                db.Entry(proj).State = EntityState.Modified; //modifies existing Project record
                 db.SaveChanges();
             }
         }
@@ -46,7 +46,7 @@ namespace Meghan_BugTracker.Helpers
                 var delUser = db.Users.Find(userId);
 
                 proj.Users.Remove(delUser);
-                db.Entry(proj).State = EntityState.Modified; //modifies existing record; usually only used in an edit...
+                db.Entry(proj).State = EntityState.Modified; //modifies existing Project record
                 db.SaveChanges();
             }
         }

@@ -12,6 +12,7 @@ namespace Meghan_BugTracker.ViewModels
         public List<Ticket> RecentTickets { get; set; }
         public List<TicketNotification> RecentNotifications { get; set; }
         public List<TicketHistory> RecentHistories { get; set; }
+
         public DashboardVM()
         {
             RecentProjects = new List<Project>();

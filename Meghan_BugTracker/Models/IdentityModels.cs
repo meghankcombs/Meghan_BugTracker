@@ -7,33 +7,31 @@ using System.Collections.Generic;
 
 namespace Meghan_BugTracker.Models
 {
-    // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+    // You can add profile data for the user by adding more properties to your ApplicationUser class, 
+    //please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
 
-        //Navigation (all children)
+        //Navigation
+        public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
-        public virtual ICollection<TicketNotification> TicketNotifications { get; set; }
-        public virtual ICollection<Ticket> TicketsOwned { get; set; }
-        public virtual ICollection<Ticket> TicketsAssigned { get; set; }
-        public virtual ICollection<Project> Projects { get; set; }
-        public virtual ICollection<Ticket> Tickets { get; set; }
+
+        //public virtual ICollection<TicketNotification> TicketNotifications { get; set; }
+        //public virtual ICollection<Ticket> TicketsOwned { get; set; }
+        //public virtual ICollection<Ticket> TicketsAssigned { get; set; }
+        //public virtual ICollection<Ticket> Tickets { get; set; }
 
         public ApplicationUser()
         {
+            this.Projects = new HashSet<Project>();
             this.TicketAttachments = new HashSet<TicketAttachment>();
             this.TicketComments = new HashSet<TicketComment>();
             this.TicketHistories = new HashSet<TicketHistory>();
-            this.TicketNotifications = new HashSet<TicketNotification>();
-            this.TicketsOwned = new HashSet<Ticket>();
-            this.TicketsAssigned = new HashSet<Ticket>();
-            this.Projects = new HashSet<Project>();
-            this.Tickets = new HashSet<Ticket>();
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

@@ -20,6 +20,11 @@ namespace Meghan_BugTracker.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        //DO NOT DELETE YOU NEED THIS
+        public AccountController()
+        {
+        }
+
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
@@ -97,7 +102,7 @@ namespace Meghan_BugTracker.Controllers
         {
             var email = "";
             var password = "password";
-            var returnUrl = "/Dashboard/BasicDashboard";
+            var returnUrl = "/Home/Index";
             switch (role)
             {
                 case "Admin":
@@ -197,10 +202,11 @@ namespace Meghan_BugTracker.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+
+                    //COMMENTING OUT FOR PASSWORD RECOVERY
+                    //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -287,8 +293,10 @@ namespace Meghan_BugTracker.Controllers
             if(user != null)
             {
                 string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", 
+                    new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Confirm your account", 
+                    "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
             }
             return RedirectToAction("ConfirmationSent");
         }
