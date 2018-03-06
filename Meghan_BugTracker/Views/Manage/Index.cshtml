@@ -1,4 +1,5 @@
 ﻿@model Meghan_BugTracker.Models.IndexViewModel
+@using Microsoft.AspNet.Identity;
 
 <div class="page-header m-b-0 p-b-0 b-b-0">
     <h1>Account Settings</h1>
@@ -19,40 +20,49 @@
     <!-- Profile tab -->
     <div class="tab-pane fade in active" id="account-profile">
         <div class="row">
-            <form action="" class="col-md-8 col-lg-9">
+            <div class="col-md-8 col-lg-9">
                 <div class="p-x-1">
-                @using (Html.BeginForm("ChangeName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <fieldset class="form-group form-group-lg">
-                        <label for="account-name">First Name</label>
-                        <input type="text" name="FirstName" class="form-control">
-                    </fieldset>
-                    <fieldset class="form-group form-group-lg">
-                        <label for="account-username">Last Name</label>
-                        <input type="text" name="LastName" class="form-control">
-                    </fieldset>
-                    <fieldset class="form-group form-group-lg">
-                        <label for="account-username">Display Name</label>
-                        <input type="text" name="DisplayName" class="form-control">
-                    </fieldset>
-                    <button type="submit" class="btn btn-lg btn-primary m-t-3">Update profile</button>
-                }
+                    @using (Html.BeginForm("ChangeName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <fieldset class="form-group form-group-lg">
+                            <label for="account-name">First Name</label>
+                            <input type="text" name="FirstName" class="form-control">
+                        </fieldset>
+                        <fieldset class="form-group form-group-lg">
+                            <label for="account-username">Last Name</label>
+                            <input type="text" name="LastName" class="form-control">
+                        </fieldset>
+                        <fieldset class="form-group form-group-lg">
+                            <label for="account-username">Display Name</label>
+                            <input type="text" name="DisplayName" class="form-control">
+                        </fieldset>
+                        <button type="submit" class="btn btn-lg btn-primary m-t-3">Update Names</button>
+                    }
                 </div>
-            </form>
+            </div>
+
             <!-- Spacer -->
             <div class="m-t-4 visible-xs visible-sm"></div>
+
             <!-- Avatar -->
             <div class="col-md-4 col-lg-3">
                 <div class="panel bg-transparent">
                     <div class="panel-body text-xs-center">
-                        <img src="~/assets/demo/avatars/1.jpg" alt="" class="" style="max-width: 100%;">
+                        <img src="@Url.Action("LoggedInUserPhoto", "Home", new { userId = User.Identity.GetUserId() })" alt="" class="" style="max-width: 100%;">
                     </div>
                     <hr class="m-y-0">
                     <div class="panel-body text-xs-center">
-                        <button type="button" class="btn btn-primary">Change</button>&nbsp;
-                        <button type="button" class="btn"><i class="fa fa-trash"></i></button>
-                        <div class="m-t-2 text-muted font-size-12">JPG, GIF or PNG. Max size of 1MB</div>
+                        @using (Html.BeginForm("UpdateImage", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <label type="button" class="btn btn-primary">
+                                Upload Photo
+                                <input type="file" name="UserPhoto" id="MKCfile" class="form-control" style="display: none;">
+                            </label>
+                            <button type="submit" class="btn btn-default">Submit</button>
+                            <div id="file-selected" class="m-t-2 text-muted font-size-12"></div>
+                        }
                     </div>
                 </div>
             </div>
@@ -61,112 +71,35 @@
     <!-- / Profile tab -->
     <!-- Password tab -->
     <div class="tab-pane fade" id="account-password">
-        <form action="" class="p-x-1">
+        <div class="p-x-1">
             @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-            <fieldset class="form-group form-group-lg">
-                <label for="account-password">Old password</label>
-                <input type="password" name="OldPassword" class="form-control">
-            </fieldset>
-            <fieldset class="form-group form-group-lg">
-                <label for="account-new-password">New password</label>
-                <input type="password" name="NewPassword" class="form-control">
-                <small class="text-muted">Minimum 6 characters</small>
-            </fieldset>
-            <fieldset class="form-group form-group-lg">
-                <label for="account-new-password-repeat">Verify password</label>
-                <input type="password" name="ConfirmPassword" class="form-control">
-            </fieldset>
-            <button type="submit" class="btn btn-lg btn-primary m-t-3">Change password</button>
+                <fieldset class="form-group form-group-lg">
+                    <label for="account-password">Old password</label>
+                    <input type="password" name="OldPassword" class="form-control">
+                </fieldset>
+                <fieldset class="form-group form-group-lg">
+                    <label for="account-new-password">New password</label>
+                    <input type="password" name="NewPassword" class="form-control">
+                    <small class="text-muted">Minimum 6 characters</small>
+                </fieldset>
+                <fieldset class="form-group form-group-lg">
+                    <label for="account-new-password-repeat">Verify password</label>
+                    <input type="password" name="ConfirmPassword" class="form-control">
+                </fieldset>
+                <button type="submit" class="btn btn-lg btn-primary m-t-3">Change password</button>
             }
-        </form>
+        </div>
     </div>
     <!-- / Password tab -->
 </div>
 
-        @*<h2>@ViewBag.Title.</h2>
-
-        <p class="text-success">@ViewBag.StatusMessage</p>
-        <div>
-            <h4>Change your account settings</h4>
-            <hr />
-            <dl class="dl-horizontal">
-                <dt>Password:</dt>
-                <dd>
-                    [
-                    @if (Model.HasPassword)
-            {
-                        @Html.ActionLink("Change your password", "ChangePassword")
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Create", "SetPassword")
-                    }
-                    ]
-                </dd>
-                <dt>External Logins:</dt>
-                <dd>
-                    @Model.Logins.Count [
-                    @Html.ActionLink("Manage", "ManageLogins") ]
-                </dd>
-                <dt>Change First, Last, and Display Name:</dt>
-                <dd>
-                    [@Html.ActionLink("Change names", "ChangeName")]
-                </dd>*@
-                @*
-                    Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-
-                     See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                        for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-
-                     Uncomment the following block after you have set up two-factor authentication
-                *@
-                @*
-                    <dt>Phone Number:</dt>
-                    <dd>
-                        @(Model.PhoneNumber ?? "None")
-                        @if (Model.PhoneNumber != null)
-                        {
-                            <br />
-                            <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
-                            using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                            {
-                                @Html.AntiForgeryToken()
-                                <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
-                            }
-                        }
-                        else
-                        {
-                            <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
-                        }
-                    </dd>
-                *@
-                @*<dt>Two-Factor Authentication:</dt>
-                    <dd>
-                        <p>
-                            There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                            for details on setting up this ASP.NET application to support two-factor authentication.
-                        </p>*@
-                @*@if (Model.TwoFactor)
-                    {
-                        using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <text>Enabled
-                            <input type="submit" value="Disable" class="btn btn-link" />
-                            </text>
-                        }
-                    }
-                    else
-                    {
-                        using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                        {
-                            @Html.AntiForgeryToken()
-                            <text>Disabled
-                            <input type="submit" value="Enable" class="btn btn-link" />
-                            </text>
-                        }
-                    }*@
-                @*</dd>*@
-            @*</dl>
-        </div>*@
+@section scripts {
+    <script type="text/javascript">
+        $('#MKCfile').bind('change', function () {
+            var path = $(this).val(); //gets value of file
+            var fileName = path.replace(/^.*\\/, ''); //removes "fakepath" in Chrome
+            $('#file-selected').html(fileName);
+        })
+    </script>
+}

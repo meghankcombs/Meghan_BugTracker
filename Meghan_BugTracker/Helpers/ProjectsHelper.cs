@@ -11,18 +11,20 @@ namespace Meghan_BugTracker.Helpers
     {
         ApplicationDbContext db = new ApplicationDbContext();
 
-        public bool IsUserOnProject (string userId, int projectId)
+        public bool IsUserOnProject (string userId, int projectId)//going to use in methods below
         {
-            var project = db.Projects.Find(projectId); //var project becomes type Project and is assigned to this ENTIRE project record
-            var flag = project.Users.Any(u => u.Id == userId); //do any Users associated with this projectId match the passed in userId
-            return (flag); //return true or false to above statement
+            //var project = db.Projects.Find(projectId); //var project becomes type Project and is assigned to this ENTIRE project record
+            //var flag = project.Users.Any(u => u.Id == userId); //do any Users associated with this projectId match the passed in userId
+            //return (flag); //return true or false to above statement
+            return db.Projects.Find(projectId).Users.Any(u => u.Id == userId);
         }
 
         public ICollection<Project> ListUserProjects (string userId) //return list of projects associated with this specific user
         {
-            ApplicationUser user = db.Users.Find(userId);
-            var projects = user.Projects.ToList();
-            return (projects);
+            //ApplicationUser user = db.Users.Find(userId);
+            //var projects = user.Projects.ToList();
+            //return (projects);
+            return db.Users.Find(userId).Projects.ToList();
         }
 
         public void AddUserToProject(string userId, int projectId) //add new user to project, if he/she not on project already

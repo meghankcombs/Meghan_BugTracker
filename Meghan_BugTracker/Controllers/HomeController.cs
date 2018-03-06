@@ -3,9 +3,11 @@ using Meghan_BugTracker.Helpers;
 using Meghan_BugTracker.Models;
 using Meghan_BugTracker.ViewModels;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Text;
@@ -33,22 +35,36 @@ namespace Meghan_BugTracker.Controllers
             switch (myRole)
             {
                 case "Admin":
-                    dashboardData.RecentProjects = db.Projects.ToList();
+                    dashboardData.RecentProjects = db.Projects.Take(5).ToList();
                     dashboardData.RecentTickets = db.Tickets.OrderByDescending(tn => tn.Created).Take(5).ToList();
-                    dashboardData.RecentNotifications = db.TicketNotifications.OrderByDescending(tn => tn.Created).Take(5).ToList();
-                    dashboardData.RecentHistories = db.TicketHistories.OrderByDescending(th => th.ChangedDate).Take(5).ToList();
-
+                    dashboardData.AllUsers = db.Users.ToList();
+                    dashboardData.RecentAttachments = db.TicketAttachments.OrderByDescending(tn => tn.Created).Take(5).ToList();
+                    dashboardData.RecentComments = db.TicketComments.OrderByDescending(c => c.Created).Take(5).ToList();
+                    dashboardData.RecentHistories = db.TicketHistories.OrderByDescending(h => h.ChangedDate).Take(5).ToList();
                     break;
                 case "ProjectManager":
-                    dashboardData.RecentProjects = projectHelper.ListUserProjects(userId).ToList();
-                    dashboardData.RecentTickets = ticketHelper.GetMyProjectTickets(userId);
+                    dashboardData.RecentProjects = projectHelper.ListUserProjects(userId).Take(5).ToList();
+                    dashboardData.RecentTickets = ticketHelper.GetMyProjectTickets(userId).Take(5).ToList();
+                    dashboardData.AllUsers = db.Users.ToList();
+                    dashboardData.RecentAttachments = db.TicketAttachments.Where(t => t.UserId == userId).OrderByDescending(tn => tn.Created).Take(5).ToList();
+                    dashboardData.RecentComments = db.TicketComments.Where(c => c.UserId == userId).OrderByDescending(com => com.Created).Take(5).ToList();
+                    dashboardData.RecentHistories = db.TicketHistories.Where(h => h.UserId == userId).OrderByDescending(his => his.ChangedDate).Take(5).ToList();
                     break;
                 case "Developer":
-                    dashboardData.RecentProjects = projectHelper.ListUserProjects(userId).ToList();
-                    dashboardData.RecentTickets = db.Tickets.Where(t => t.AssignedToUserId == userId).ToList();
+                    dashboardData.RecentProjects = projectHelper.ListUserProjects(userId).Take(5).ToList();
+                    dashboardData.RecentTickets = db.Tickets.Where(t => t.AssignedToUserId == userId).Take(5).ToList();
+                    dashboardData.AllUsers = db.Users.ToList();
+                    dashboardData.RecentAttachments = db.TicketAttachments.Where(a => a.Ticket.AssignedToUserId == userId).OrderByDescending(att => att.Created).Take(5).ToList();
+                    dashboardData.RecentComments = db.TicketComments.Where(c => c.Ticket.AssignedToUserId == userId).OrderByDescending(com => com.Created).Take(5).ToList();
+                    dashboardData.RecentHistories = db.TicketHistories.Where(h => h.Ticket.AssignedToUserId == userId).OrderByDescending(his => his.ChangedDate).Take(5).ToList();
                     break;
                 case "Submitter":
-                    dashboardData.RecentTickets = db.Tickets.Where(t => t.OwnerUserId == userId).ToList();
+                    dashboardData.RecentProjects = projectHelper.ListUserProjects(userId).Take(5).ToList();
+                    dashboardData.RecentTickets = db.Tickets.Where(t => t.OwnerUserId == userId).Take(5).ToList();
+                    dashboardData.AllUsers = db.Users.ToList();
+                    dashboardData.RecentAttachments = db.TicketAttachments.Where(a => a.Ticket.OwnerUserId == userId).OrderByDescending(att => att.Created).Take(5).ToList();
+                    dashboardData.RecentComments = db.TicketComments.Where(c => c.Ticket.OwnerUserId == userId).OrderByDescending(com => com.Created).Take(5).ToList();
+                    dashboardData.RecentHistories = db.TicketHistories.Where(h => h.Ticket.OwnerUserId == userId).OrderByDescending(his => his.ChangedDate).Take(5).ToList();
                     break;
                 default:
                     ViewBag.Message = "You will not be able to see any data until you are assigned to a role.";
@@ -102,6 +118,106 @@ namespace Meghan_BugTracker.Controllers
                 }
             }
             return View(model);
+        }
+
+        public FileContentResult UserPhotos()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                //let pass User.Identity into userId
+                String userId = User.Identity.GetUserId();
+
+                if (userId == null)
+                {
+                    //if there is no photo chosen then use Stock photo- I am using CoderFoundry image
+                    string fileName = HttpContext.Server.MapPath(@"~\MyImages\user_default.png");
+                    //convert import image into byte file that can read by using FileStream and BinaryReader Method
+                    byte[] imageData = null;
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    long imageFileLength = fileInfo.Length;
+                    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new BinaryReader(fs);
+                    imageData = br.ReadBytes((int)imageFileLength);
+
+                    return File(imageData, "image/png");
+
+                }
+                // to get the user details to load user Image 
+                var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+                var UserImage = bdUsers.Users.Where(photo => photo.Id == userId).FirstOrDefault();
+
+                return new FileContentResult(UserImage.UserPhoto, "image/jpeg");
+            }
+            else
+            {
+                string fileName = HttpContext.Server.MapPath(@"~\MyImages\user_default.png");
+
+                byte[] imageData = null;
+                FileInfo fileInfo = new FileInfo(fileName);
+                long imageFileLength = fileInfo.Length;
+                FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                BinaryReader br = new BinaryReader(fs);
+                imageData = br.ReadBytes((int)imageFileLength);
+                return File(imageData, "image/png");
+
+            }
+        }
+
+        public FileContentResult LoggedInUserPhoto(string userId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                if (userId == null)
+                {
+                    //if there is no photo chosen then use Stock photo
+                    string fileName = HttpContext.Server.MapPath(@"~\MyImages\user_default.png");
+                    //convert import image into byte file that can read by using FileStream and BinaryReader Method
+                    byte[] imageData = null;
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    long imageFileLength = fileInfo.Length;
+                    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new BinaryReader(fs);
+                    imageData = br.ReadBytes((int)imageFileLength);
+
+                    return File(imageData, "image/png");
+
+                }
+                // to get the user details to load user Image 
+                var bdUsers = HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+                var UserImage = bdUsers.Users.Where(photo => photo.Id == userId).FirstOrDefault();
+
+                if (UserImage.UserPhoto == null)
+                {
+                    //if there is no photo chosen then use Stock photo
+                    string fileName = HttpContext.Server.MapPath(@"~\MyImages\user_default.png");
+                    //convert import image into byte file that can read by using FileStream and BinaryReader Method
+                    byte[] imageData = null;
+                    FileInfo fileInfo = new FileInfo(fileName);
+                    long imageFileLength = fileInfo.Length;
+                    FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new BinaryReader(fs);
+                    imageData = br.ReadBytes((int)imageFileLength);
+
+                    return File(imageData, "image/png");
+                }
+                else
+                {
+                    return new FileContentResult(UserImage.UserPhoto, "image/jpeg");
+                }
+            }
+            else
+            {
+                string fileName = HttpContext.Server.MapPath(@"~\MyImages\user_default.png");
+
+                byte[] imageData = null;
+                FileInfo fileInfo = new FileInfo(fileName);
+                long imageFileLength = fileInfo.Length;
+                FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+                BinaryReader br = new BinaryReader(fs);
+                imageData = br.ReadBytes((int)imageFileLength);
+                return File(imageData, "image/png");
+
+            }
         }
     }
 }

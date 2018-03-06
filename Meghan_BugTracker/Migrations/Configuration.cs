@@ -57,8 +57,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "meghankcombs@gmail.com",
                     FirstName = "Meghan (Admin)",
                     LastName = "Combs",
-                    DisplayName = "Admin"
-                }, "password");
+                    DisplayName = "Admin",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
             
             //PROJECT MANAGER 1
@@ -70,8 +71,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "ProjectManager1@mailinator.com",
                     FirstName = "Project Manager 1",
                     LastName = "Dernbach",
-                    DisplayName = "PM1"
-                }, "password");
+                    DisplayName = "PM1",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
 
             //PROJECT MANAGER 2
@@ -83,8 +85,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "ProjectManager2@mailinator.com",
                     FirstName = "Project Manager 2",
                     LastName = "Derenbach",
-                    DisplayName = "PM2"
-                }, "password");
+                    DisplayName = "PM2",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
 
             //DEVELOPER 1
@@ -96,8 +99,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "Developer1@mailinator.com",
                     FirstName = "Developer1",
                     LastName = "Harrington",
-                    DisplayName = "Developer1"
-                }, "password");
+                    DisplayName = "Developer1",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
 
             //DEVELOPER 2
@@ -109,8 +113,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "Developer2@mailinator.com",
                     FirstName = "Developer2",
                     LastName = "Harrington",
-                    DisplayName = "Developer2"
-                }, "password");
+                    DisplayName = "Developer2",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
 
             //DEVELOPER 3
@@ -122,8 +127,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "Developer3@mailinator.com",
                     FirstName = "Developer3",
                     LastName = "Harrington",
-                    DisplayName = "Developer3"
-                }, "password");
+                    DisplayName = "Developer3",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
 
             //DEVELOPER 4
@@ -135,8 +141,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "Developer4@mailinator.com",
                     FirstName = "Developer4",
                     LastName = "Harrington",
-                    DisplayName = "Developer4"
-                }, "password");
+                    DisplayName = "Developer4",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
 
             //SUBMITTER 1
@@ -148,8 +155,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "Submitter1@mailinator.com",
                     FirstName = "Submitter1",
                     LastName = "Riddle",
-                    DisplayName = "Submitter1"
-                }, "password");
+                    DisplayName = "Submitter1",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
 
             //SUBMITTER 2
@@ -161,8 +169,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "Submitter2@mailinator.com",
                     FirstName = "Submitter2",
                     LastName = "Riddle",
-                    DisplayName = "Submitter2"
-                }, "password");
+                    DisplayName = "Submitter2",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
 
             //SUBMITTER 3
@@ -174,8 +183,9 @@ namespace Meghan_BugTracker.Migrations
                     Email = "Submitter3@mailinator.com",
                     FirstName = "Submitter3",
                     LastName = "Riddle",
-                    DisplayName = "Submitter3"
-                }, "password");
+                    DisplayName = "Submitter3",
+                    UserPhoto = new byte[0]
+                }, "Boo&Grace22");
             }
             #endregion
 
@@ -224,7 +234,8 @@ namespace Meghan_BugTracker.Migrations
                     Email = "DemoAdmin@mailinator.com",
                     FirstName = "Demo Admin",
                     LastName = "DA",
-                    DisplayName = "DemoAdmin"
+                    DisplayName = "DemoAdmin",
+                    UserPhoto = new byte[0]
                 }, "password");
             }
 
@@ -236,7 +247,8 @@ namespace Meghan_BugTracker.Migrations
                     Email = "DemoProjectManager@mailinator.com",
                     FirstName = "Demo Project Manager",
                     LastName = "DemoPM",
-                    DisplayName = "DemoPM"
+                    DisplayName = "DemoPM",
+                    UserPhoto = new byte[0]
                 }, "password");
             }
 
@@ -248,7 +260,8 @@ namespace Meghan_BugTracker.Migrations
                     Email = "DemoDeveloper@mailinator.com",
                     FirstName = "Demo Developer",
                     LastName = "DemoDev",
-                    DisplayName = "DemoDev"
+                    DisplayName = "DemoDev",
+                    UserPhoto = new byte[0]
                 }, "password");
             }
 
@@ -260,7 +273,8 @@ namespace Meghan_BugTracker.Migrations
                     Email = "DemoSubmitter@mailinator.com",
                     FirstName = "Demo Submitter",
                     LastName = "DemoSub",
-                    DisplayName = "DemoSub"
+                    DisplayName = "DemoSub",
+                    UserPhoto = new byte[0]
                 }, "password");
             }
             #endregion
@@ -315,6 +329,36 @@ namespace Meghan_BugTracker.Migrations
                     Id = 10050,
                     Name = "Project Five",
                     Description = "This is the fifth project"
+                },
+                new Project
+                {
+                    Id = 10060,
+                    Name = "Project Six",
+                    Description = "This is the sixth project"
+                },
+                new Project
+                {
+                    Id = 10070,
+                    Name = "Project Seven",
+                    Description = "This is the seventh project"
+                },
+                new Project
+                {
+                    Id = 10080,
+                    Name = "Project Eight",
+                    Description = "This is the eighth project"
+                },
+                new Project
+                {
+                    Id = 10090,
+                    Name = "Project Nine",
+                    Description = "This is the ninth project"
+                },
+                new Project
+                {
+                    Id = 10100,
+                    Name = "Project 10",
+                    Description = "This is the tenth project"
                 }
                 );
             #endregion
@@ -341,9 +385,9 @@ namespace Meghan_BugTracker.Migrations
             #region Ticket Type
             context.TicketTypes.AddOrUpdate(
                 t => t.Name,
-                new TicketType { Id = 100, Name = "Bug" },
-                new TicketType { Id = 200, Name = "Task" },
-                new TicketType { Id = 300, Name = "Update" }
+                new TicketType { Id = 100, Name = "IT" },
+                new TicketType { Id = 200, Name = "Marketing" },
+                new TicketType { Id = 300, Name = "Operations" }
                 );
             #endregion
             
@@ -458,7 +502,7 @@ namespace Meghan_BugTracker.Migrations
                 {
                     Title = "System Bug",
                     Created = DateTime.Now,
-                    Description = "Ticket description",
+                    Description = "Description",
                     OwnerUserId = userManager.FindByEmail("Submitter3@mailinator.com").Id,
                     TicketPriorityId = 200,
                     TicketStatusId = 200,
@@ -477,6 +521,136 @@ namespace Meghan_BugTracker.Migrations
                     TicketStatusId = 400,
                     TicketTypeId = 300,
                     ProjectId = 10050
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "System Not Working",
+                    Created = DateTime.Now,
+                    Description = "Description",
+                    OwnerUserId = userManager.FindByEmail("Submitter2@mailinator.com").Id,
+                    TicketPriorityId = 200,
+                    TicketStatusId = 400,
+                    TicketTypeId = 200,
+                    ProjectId = 10060
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "Bug Reported",
+                    Created = DateTime.Now,
+                    Description = "Description",
+                    OwnerUserId = userManager.FindByEmail("Submitter1@mailinator.com").Id,
+                    TicketPriorityId = 300,
+                    TicketStatusId = 400,
+                    TicketTypeId = 200,
+                    ProjectId = 10060
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "Update",
+                    Created = DateTime.Now,
+                    Description = "Ticket description",
+                    OwnerUserId = userManager.FindByEmail("Submitter1@mailinator.com").Id,
+                    TicketPriorityId = 100,
+                    TicketStatusId = 100,
+                    TicketTypeId = 200,
+                    ProjectId = 10070
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "System Task",
+                    Created = DateTime.Now,
+                    Description = "Description",
+                    OwnerUserId = userManager.FindByEmail("Submitter2@mailinator.com").Id,
+                    TicketPriorityId = 200,
+                    TicketStatusId = 100,
+                    TicketTypeId = 300,
+                    ProjectId = 10070
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "Error Updating",
+                    Created = DateTime.Now,
+                    Description = "Ticket description",
+                    OwnerUserId = userManager.FindByEmail("Submitter1@mailinator.com").Id,
+                    TicketPriorityId = 200,
+                    TicketStatusId = 200,
+                    TicketTypeId = 200,
+                    ProjectId = 10080
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "Connection Error",
+                    Created = DateTime.Now,
+                    Description = "Description",
+                    OwnerUserId = userManager.FindByEmail("Submitter1@mailinator.com").Id,
+                    TicketPriorityId = 300,
+                    TicketStatusId = 400,
+                    TicketTypeId = 300,
+                    ProjectId = 10080
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "System Error",
+                    Created = DateTime.Now,
+                    Description = "Ticket description",
+                    OwnerUserId = userManager.FindByEmail("Submitter3@mailinator.com").Id,
+                    TicketPriorityId = 100,
+                    TicketStatusId = 100,
+                    TicketTypeId = 100,
+                    ProjectId = 10090
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "Task Update",
+                    Created = DateTime.Now,
+                    Description = "Description",
+                    OwnerUserId = userManager.FindByEmail("Submitter3@mailinator.com").Id,
+                    TicketPriorityId = 300,
+                    TicketStatusId = 200,
+                    TicketTypeId = 200,
+                    ProjectId = 10090
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "System Bug",
+                    Created = DateTime.Now,
+                    Description = "Ticket description",
+                    OwnerUserId = userManager.FindByEmail("Submitter3@mailinator.com").Id,
+                    TicketPriorityId = 200,
+                    TicketStatusId = 200,
+                    TicketTypeId = 200,
+                    ProjectId = 10100
+                });
+            context.Tickets.AddOrUpdate(
+                t => t.Title,
+                new Ticket
+                {
+                    Title = "System Task",
+                    Created = DateTime.Now,
+                    Description = "Description",
+                    OwnerUserId = userManager.FindByEmail("Submitter1@mailinator.com").Id,
+                    TicketPriorityId = 300,
+                    TicketStatusId = 400,
+                    TicketTypeId = 300,
+                    ProjectId = 10100
                 });
             #endregion
         }

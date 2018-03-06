@@ -196,7 +196,8 @@ $(function() {
 // Initialize scrollbars
 
 $(function() {
-        $('#support-tickets').perfectScrollbar();
+    $('#support-tickets').perfectScrollbar();
+    $('#recent-projects').perfectScrollbar();
     $('#comments').perfectScrollbar();
     $('#threads').perfectScrollbar();
 });

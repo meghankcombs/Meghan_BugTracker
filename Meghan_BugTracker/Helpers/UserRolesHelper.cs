@@ -14,7 +14,7 @@ namespace Meghan_BugTracker.Helpers
             (new UserStore<ApplicationUser>(new ApplicationDbContext()));
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public bool IsUserInRole(string userId, string roleName)
+        public bool IsUserInRole(string userId, string roleName)//use in methods below
         {
             return userManager.IsInRole(userId, roleName);
         }

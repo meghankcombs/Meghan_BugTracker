@@ -10,15 +10,21 @@ namespace Meghan_BugTracker.ViewModels
     {
         public List<Project> RecentProjects { get; set; }
         public List<Ticket> RecentTickets { get; set; }
-        public List<TicketNotification> RecentNotifications { get; set; }
+        public List<ApplicationUser> AllUsers { get; set; }
+        public List<TicketAttachment> RecentAttachments { get; set; }
+        public List<TicketComment> RecentComments { get; set; }
         public List<TicketHistory> RecentHistories { get; set; }
+        public List<TicketNotification> RecentNotifications { get; set; }
 
         public DashboardVM()
         {
             RecentProjects = new List<Project>();
             RecentTickets = new List<Ticket>();
-            RecentNotifications = new List<TicketNotification>();
+            AllUsers = new List<ApplicationUser>();
+            RecentAttachments = new List<TicketAttachment>();
+            RecentComments = new List<TicketComment>();
             RecentHistories = new List<TicketHistory>();
+            RecentNotifications = new List<TicketNotification>();
         }
     }
 }

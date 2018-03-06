@@ -14,6 +14,7 @@ namespace Meghan_BugTracker.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
+        public byte[] UserPhoto { get; set; }
 
         //Navigation
         public virtual ICollection<Project> Projects { get; set; }
@@ -45,8 +46,8 @@ namespace Meghan_BugTracker.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+        public ApplicationDbContext() //TODO: add code for second database when manipulating demo dashboards
+            : base("DemoConnection", throwIfV1Schema: false)
         {
         }
 

@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using Meghan_BugTracker.Models;
 using System.Configuration;
 using System.Net.Mail;
+using System.IO;
 
 namespace Meghan_BugTracker.Controllers
 {
@@ -192,12 +193,25 @@ namespace Meghan_BugTracker.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register([Bind(Exclude = "UserPhoto")]RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
+                // To convert the user uploaded Photo as Byte Array before save to DB 
+                byte[] imageData = null;
+                if (Request.Files.Count > 0)
+                {
+                    HttpPostedFileBase PostedImageFile = Request.Files["UserPhoto"];
+
+                    using (var binary = new BinaryReader(PostedImageFile.InputStream))
+                    {
+                        imageData = binary.ReadBytes(PostedImageFile.ContentLength);
+                    }
+                }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email,
                 FirstName = model.FirstName, LastName = model.LastName, DisplayName = model.DisplayName };
+                //Here we pass the byte array to user context to store in db 
+                user.UserPhoto = imageData;
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -215,6 +229,35 @@ namespace Meghan_BugTracker.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateImage(string UserPhoto)
+        {
+            if (ModelState.IsValid)
+            {
+                var db = new ApplicationDbContext();
+                var userId = User.Identity.GetUserId();
+                var user = db.Users.Find(userId);
+
+                // To convert the user uploaded Photo as Byte Array before save to DB 
+                byte[] imageData = null;
+                if (Request.Files.Count > 0)
+                {
+                    HttpPostedFileBase PostedImageFile = Request.Files["UserPhoto"];
+
+                    using (var binary = new BinaryReader(PostedImageFile.InputStream))
+                    {
+                        imageData = binary.ReadBytes(PostedImageFile.ContentLength);
+                    }
+                }
+
+                //Here we pass the byte array to user context to store in db 
+                user.UserPhoto = imageData;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index", "Manage");
         }
 
         //

@@ -50,8 +50,7 @@
                 <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    //TODO: insert user's own image here
-                    <img src="~/MyImages/user_default.png" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px;">
+                    <img src="@Url.Action("LoggedInUserPhoto", "Home", new { userId = User.Identity.GetUserId() })" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px; overflow: hidden;">
                 }
                 else
                 {
@@ -151,7 +150,7 @@
                     <li class="px-nav-item px-nav-dropdown">
                         <a href="#"><i class="px-nav-icon fa fa-ticket"></i><span class="px-nav-label">Tickets</span></a>
                         <ul class="px-nav-dropdown-menu">
-                            <li class="px-nav-item"><a href="@Url.Action("Index", "Tickets")"><i class="px-nav-icon fa fa-in"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("Index", "Tickets")"><i class="px-nav-icon fa fa-table"></i><span class="px-nav-label">Index</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("Index", "TicketAttachments")"><i class="px-nav-icon fa fa-file-o"></i><span class="px-nav-label">Attachments</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("Index", "TicketComments")"><i class="px-nav-icon fa fa-comments-o"></i><span class="px-nav-label">Comments</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("Index", "TicketHistories")"><i class="px-nav-icon fa fa-history"></i><span class="px-nav-label">Histories</span></a></li>
@@ -185,7 +184,7 @@
                     <li class="px-nav-item px-nav-dropdown">
                         <a href="#"><i class="px-nav-icon fa fa-ticket"></i><span class="px-nav-label">Tickets</span></a>
                         <ul class="px-nav-dropdown-menu">
-                            <li class="px-nav-item"><a href="@Url.Action("PMProjectTickets", "Tickets")"><i class="px-nav-icon fa fa-in"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("PMProjectTickets", "Tickets")"><i class="px-nav-icon fa fa-table"></i><span class="px-nav-label">Index</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("PMTicketAttachments", "TicketAttachments")"><i class="px-nav-icon fa fa-file-o"></i><span class="px-nav-label">Attachments</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("PMTicketComments", "TicketComments")"><i class="px-nav-icon fa fa-comments-o"></i><span class="px-nav-label">Comments</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("PMTicketHistories", "TicketHistories")"><i class="px-nav-icon fa fa-history"></i><span class="px-nav-label">Histories</span></a></li>
@@ -216,7 +215,7 @@
                     <li class="px-nav-item px-nav-dropdown">
                         <a href="#"><i class="px-nav-icon fa fa-ticket"></i><span class="px-nav-label">Tickets</span></a>
                         <ul class="px-nav-dropdown-menu">
-                            <li class="px-nav-item"><a href="@Url.Action("MyIndex", "Tickets")"><i class="px-nav-icon fa fa-in"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("MyIndex", "Tickets")"><i class="px-nav-icon fa fa-table"></i><span class="px-nav-label">Index</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("DevSubTicketAttachments", "TicketAttachments")"><i class="px-nav-icon fa fa-file-o"></i><span class="px-nav-label">Attachments</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("DevSubTicketComments", "TicketComments")"><i class="px-nav-icon fa fa-comments-o"></i><span class="px-nav-label">Comments</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("DevSubTicketHistories", "TicketHistories")"><i class="px-nav-icon fa fa-history"></i><span class="px-nav-label">Histories</span></a></li>
@@ -239,7 +238,7 @@
                     <li class="px-nav-item px-nav-dropdown">
                         <a href="#"><i class="px-nav-icon fa fa-ticket"></i><span class="px-nav-label">Tickets</span></a>
                         <ul class="px-nav-dropdown-menu">
-                            <li class="px-nav-item"><a href="@Url.Action("SubmitterIndex", "Tickets")"><i class="px-nav-icon fa fa-in"></i><span class="px-nav-label">Index</span></a></li>
+                            <li class="px-nav-item"><a href="@Url.Action("SubmitterIndex", "Tickets")"><i class="px-nav-icon fa fa-table"></i><span class="px-nav-label">Index</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("DevSubTicketAttachments", "TicketAttachments")"><i class="px-nav-icon fa fa-file-o"></i><span class="px-nav-label">Attachments</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("DevSubTicketComments", "TicketComments")"><i class="px-nav-icon fa fa-comments-o"></i><span class="px-nav-label">Comments</span></a></li>
                             <li class="px-nav-item"><a href="@Url.Action("DevSubTicketHistories", "TicketHistories")"><i class="px-nav-icon fa fa-history"></i><span class="px-nav-label">Histories</span></a></li>
@@ -276,7 +275,6 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="px-navbar-icon fa fa-bullhorn font-size-14"></i>
                             <span class="px-navbar-icon-label">Notifications</span>
-                            <span class="px-navbar-label label label-success">@TicketsHelper.NotificationCount()</span>
                         </a>
                         <div class="dropdown-menu p-a-0" style="width: 300px">
                             <div id="navbar-notifications" style="height: 280px; position: relative;">
@@ -298,7 +296,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <img src="~/assets/demo/avatars/1.jpg" alt="" class="px-navbar-image">
+                            <img src="@Url.Action("LoggedInUserPhoto", "Home", new { userId = User.Identity.GetUserId() })" alt="" class="px-navbar-image">
                             <span class="hidden-md">@NameHelper.UserFirstName()</span>
                         }
                         else
