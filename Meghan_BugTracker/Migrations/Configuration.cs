@@ -59,7 +59,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Combs",
                     DisplayName = "Admin",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
             
             //PROJECT MANAGER 1
@@ -73,7 +73,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Dernbach",
                     DisplayName = "PM1",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
 
             //PROJECT MANAGER 2
@@ -87,7 +87,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Derenbach",
                     DisplayName = "PM2",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
 
             //DEVELOPER 1
@@ -101,7 +101,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Harrington",
                     DisplayName = "Developer1",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
 
             //DEVELOPER 2
@@ -115,7 +115,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Harrington",
                     DisplayName = "Developer2",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
 
             //DEVELOPER 3
@@ -129,7 +129,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Harrington",
                     DisplayName = "Developer3",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
 
             //DEVELOPER 4
@@ -143,7 +143,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Harrington",
                     DisplayName = "Developer4",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
 
             //SUBMITTER 1
@@ -157,7 +157,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Riddle",
                     DisplayName = "Submitter1",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
 
             //SUBMITTER 2
@@ -171,7 +171,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Riddle",
                     DisplayName = "Submitter2",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
 
             //SUBMITTER 3
@@ -185,7 +185,7 @@ namespace Meghan_BugTracker.Migrations
                     LastName = "Riddle",
                     DisplayName = "Submitter3",
                     UserPhoto = new byte[0]
-                }, "Boo&Grace22");
+                }, "Pa$$word");
             }
             #endregion
 

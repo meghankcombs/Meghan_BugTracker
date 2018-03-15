@@ -414,6 +414,7 @@
     <Content Include="MyImages\Test Doc attachment.docx" />
     <None Include="Properties\PublishProfiles\mcombs-bugtracker - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\mcombs-bugtracker - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\meghan-mvcbugtracker - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -430,7 +431,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sweetalert.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

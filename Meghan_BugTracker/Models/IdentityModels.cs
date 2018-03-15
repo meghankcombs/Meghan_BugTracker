@@ -47,7 +47,7 @@ namespace Meghan_BugTracker.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext() //TODO: add code for second database when manipulating demo dashboards
-            : base("DemoConnection", throwIfV1Schema: false)
+            : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
