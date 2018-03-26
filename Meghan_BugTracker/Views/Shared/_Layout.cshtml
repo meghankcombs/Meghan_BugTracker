@@ -83,12 +83,13 @@
                     <a href="#"><i class="px-nav-icon fa fa-dashboard"></i><span class="px-nav-label">Demo Dashboards</span></a>
                     <ul class="px-nav-dropdown-menu">
                         <li class="px-nav-item">
-                            @using (Html.BeginForm("DemoLogin", "Account", FormMethod.Post, new { @class= "px-nav-item", id = "demoAdminForm", role = "Admin" }))
+                            @using (Html.BeginForm("DemoLogin", "Account", FormMethod.Post, new { @class = "px-nav-item", id = "demoAdminForm", role = "Admin" }))
                             {
                                 @Html.Hidden("Role", "Admin")
                                 @Html.AntiForgeryToken()
                                 <a href="javascript:document.getElementById('demoAdminForm').submit()">
-                                <i class="px-nav-icon fa fa-adn"></i><span class="px-nav-label">Demo Admin</span></a>
+                                    <i class="px-nav-icon fa fa-adn"></i><span class="px-nav-label">Demo Admin</span>
+                                </a>
                             }
                         </li>
                         <li class="px-nav-item">
@@ -97,7 +98,8 @@
                                 @Html.Hidden("Role", "Project Manager")
                                 @Html.AntiForgeryToken()
                                 <a href="javascript:document.getElementById('demoProjectManagerForm').submit()">
-                                <i class="px-nav-icon fa fa-black-tie"></i><span class="px-nav-label">Demo Project Manager</span></a>
+                                    <i class="px-nav-icon fa fa-black-tie"></i><span class="px-nav-label">Demo Project Manager</span>
+                                </a>
                             }
                         </li>
                         <li class="px-nav-item">
@@ -106,7 +108,8 @@
                                 @Html.Hidden("Role", "Developer")
                                 @Html.AntiForgeryToken()
                                 <a href="javascript:document.getElementById('demoDeveloperForm').submit()">
-                                <i class="px-nav-icon fa fa-code"></i><span class="px-nav-label">Demo Developer</span></a>
+                                    <i class="px-nav-icon fa fa-code"></i><span class="px-nav-label">Demo Developer</span>
+                                </a>
                             }
                         </li>
                         <li class="px-nav-item">
@@ -115,7 +118,8 @@
                                 @Html.Hidden("Role", "Submitter")
                                 @Html.AntiForgeryToken()
                                 <a href="javascript:document.getElementById('demoSubmitterForm').submit()">
-                                <i class="px-nav-icon fa fa-id-badge"></i><span class="px-nav-label">Demo Submitter</span></a>
+                                    <i class="px-nav-icon fa fa-id-badge"></i><span class="px-nav-label">Demo Submitter</span>
+                                </a>
                             }
                         </li>
                     </ul>
@@ -387,6 +391,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
     <script src="~/assets/js/pixeladmin.js"></script>
+
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8v9ns6XWE6njm1g3m8SExU6yN2-qi3xo&callback=initMap&sensor=false" async defer></script>
 
     <!-- MY SCRIPTS -->
     <script src="~/Scripts/sweetalert.min.js"></script>

@@ -15,6 +15,7 @@ using System.IO;
 
 namespace Meghan_BugTracker.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class AccountController : Controller
     {

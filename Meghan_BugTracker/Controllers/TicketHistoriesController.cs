@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Meghan_BugTracker.Controllers
 {
+    [RequireHttps]
     public class TicketHistoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

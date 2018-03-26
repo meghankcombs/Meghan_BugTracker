@@ -11,6 +11,7 @@ using System.Data.Entity;
 
 namespace Meghan_BugTracker.Controllers
 {
+    [RequireHttps]
     [Authorize]
     public class ManageController : Controller
     {

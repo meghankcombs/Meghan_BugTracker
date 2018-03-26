@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace Meghan_BugTracker.Controllers
 {
+    [RequireHttps]
     public class TicketAttachmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

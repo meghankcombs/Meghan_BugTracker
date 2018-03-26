@@ -54,15 +54,15 @@ namespace Meghan_BugTracker
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "184982895454384",
+               appSecret: "f79214e951844d257b760683e78b92f6");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "91335649202-ge6r537u8ic56dfs52951mi6okct3sko.apps.googleusercontent.com",
+                ClientSecret = "euz9vRu9WD-Hi95cqTAJE3FB"
+            });
         }
     }
 }

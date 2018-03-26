@@ -10,6 +10,7 @@ using Meghan_BugTracker.Models;
 
 namespace Meghan_BugTracker.Controllers
 {
+    [RequireHttps]
     public class TicketStatusController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

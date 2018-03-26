@@ -17,6 +17,7 @@ using System.Web.Mvc;
 
 namespace Meghan_BugTracker.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

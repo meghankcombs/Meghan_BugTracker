@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 
 namespace Meghan_BugTracker.Controllers
 {
+    [RequireHttps]
     [Authorize(Roles = "Developer")]
     public class TicketNotificationsController : Controller
     {
