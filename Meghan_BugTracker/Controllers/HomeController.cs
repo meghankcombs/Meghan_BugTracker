@@ -43,7 +43,7 @@ namespace Meghan_BugTracker.Controllers
                     dashboardData.RecentComments = db.TicketComments.OrderByDescending(c => c.Created).Take(5).ToList();
                     dashboardData.RecentHistories = db.TicketHistories.OrderByDescending(h => h.ChangedDate).Take(5).ToList();
                     break;
-                case "ProjectManager":
+                case "Project Manager":
                     dashboardData.RecentProjects = projectHelper.ListUserProjects(userId).Take(5).ToList();
                     dashboardData.RecentTickets = ticketHelper.GetMyProjectTickets(userId).Take(5).ToList();
                     dashboardData.AllUsers = db.Users.ToList();

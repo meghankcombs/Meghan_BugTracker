@@ -1,105 +1,217 @@
 ﻿@model Meghan_BugTracker.Models.IndexViewModel
-@using Microsoft.AspNet.Identity;
+@using Meghan_BugTracker.Helpers;
 
-<div class="page-header m-b-0 p-b-0 b-b-0">
-    <h1>Account Settings</h1>
-    <ul class="nav nav-tabs page-block m-t-4" id="account-tabs">
-        <li class="active">
-            <a href="#account-profile" data-toggle="tab">
-                Change Profile
-            </a>
-        </li>
-        <li>
-            <a href="#account-password" data-toggle="tab">
-                Change Password
-            </a>
-        </li>
-    </ul>
-</div>
-<div class="tab-content p-y-4">
-    <!-- Profile tab -->
-    <div class="tab-pane fade in active" id="account-profile">
-        <div class="row">
-            <div class="col-md-8 col-lg-9">
-                <div class="p-x-1">
-                    @using (Html.BeginForm("ChangeName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <fieldset class="form-group form-group-lg">
-                            <label for="account-name">First Name</label>
-                            <input type="text" name="FirstName" class="form-control">
-                        </fieldset>
-                        <fieldset class="form-group form-group-lg">
-                            <label for="account-username">Last Name</label>
-                            <input type="text" name="LastName" class="form-control">
-                        </fieldset>
-                        <fieldset class="form-group form-group-lg">
-                            <label for="account-username">Display Name</label>
-                            <input type="text" name="DisplayName" class="form-control">
-                        </fieldset>
-                        <button type="submit" class="btn btn-lg btn-primary m-t-3">Update Names</button>
-                    }
+<!-- Custom styling -->
+<style>
+    .page-profile-v1-avatar {
+        max-width: 500px;
+        overflow: hidden;
+        margin-top: 35px;
+    }
+</style>
+<!-- / Custom styling -->
+
+<div class="px-content">
+    <div class="row m-t-1">
+        <div class="col-md-6">
+            <div class="text-xs-center"><img src="@Url.Content(UserHelper.UserPhotoRender())" alt="" class="page-profile-v1-avatar"></div>
+            <div class="m-y-3 text-xs-center">
+                <a class="btn btn-success"><i class="fa fa-coffee"></i>&nbsp;&nbsp;@UserHelper.ShowRole()</a>&nbsp;&nbsp;
+                <a href="@Url.Action("Contact", "Home")" class="btn"><i class="fa fa-envelope"></i></a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1 class="font-size-20 m-y-4">@UserHelper.UserFirstName() @UserHelper.UserLastName()<span class="font-weight-normal">'s profile</span></h1>
+            <div class="panel panel-transparent">
+                <div class="panel-heading p-x-1">
+                    <span class="panel-title">About me</span>
                 </div>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="panel-body p-a-1">
+                        Admin with access to all tickets and projects.
+                    </div>
+                }
+                @if (User.IsInRole("Project Manager"))
+                {
+                    <div class="panel-body p-a-1">
+                        Project Manager with access to all tickets on my projects.
+                    </div>
+                }
+                @if (User.IsInRole("Developer"))
+                {
+                    <div class="panel-body p-a-1">
+                        Developer with access to all my tickets and projects.
+                    </div>
+                }
+                @if (User.IsInRole("Submitter"))
+                {
+                    <div class="panel-body p-a-1">
+                        Submiter with access to all tickets I created.
+                    </div>
+                }
+
             </div>
 
-            <!-- Spacer -->
-            <div class="m-t-4 visible-xs visible-sm"></div>
-
-            <!-- Avatar -->
-            <div class="col-md-4 col-lg-3">
-                <div class="panel bg-transparent">
-                    <div class="panel-body text-xs-center">
-                        <img src="" alt="" class="" style="max-width: 100%;">
+            <div class="panel panel-transparent">
+                <div class="panel-heading p-x-1">
+                    <span class="panel-title">Skills</span>
+                </div>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="panel-body p-a-1">
+                        <span class="label label-primary">Architect</span>
+                        <span class="label label-primary">Web design</span>
+                        <span class="label label-primary">Leadership</span>
+                        <span class="label label-primary">ASP.NET</span>
+                        <span class="label label-primary">SQL</span>
                     </div>
-                    <hr class="m-y-0">
-                    <div class="panel-body text-xs-center">
-                        @using (Html.BeginForm("ChangePhoto", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                }
+                @if (User.IsInRole("Project Manager"))
+                {
+                    <div class="panel-body p-a-1">
+                        <span class="label label-primary">Leadership</span>
+                        <span class="label label-primary">Digital Strategy</span>
+                        <span class="label label-primary">Organization</span>
+                        <span class="label label-primary">ASP.NET</span>
+                        <span class="label label-primary">SQL</span>
+                    </div>
+                }
+                @if (User.IsInRole("Developer"))
+                {
+                    <div class="panel-body p-a-1">
+                        <span class="label label-primary">UI/UX</span>
+                        <span class="label label-primary">Web design</span>
+                        <span class="label label-primary">HTML & CSS</span>
+                        <span class="label label-primary">C#</span>
+                        <span class="label label-primary">SQL</span>
+                    </div>
+                }
+                @if (User.IsInRole("Submitter"))
+                {
+                    <div class="panel-body p-a-1">
+                        <span class="label label-primary">Detail Oriented</span>
+                        <span class="label label-primary">Digital Strategy</span>
+                        <span class="label label-primary">Photoshop</span>
+                        <span class="label label-primary">Customer Service</span>
+                        <span class="label label-primary">Organization</span>
+                    </div>
+                }
+
+            </div>
+            <div class="panel panel-transparent">
+                <div class="panel-heading p-x-1">
+                    <span class="panel-title">Contact</span>
+                </div>
+                <div class="list-group m-t-1">
+                    <a href="#" class="list-group-item p-x-1 b-a-0"><i class="fa fa-user" style="color: #4ab6d5"></i>&nbsp;&nbsp;&nbsp;@UserHelper.UserDisplayName()</a>
+                    <a class="list-group-item p-x-1 b-a-0"><i class="fa fa-id-card-o" style="color: #1a7ab9"></i>&nbsp;&nbsp;&nbsp;@UserHelper.UserFirstName() @UserHelper.UserLastName()</a>
+                    <a href="@Url.Action("Contact", "Home")" class="list-group-item p-x-1 b-a-0"><i class="fa fa-envelope" style="color: #888"></i>&nbsp;&nbsp;&nbsp;@UserHelper.UserEmail()</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@*<div class="page-header m-b-0 p-b-0 b-b-0">
+        <h1>Account Settings</h1>
+        <ul class="nav nav-tabs page-block m-t-4" id="account-tabs">
+            <li class="active">
+                <a href="#account-profile" data-toggle="tab">
+                    Change Profile
+                </a>
+            </li>
+            <li>
+                <a href="#account-password" data-toggle="tab">
+                    Change Password
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="tab-content p-y-4">
+        <!-- Profile tab -->
+        <div class="tab-pane fade in active" id="account-profile">
+            <div class="row">
+                <div class="col-md-8 col-lg-9">
+                    <div class="p-x-1">
+                        @using (Html.BeginForm("ChangeName", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
                             @Html.AntiForgeryToken()
-                            <label type="button" class="btn btn-primary">
-                                Upload Photo
-                                <input type="file" name="UserPhoto" id="MKCfile" class="form-control" style="display: none;">
-                            </label>
-                            <button type="submit" class="btn btn-default">Submit</button>
-                            <div id="file-selected" class="m-t-2 text-muted font-size-12"></div>
+                            <fieldset class="form-group form-group-lg">
+                                <label for="account-name">First Name</label>
+                                @*<input type="text" name="FirstName" class="form-control">*@
+@*</fieldset>
+    <fieldset class="form-group form-group-lg">
+        <label for="account-username">Last Name</label>*@
+@*<input type="text" name="LastName" class="form-control">*@
+@*</fieldset>
+    <fieldset class="form-group form-group-lg">
+        <label for="account-username">Display Name</label>*@
+@*<input type="text" name="DisplayName" class="form-control">*@
+@*</fieldset>
+                            <button type="submit" class="btn btn-lg btn-primary m-t-3">Update Names</button>
                         }
                     </div>
                 </div>
+
+                <!-- Spacer -->
+                <div class="m-t-4 visible-xs visible-sm"></div>
+
+                <!-- Avatar -->
+                <div class="col-md-4 col-lg-3">
+                    <div class="panel bg-transparent">
+                        <div class="panel-body text-xs-center">
+                            <img src="@Url.Content(UserHelper.UserPhotoRender())" alt="" class="" style="max-width: 100%;">
+                        </div>
+                        <hr class="m-y-0">
+                        <div class="panel-body text-xs-center">
+                            @using (Html.BeginForm("ChangePhoto", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <label type="button" class="btn btn-primary">
+                                    Upload Photo
+                                    <input type="file" name="UserPhoto" id="MKCfile" class="form-control" style="display: none;">
+                                </label>
+                                <button type="submit" class="btn btn-default">Submit</button>
+                                <div id="file-selected" class="m-t-2 text-muted font-size-12"></div>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <!-- / Profile tab -->
-    <!-- Password tab -->
-    <div class="tab-pane fade" id="account-password">
-        <div class="p-x-1">
-            @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                <fieldset class="form-group form-group-lg">
-                    <label for="account-password">Old password</label>
-                    <input type="password" name="OldPassword" class="form-control">
-                </fieldset>
-                <fieldset class="form-group form-group-lg">
-                    <label for="account-new-password">New password</label>
-                    <input type="password" name="NewPassword" class="form-control">
-                    <small class="text-muted">Minimum 6 characters</small>
-                </fieldset>
-                <fieldset class="form-group form-group-lg">
-                    <label for="account-new-password-repeat">Verify password</label>
-                    <input type="password" name="ConfirmPassword" class="form-control">
-                </fieldset>
-                <button type="submit" class="btn btn-lg btn-primary m-t-3">Change password</button>
-            }
+        <!-- / Profile tab -->
+        <!-- Password tab -->
+        <div class="tab-pane fade" id="account-password">
+            <div class="p-x-1">
+                @using (Html.BeginForm("ChangePassword", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    <fieldset class="form-group form-group-lg">
+                        <label for="account-password">Old password</label>
+                        <input type="password" name="OldPassword" class="form-control">
+                    </fieldset>
+                    <fieldset class="form-group form-group-lg">
+                        <label for="account-new-password">New password</label>
+                        <input type="password" name="NewPassword" class="form-control">
+                        <small class="text-muted">Minimum 6 characters</small>
+                    </fieldset>
+                    <fieldset class="form-group form-group-lg">
+                        <label for="account-new-password-repeat">Verify password</label>
+                        <input type="password" name="ConfirmPassword" class="form-control">
+                    </fieldset>
+                    <button type="submit" class="btn btn-lg btn-primary m-t-3">Change password</button>
+                }
+            </div>
         </div>
+        <!-- / Password tab -->
     </div>
-    <!-- / Password tab -->
-</div>
 
-@section scripts {
-    <script type="text/javascript">
-        $('#MKCfile').bind('change', function () {
-            var path = $(this).val(); //gets value of file
-            var fileName = path.replace(/^.*\\/, ''); //removes "fakepath" in Chrome
-            $('#file-selected').html(fileName);
-        })
-    </script>
-}
+    @section scripts {
+        <script type="text/javascript">
+            $('#MKCfile').bind('change', function () {
+                var path = $(this).val(); //gets value of file
+                var fileName = path.replace(/^.*\\/, ''); //removes "fakepath" in Chrome
+                $('#file-selected').html(fileName);
+            })
+        </script>
+    }*@

@@ -228,38 +228,51 @@ namespace Meghan_BugTracker.Controllers
         //POST: /Manage/ChangeName
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangeName([Bind(Include = "Id,FirstName,LastName,DisplayName")] ApplicationUser user)
+        public ActionResult ChangeName(string firstName, string lastName, string displayName)//[Bind(Include = "Id,FirstName,LastName,DisplayName")] ApplicationUser user)
         {
+            string userId = User.Identity.GetUserId();
+
             if(ModelState.IsValid)
             {
-                var _user = db.Users.Find(user.Id);
+                var _user = db.Users.Find(userId);
                 db.Users.Attach(_user);
-                _user.FirstName = user.FirstName;
-                _user.LastName = user.LastName;
-                _user.DisplayName = user.DisplayName;
-                
+                _user.FirstName = firstName;
+                _user.LastName = lastName;
+                _user.DisplayName = displayName;
+
                 //db.Entry(user).Property(u => u.FirstName).IsModified = true;
                 //db.Entry(user).Property(u => u.LastName).IsModified = true;
                 //db.Entry(user).Property(u => u.DisplayName).IsModified = true;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Manage");
             }
-            return View(user);
+            return View();
+        }
+
+        // GET: /Manage/ChangePhoto
+        [Authorize]
+        public ActionResult ChangePhoto()
+        {
+            var userId = User.Identity.GetUserId();
+            var userNameData = db.Users.Find(userId);
+            return View(userNameData);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChangePhoto([Bind(Include = "UserPhoto")] ApplicationUser user)
+        public ActionResult ChangePhoto(string userPhoto)//([Bind(Include = "Id,UserPhoto")] ApplicationUser user)
         {
+            string userId = User.Identity.GetUserId();
+
             if (ModelState.IsValid)
             {
-                var _user = db.Users.Find(user.Id);
+                var _user = db.Users.Find(userId);
                 db.Users.Attach(_user);
-                _user.UserPhoto = user.UserPhoto;
+                _user.UserPhoto = userPhoto;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Manage");
             }
-            return View(user);
+            return View();
         }
 
         //

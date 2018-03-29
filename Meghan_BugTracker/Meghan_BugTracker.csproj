@@ -206,7 +206,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelperModels\EmailModel.cs" />
-    <Compile Include="Helpers\NameHelper.cs" />
+    <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
     <Compile Include="Helpers\TicketsHelper.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
@@ -534,6 +534,7 @@
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
     <Content Include="Views\Manage\ChangeName.cshtml" />
     <Content Include="Views\Admin\TicketAssign.cshtml" />
+    <Content Include="Views\Manage\ChangePhoto.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

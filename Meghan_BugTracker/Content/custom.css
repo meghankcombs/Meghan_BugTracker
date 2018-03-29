@@ -24,8 +24,12 @@
     width: 100%;
 }
 
-/* MY CSS */
+.page-profile-v1-avatar {
+    max-width: 160px;
+    border: 4px solid #fff;
+}
 
+/* MY CSS */
 .myBrand {
     font-family: 'Satisfy';
     font-size: 25px;
