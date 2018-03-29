@@ -4,8 +4,9 @@
 
 <div class="px-content">
     <div class="page-header">
-        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Tables / </span>DataTables</h1>
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-users"></i>Users</span></h1>
     </div>
+
     <div class="panel">
         <div class="panel-heading">
             <div class="panel-title">Users</div>
@@ -61,20 +62,20 @@
                                     <div class="btn-group" style="margin-top: 4px;">
                                         @if (User.IsInRole("Admin") && adminRole == false)
                                         {
-                                            <a href="@Url.Action("RoleAssign", "Admin", new { id = user.Id })" class="btn btn-xs btn-primary btn-outline" data-toggle="tooltip" title="Assign Role"><i class="fa fa-user"></i></a>
-                                            <a href="@Url.Action("RemoveRole", "Admin", new { userId = user.Id })" class="btn btn-xs btn-primary btn-outline" data-toggle="tooltip" title="Remove Role"><i class="fa fa-remove"></i></a>
+                                            <a href="@Url.Action("RoleAssign", "Admin", new { id = user.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Assign Role"><i class="fa fa-user"></i></a>
+                                            <a href="@Url.Action("RemoveRole", "Admin", new { userId = user.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Remove Role"><i class="fa fa-remove"></i></a>
                                         }
 
                                         @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
                                         {
-                                            <a href="@Url.Action("ProjectAssign", "Admin", new { id = user.Id })" class="btn btn-xs btn-primary btn-outline" data-toggle="tooltip" title="Assign Project"><i class="fa fa-book"></i></a>
+                                            <a href="@Url.Action("ProjectAssign", "Admin", new { id = user.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Assign Project"><i class="fa fa-book"></i></a>
                                         }
 
                                         @if (User.IsInRole("Project Manager") || User.IsInRole("Admin"))
                                         {
                                             if (roleHelper.ListUserRoles(user.Id).FirstOrDefault() == "Developer")
                                             {
-                                                <a href="@Url.Action("TicketAssign", "Admin", new { id = user.Id })" class="btn btn-xs btn-primary btn-outline" data-toggle="tooltip" title="Assign Ticket"><i class="fa fa-ticket"></i></a>
+                                                <a href="@Url.Action("TicketAssign", "Admin", new { id = user.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Assign Ticket"><i class="fa fa-ticket"></i></a>
                                             }
                                         }
                                     </div>

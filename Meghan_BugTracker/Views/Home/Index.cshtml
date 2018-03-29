@@ -1,5 +1,6 @@
 ﻿@model Meghan_BugTracker.ViewModels.DashboardVM
 @using Microsoft.AspNet.Identity
+@using Meghan_BugTracker.Helpers
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -29,7 +30,7 @@
     <div class="row">
         <div class="col-md-6">
             <!-- Tickets -->
-            <div class="panel panel-success">
+            <div class="panel panel-success panel-dark">
                 <div class="panel-heading">
                     <span class="panel-title"><i class="panel-title-icon fa fa-bullhorn"></i>Tickets</span>
                     <div class="panel-heading-controls">
@@ -72,7 +73,7 @@
         </div>
         <div class="col-md-6">
             <!-- Recent projects -->
-            <div class="panel panel-warning">
+            <div class="panel panel-warning panel-dark">
                 <div class="panel-heading">
                     <span class="panel-title"><i class="panel-title-icon fa fa-book"></i>Projects</span>
                     <div class="panel-heading-controls">
@@ -101,77 +102,41 @@
     <hr class="page-block m-t-0">
 
     <div class="row">
-        <div class="col-md-7">
+        <div class="col-md-12">
             <!-- Users -->
             <div class="panel panel-danger panel-dark">
                 <div class="panel-heading">
                     <span class="panel-title"><i class="panel-title-icon fa fa-smile-o"></i>Users</span>
                 </div>
-                <div class="table-danger">
-                    <table class="table" id="userTable">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Display Name</th>
-                                <th>Full Name</th>
-                                <th>Email</th>
-                            </tr>
-                        </thead>
-                        <tbody class="valign-middle">
-                            @foreach (var user in Model.AllUsers)
-                            {
+                <div class="panel-body">
+                    <div class="panel-default">
+                        <table class="table" id="userTable">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <img src="@Url.Action("LoggedInUserPhoto", "Home", new { userId = User.Identity.GetUserId() })" style="width:26px;height:26px;" class="border-round">
-                                    </td>
-                                    <td>@user.DisplayName</td>
-                                    <td>@user.FirstName @user.LastName</td>
-                                    <td>@user.Email</td>
+                                    <th></th>
+                                    <th>Display Name</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="valign-middle">
+                                @foreach (var user in Model.AllUsers)
+                    {
+                        <tr>
+                            <td>
+                                <img src="~/MyImages/user_default.png" style="width:26px;height:26px;" class="border-round">
+                            </td>
+                            <td>@user.DisplayName</td>
+                            <td>@user.FirstName @user.LastName</td>
+                            <td>@user.Email</td>
+                        </tr>
+        }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <!-- / Users -->
-        </div>
-        <div class="col-md-5">
-            <!-- Recent attachments -->
-            <div class="panel panel-primary panel-dark">
-                <div class="panel-heading">
-                    <span class="panel-title"><i class="panel-title-icon fa fa-tasks"></i>Recent Attachments</span>
-                </div>
-
-                @foreach (var attachment in Model.RecentAttachments)
-                {
-                    <div class="widget-tasks-item">
-                        @if (attachment.FileUrl.Contains(".pdf"))
-                        {
-                            <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-pdf-o text-danger pull-right"></i></a>
-                        }
-                        @if (attachment.FileUrl.Contains(".doc") || attachment.FileUrl.Contains(".docx"))
-                        {
-                            <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-word-o text-info pull-right"></i></a>
-                        }
-                        @if (attachment.FileUrl.Contains(".xls") || attachment.FileUrl.Contains(".xlsx"))
-                        {
-                            <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-excel-o text-success pull-right"></i></a>
-                        }
-                        @if (attachment.FileUrl.Contains(".txt"))
-                        {
-                            <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-text-o text-warning pull-right"></i></a>
-                        }
-                        @if (attachment.FileUrl.Contains(".jpg") || attachment.FileUrl.Contains(".jpeg") || attachment.FileUrl.Contains(".gif") || attachment.FileUrl.Contains(".png") || attachment.FileUrl.Contains(".bmp"))
-                        {
-                            <a href="@Url.Content(attachment.FileUrl)" target="_blank"><i class="fa fa-file-image-o text-primary pull-right"></i></a>
-                        }
-                        <label class="custom-control custom-checkbox">
-                            <span class="widget-tasks-title">@attachment.Description added by: @attachment.User.FirstName</span>
-                        </label>
-                    </div>
-                }
-            </div>
-            <!-- /Recent attachments -->
         </div>
     </div>
 
@@ -180,7 +145,7 @@
     <div class="row">
         <div class="col-md-6">
             <!-- Recent comments -->
-            <div class="panel panel-warning">
+            <div class="panel panel-primary panel-dark">
                 <div class="panel-heading">
                     <span class="panel-title"><i class="panel-title-icon fa fa-comment-o text-danger"></i>Comments</span>
                 </div>
@@ -213,7 +178,7 @@
         </div>
         <div class="col-md-6">
             <!-- Recent histories -->
-            <div class="panel panel-success">
+            <div class="panel panel-info panel-dark">
                 <div class="panel-heading">
                     <span class="panel-title"><i class="panel-title-icon fa fa-history"></i>Ticket Histories</span>
                     <div class="panel-heading-controls">

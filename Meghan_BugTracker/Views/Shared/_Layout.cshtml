@@ -72,13 +72,13 @@
                 <div class="btn-group" style="margin-top: 4px;">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <a href="@Url.Action("Index", "Manage")" class="btn btn-xs btn-primary btn-outline myBtnMargin"><i class="fa fa-user"></i></a>
+                        <a href="@Url.Action("Index", "Manage")" class="btn btn-xs btn-primary btn-outline myBtnMargin" data-toggle="tooltip" title="Profile"><i class="fa fa-user"></i></a>
                     }
 
                     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                     {
                         @Html.AntiForgeryToken()
-                        <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-xs btn-danger btn-outline myBtnMargin"><i class="fa fa-power-off"></i></a>
+                        <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-xs btn-danger btn-outline myBtnMargin" data-toggle="tooltip" title="Logout"><i class="fa fa-power-off"></i></a>
                     }
                 </div>
             </li>
@@ -405,6 +405,12 @@
     <script src="~/Scripts/sweetalert.min.js"></script>
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/custom.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 
     @RenderSection("scripts", required: false)
 </body>
