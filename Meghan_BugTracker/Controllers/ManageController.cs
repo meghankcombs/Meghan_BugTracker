@@ -247,9 +247,24 @@ namespace Meghan_BugTracker.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ChangePhoto([Bind(Include = "UserPhoto")] ApplicationUser user)
+        {
+            if (ModelState.IsValid)
+            {
+                var _user = db.Users.Find(user.Id);
+                db.Users.Attach(_user);
+                _user.UserPhoto = user.UserPhoto;
+                db.SaveChanges();
+                return RedirectToAction("Index", "Manage");
+            }
+            return View(user);
+        }
+
         //
         // GET: /Manage/ChangePassword
-        
+
         public ActionResult ChangePassword()
         {
             return View();

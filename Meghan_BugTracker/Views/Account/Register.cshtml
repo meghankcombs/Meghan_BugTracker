@@ -12,6 +12,12 @@
             {
                 <div class="p-x-1">
                     <fieldset class="form-group form-group-lg">
+                        <label for="MKCfile" class="btn btn-warning btn-sm">
+                            Upload Photo
+                            <input id="MKCfile" type="file" name="UserPhoto" style="display: none;">
+                        </label>
+                    </fieldset>
+                    <fieldset class="form-group form-group-lg">
                         <label for="account-firstname">First Name</label>
                         <input type="text" name="FirstName" class="form-control">
                     </fieldset>
@@ -40,5 +46,15 @@
     </div>
     <!-- / Register tab -->
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        $('#MKCfile').bind('change', function () {
+            var path = $(this).val(); //gets value of file
+            var fileName = path.replace(/^.*\\/, ''); //removes "fakepath" in Chrome
+            $('#file-selected').html(fileName);
+        })
+    </script>
+}
 
 

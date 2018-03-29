@@ -226,6 +226,7 @@
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\CommentVM.cs" />
     <Compile Include="ViewModels\DashboardVM.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -396,8 +397,22 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="MyImages\Admin.jpg" />
+    <Content Include="MyImages\Admin1.jpg" />
     <Content Include="MyImages\cat--5-512-85909.png" />
+    <Content Include="MyImages\Developer.jpg" />
+    <Content Include="MyImages\Developer1.jpg" />
+    <Content Include="MyImages\Developer2.jpg" />
+    <Content Include="MyImages\Developer3.jpg" />
+    <Content Include="MyImages\Developer4.jpg" />
     <Content Include="MyImages\map_pin.png" />
+    <Content Include="MyImages\ProjectManager1.jpg" />
+    <Content Include="MyImages\ProjectManager2.jpg" />
+    <Content Include="MyImages\Project_Manager.jpg" />
+    <Content Include="MyImages\Submitter.jpg" />
+    <Content Include="MyImages\Submitter1.jpg" />
+    <Content Include="MyImages\Submitter2.jpg" />
+    <Content Include="MyImages\Submitter3.jpg" />
     <Content Include="MyImages\Test IMG Attachment.jpg" />
     <Content Include="MyImages\Test Txt attachment.txt" />
     <Content Include="MyImages\user_default.png" />
@@ -413,8 +428,7 @@
     <Content Include="MyImages\BugTracker Deliverables %28Week 2%29.pdf" />
     <Content Include="MyImages\Project Deliverables - Week 6 - BugTracker.pdf" />
     <Content Include="MyImages\Test Doc attachment.docx" />
-    <None Include="Properties\PublishProfiles\mcombs-bugtracker - FTP.pubxml" />
-    <None Include="Properties\PublishProfiles\mcombs-bugtracker - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\meghan-mvcbugtracker - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\meghan-mvcbugtracker - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />

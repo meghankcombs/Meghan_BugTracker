@@ -140,39 +140,42 @@ namespace Meghan_BugTracker.Helpers
             {
                 //Get copy of Ticket
                 var ticket = db.Tickets.AsNoTracking().Include("Project").FirstOrDefault(t => t.Id == ticketId);
-
-                //Create new Notification
-                var userId = HttpContext.Current.User.Identity.GetUserId();
-                var ticketNotification = new TicketNotification();
-                ticketNotification.SenderId = userId;
-                ticketNotification.Created = DateTime.Now;
-                ticketNotification.TicketId = ticketId;
-                ticketNotification.RecipientId = newAssignedToId;
-
-                //Assemble notification body
-                var msgBody = new StringBuilder();
-                msgBody.AppendFormat("Hello {0}", db.Users.FirstOrDefault(u => u.Id == newAssignedToId).FirstName);
-                msgBody.AppendLine("");
-                msgBody.AppendLine("You have been assigned to ticket: " + ticket.Title + ", for project: " + ticket.Project.Name);
-
-                //Set Body
-                ticketNotification.Body = msgBody.ToString();
-
-                db.TicketNotifications.Add(ticketNotification);
-                db.SaveChanges();
-
-                //Send email
-                var from = "Kink Fix<meghankcombs@gmail.com>";
-                var to = db.Users.Find(newAssignedToId).Email;
-                var email = new MailMessage(from, to)
+                var user = db.Users.FirstOrDefault(u => u.Id == newAssignedToId);
+                if(user != null)
                 {
-                    Subject = "Kink Fix: You have a new notification",
-                    Body = "You have been assigned to a ticket. Please sign into your Kink Fix account to view details.",
-                    IsBodyHtml = true
-                };
+                    //Create new Notification
+                    var userId = HttpContext.Current.User.Identity.GetUserId();
+                    var ticketNotification = new TicketNotification();
+                    ticketNotification.SenderId = userId;
+                    ticketNotification.Created = DateTime.Now;
+                    ticketNotification.TicketId = ticketId;
+                    ticketNotification.RecipientId = newAssignedToId;
 
-                var svc = new PersonalEmail();
-                await svc.SendAsync(email);
+                    //Assemble notification body
+                    var msgBody = new StringBuilder();
+                    msgBody.AppendFormat("Hello {0}", user.FirstName);
+                    msgBody.AppendLine("");
+                    msgBody.AppendLine("You have been assigned to ticket: " + ticket.Title + ", for project: " + ticket.Project.Name);
+
+                    //Set Body
+                    ticketNotification.Body = msgBody.ToString();
+
+                    db.TicketNotifications.Add(ticketNotification);
+                    db.SaveChanges();
+
+                    //Send email
+                    var from = "Kink Fix<meghankcombs@gmail.com>";
+                    var to = db.Users.Find(newAssignedToId).Email;
+                    var email = new MailMessage(from, to)
+                    {
+                        Subject = "Kink Fix: You have a new notification",
+                        Body = "You have been assigned to a ticket. Please sign into your Kink Fix account to view details.",
+                        IsBodyHtml = true
+                    };
+
+                    var svc = new PersonalEmail();
+                    await svc.SendAsync(email);
+                }
             }
 
             //if user unassigned
@@ -180,20 +183,66 @@ namespace Meghan_BugTracker.Helpers
             {
                 //Get copy of Ticket
                 var ticket = db.Tickets.AsNoTracking().Include("Project").FirstOrDefault(t => t.Id == ticketId);
+                var user = db.Users.FirstOrDefault(u => u.Id == newAssignedToId);
+                if (user != null)
+                {
+                    //Create new Notification
+                    var userId = HttpContext.Current.User.Identity.GetUserId();
+                    var ticketNotification = new TicketNotification();
+                    ticketNotification.SenderId = userId;
+                    ticketNotification.Created = DateTime.Now;
+                    ticketNotification.TicketId = ticketId;
+                    ticketNotification.RecipientId = oldAssignedToId;
 
-                //Create new Notification
-                var userId = HttpContext.Current.User.Identity.GetUserId();
+                    //Assemble notification body
+                    var msgBody = new StringBuilder();
+                    msgBody.AppendFormat("Hello {0}", user.FirstName);
+                    msgBody.AppendLine("");
+                    msgBody.AppendLine("You have been unassigned from ticket: " + ticket.Title + ", for project: " + ticket.Project.Name);
+
+                    //Set Body
+                    ticketNotification.Body = msgBody.ToString();
+
+                    db.TicketNotifications.Add(ticketNotification);
+                    db.SaveChanges();
+
+                    //Send email
+                    var from = "Kink Fix<meghankcombs@gmail.com>";
+                    var to = db.Users.Find(newAssignedToId).Email;
+                    var email = new MailMessage(from, to)
+                    {
+                        Subject = "Kink Fix: You have a new notification",
+                        Body = "You have been unassigned from a ticket. Please sign into your Kink Fix account to view details.",
+                        IsBodyHtml = true
+                    };
+
+                    var svc = new PersonalEmail();
+                    await svc.SendAsync(email);
+                }
+            }
+
+        }
+
+        //Overloaded method to send email to user when attachment added to ticket
+        public async Task AddTicketNotification(TicketAttachment attachment)
+        {
+            var myTicket = db.Tickets.AsNoTracking().Include("Project").FirstOrDefault(t => t.Id == attachment.TicketId);
+            var user = db.Users.FirstOrDefault(u => u.Id == myTicket.AssignedToUserId);
+            if (user != null)
+            {
+                //Create new notification
                 var ticketNotification = new TicketNotification();
-                ticketNotification.SenderId = userId;
+                ticketNotification.SenderId = attachment.UserId;
                 ticketNotification.Created = DateTime.Now;
-                ticketNotification.TicketId = ticketId;
-                ticketNotification.RecipientId = oldAssignedToId;
+                ticketNotification.TicketId = attachment.TicketId;
+
+                ticketNotification.RecipientId = myTicket.AssignedToUserId;
 
                 //Assemble notification body
                 var msgBody = new StringBuilder();
-                msgBody.AppendFormat("Hello {0}", db.Users.FirstOrDefault(u => u.Id == newAssignedToId).FirstName);
+                msgBody.AppendFormat("Hello {0}", user.FirstName);
                 msgBody.AppendLine("");
-                msgBody.AppendLine("You have been unassigned from ticket: " + ticket.Title + ", for project: " + ticket.Project.Name);
+                msgBody.AppendLine("An attachment has been added to ticket: " + myTicket.Title + ", for project: " + myTicket.Project.Name);
 
                 //Set Body
                 ticketNotification.Body = msgBody.ToString();
@@ -203,94 +252,60 @@ namespace Meghan_BugTracker.Helpers
 
                 //Send email
                 var from = "Kink Fix<meghankcombs@gmail.com>";
-                var to = db.Users.Find(newAssignedToId).Email;
+                var to = db.Users.Find(myTicket.AssignedToUserId).Email;
                 var email = new MailMessage(from, to)
                 {
                     Subject = "Kink Fix: You have a new notification",
-                    Body = "You have been unassigned from a ticket. Please sign into your Kink Fix account to view details.",
+                    Body = "An attachment has been added to one of your assigned tickets. Please sign into your Kink Fix account to view details.",
                     IsBodyHtml = true
                 };
 
                 var svc = new PersonalEmail();
                 await svc.SendAsync(email);
             }
-
-        }
-
-        //Overloaded method to send email to user when attachment added to ticket
-        public async Task AddTicketNotification(TicketAttachment attachment)
-        {
-            //Create new notification
-            var ticketNotification = new TicketNotification();
-            ticketNotification.SenderId = attachment.UserId;
-            ticketNotification.Created = DateTime.Now;
-            ticketNotification.TicketId = attachment.TicketId;
-
-            var myTicket = db.Tickets.AsNoTracking().Include("Project").FirstOrDefault(t => t.Id == attachment.TicketId);
-            ticketNotification.RecipientId = myTicket.AssignedToUserId;
-
-            //Assemble notification body
-            var msgBody = new StringBuilder();
-            msgBody.AppendFormat("Hello {0}", db.Users.FirstOrDefault(u => u.Id == myTicket.AssignedToUserId).FirstName);
-            msgBody.AppendLine("");
-            msgBody.AppendLine("An attachment has been added to ticket: " + myTicket.Title + ", for project: " + myTicket.Project.Name);
-
-            //Set Body
-            ticketNotification.Body = msgBody.ToString();
-
-            db.TicketNotifications.Add(ticketNotification);
-            db.SaveChanges();
-
-            //Send email
-            var from = "Kink Fix<meghankcombs@gmail.com>";
-            var to = db.Users.Find(myTicket.AssignedToUserId).Email;
-            var email = new MailMessage(from, to)
-            {
-                Subject = "Kink Fix: You have a new notification",
-                Body = "An attachment has been added to one of your assigned tickets. Please sign into your Kink Fix account to view details.",
-                IsBodyHtml = true
-            };
-
-            var svc = new PersonalEmail();
-            await svc.SendAsync(email);
         }
 
         //Overloaded method to send email to user when comment added to ticket
         public async Task AddTicketNotification(TicketComment comment)
         {
-            //Create new notification
-            var ticketNotification = new TicketNotification();
-            ticketNotification.SenderId = comment.UserId;
-            ticketNotification.Created = DateTime.Now;
-            ticketNotification.TicketId = comment.TicketId;
-
             var myComment = db.Tickets.AsNoTracking().Include("Project").FirstOrDefault(t => t.Id == comment.TicketId);
-            ticketNotification.RecipientId = myComment.AssignedToUserId;
-
-            //Assemble notification body
-            var msgBody = new StringBuilder();
-            msgBody.AppendFormat("Hello {0}", db.Users.FirstOrDefault(u => u.Id == myComment.AssignedToUserId).FirstName);
-            msgBody.AppendLine("");
-            msgBody.AppendLine("A comment has been added to ticket: " + myComment.Title + ", for project: " + myComment.Project.Name);
-
-            //Set Body
-            ticketNotification.Body = msgBody.ToString();
-
-            db.TicketNotifications.Add(ticketNotification);
-            db.SaveChanges();
-
-            //Send email
-            var from = "Kink Fix<meghankcombs@gmail.com>";
-            var to = db.Users.Find(myComment.AssignedToUserId).Email;
-            var email = new MailMessage(from, to)
+            var user = db.Users.FirstOrDefault(u => u.Id == myComment.AssignedToUserId);
+            if (user != null)
             {
-                Subject = "Kink Fix: You have a new notification",
-                Body = "A comment has been added to one of your assigned tickets. Please sign into your Kink Fix account to view details.",
-                IsBodyHtml = true
-            };
+                //Create new notification
+                var ticketNotification = new TicketNotification();
+                ticketNotification.SenderId = comment.UserId;
+                ticketNotification.Created = DateTime.Now;
+                ticketNotification.TicketId = comment.TicketId;
 
-            var svc = new PersonalEmail();
-            await svc.SendAsync(email);
+
+                ticketNotification.RecipientId = myComment.AssignedToUserId;
+
+                //Assemble notification body
+                var msgBody = new StringBuilder();
+                msgBody.AppendFormat("Hello {0}", user.FirstName);
+                msgBody.AppendLine("");
+                msgBody.AppendLine("A comment has been added to ticket: " + myComment.Title + ", for project: " + myComment.Project.Name);
+
+                //Set Body
+                ticketNotification.Body = msgBody.ToString();
+
+                db.TicketNotifications.Add(ticketNotification);
+                db.SaveChanges();
+
+                //Send email
+                var from = "Kink Fix<meghankcombs@gmail.com>";
+                var to = db.Users.Find(myComment.AssignedToUserId).Email;
+                var email = new MailMessage(from, to)
+                {
+                    Subject = "Kink Fix: You have a new notification",
+                    Body = "A comment has been added to one of your assigned tickets. Please sign into your Kink Fix account to view details.",
+                    IsBodyHtml = true
+                };
+
+                var svc = new PersonalEmail();
+                await svc.SendAsync(email);
+            }
         }
 
         public List<TicketNotification> ListUserNotifications(string userId)

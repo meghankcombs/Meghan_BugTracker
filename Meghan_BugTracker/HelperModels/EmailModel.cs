@@ -15,9 +15,6 @@ namespace Meghan_BugTracker.HelperModels
         public string FromEmail { get; set; }
 
         [Required]
-        public string Subject { get; set; }
-
-        [Required]
         public string Body { get; set; }
     }
 }

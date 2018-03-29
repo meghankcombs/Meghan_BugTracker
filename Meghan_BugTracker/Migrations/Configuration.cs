@@ -58,7 +58,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Meghan (Admin)",
                     LastName = "Combs",
                     DisplayName = "Admin",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Admin1.jpg"
                 }, "Pa$$word");
             }
             
@@ -72,7 +72,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Project Manager 1",
                     LastName = "Dernbach",
                     DisplayName = "PM1",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/ProjectManager1.jpg"
                 }, "Pa$$word");
             }
 
@@ -86,7 +86,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Project Manager 2",
                     LastName = "Derenbach",
                     DisplayName = "PM2",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/ProjectManager2.jpg"
                 }, "Pa$$word");
             }
 
@@ -100,7 +100,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Developer1",
                     LastName = "Harrington",
                     DisplayName = "Developer1",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Developer1.jpg"
                 }, "Pa$$word");
             }
 
@@ -114,7 +114,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Developer2",
                     LastName = "Harrington",
                     DisplayName = "Developer2",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Developer2.jpg"
                 }, "Pa$$word");
             }
 
@@ -128,7 +128,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Developer3",
                     LastName = "Harrington",
                     DisplayName = "Developer3",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Developer3.jpg"
                 }, "Pa$$word");
             }
 
@@ -142,7 +142,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Developer4",
                     LastName = "Harrington",
                     DisplayName = "Developer4",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Developer4.jpg"
                 }, "Pa$$word");
             }
 
@@ -156,7 +156,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Submitter1",
                     LastName = "Riddle",
                     DisplayName = "Submitter1",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Submitter1.jpg"
                 }, "Pa$$word");
             }
 
@@ -170,7 +170,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Submitter2",
                     LastName = "Riddle",
                     DisplayName = "Submitter2",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Submitter2.jpg"
                 }, "Pa$$word");
             }
 
@@ -184,7 +184,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Submitter3",
                     LastName = "Riddle",
                     DisplayName = "Submitter3",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Submitter3.jpg"
                 }, "Pa$$word");
             }
             #endregion
@@ -235,7 +235,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Demo Admin",
                     LastName = "DA",
                     DisplayName = "DemoAdmin",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Admin.jpg"
                 }, "password");
             }
 
@@ -248,7 +248,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Demo Project Manager",
                     LastName = "DemoPM",
                     DisplayName = "DemoPM",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Project_Manager.jpg"
                 }, "password");
             }
 
@@ -261,7 +261,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Demo Developer",
                     LastName = "DemoDev",
                     DisplayName = "DemoDev",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Developer.jpg"
                 }, "password");
             }
 
@@ -274,7 +274,7 @@ namespace Meghan_BugTracker.Migrations
                     FirstName = "Demo Submitter",
                     LastName = "DemoSub",
                     DisplayName = "DemoSub",
-                    UserPhoto = new byte[0]
+                    UserPhoto = "~/MyImages/Submitter.jpg"
                 }, "password");
             }
             #endregion

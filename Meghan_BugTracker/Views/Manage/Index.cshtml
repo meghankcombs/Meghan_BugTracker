@@ -49,11 +49,11 @@
             <div class="col-md-4 col-lg-3">
                 <div class="panel bg-transparent">
                     <div class="panel-body text-xs-center">
-                        <img src="@Url.Action("LoggedInUserPhoto", "Home", new { userId = User.Identity.GetUserId() })" alt="" class="" style="max-width: 100%;">
+                        <img src="" alt="" class="" style="max-width: 100%;">
                     </div>
                     <hr class="m-y-0">
                     <div class="panel-body text-xs-center">
-                        @using (Html.BeginForm("UpdateImage", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                        @using (Html.BeginForm("ChangePhoto", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
                         {
                             @Html.AntiForgeryToken()
                             <label type="button" class="btn btn-primary">

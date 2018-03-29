@@ -14,7 +14,7 @@ namespace Meghan_BugTracker.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string DisplayName { get; set; }
-        public byte[] UserPhoto { get; set; }
+        public string UserPhoto { get; set; }
 
         //Navigation
         public virtual ICollection<Project> Projects { get; set; }

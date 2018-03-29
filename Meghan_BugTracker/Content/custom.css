@@ -5,6 +5,25 @@
     background: rgba(0,0,0,.05);
 }
 
+.page-about-us-header.page-header {
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+.page-about-us-text {
+    position: relative;
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.page-about-us-team-avatar {
+    width: 80px;
+}
+
+.page-about-us-team-avatar img {
+    width: 100%;
+}
+
 /* MY CSS */
 
 .myBrand {

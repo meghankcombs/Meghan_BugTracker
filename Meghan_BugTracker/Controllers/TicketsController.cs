@@ -10,6 +10,7 @@ using Meghan_BugTracker.Models;
 using Meghan_BugTracker.Helpers;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
+using Meghan_BugTracker.ViewModels;
 
 namespace Meghan_BugTracker.Controllers
 {
@@ -79,12 +80,17 @@ namespace Meghan_BugTracker.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+
+            var commentVM = new CommentVM();
+
             Ticket ticket = db.Tickets.Find(id);
+
             if (ticket == null)
             {
                 return HttpNotFound();
             }
-            return View(ticket);
+            commentVM.Ticket = ticket;
+            return View(commentVM);
         }
 
         // GET: Tickets/Create

@@ -1,34 +1,34 @@
 ﻿@model Meghan_BugTracker.Models.Project
+@using Meghan_BugTracker.Helpers
 
-@{
-    ViewBag.Title = "Details";
-}
+@{ ProjectsHelper projHelper = new ProjectsHelper(); }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-    </dl>
+<div class="px-content">
+    <div class="page-header">
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>@Model.Name</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel">
+                <div class="panel-heading">
+                    <a href="@Url.Action("Index", "Home")" class="panel-title"><i class="fa fa-arrow-circle-left"></i> Home</a>
+                </div>
+                <div class="widget-notifications-item">
+                    <div class="widget-notifications-title text-danger">PROJECT USERS <i class="fa fa-users fa-danger"></i></div>
+                    @foreach (var user in projHelper.UsersOnProject(Model.Id))
+                    {
+                        <div class="widget-notifications-description">@user.FirstName <strong>@user.LastName</strong></div>
+                    }
+                </div>
+                <div class="widget-notifications-item">
+                    <div class="widget-notifications-title text-info">PROJECT TICKETS <i class="fa fa-ticket fa-info"></i></div>
+                    @foreach (var tix in Model.Tickets)
+                    {
+                        <div class="widget-notifications-description">@tix.Title</div>
+                    }
+                </div>
+                <a href="@Url.Action("Edit", "Projects", new { id = Model.Id })" class="widget-more-link">EDIT PROJECT</a>
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

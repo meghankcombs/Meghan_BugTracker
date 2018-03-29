@@ -16,8 +16,9 @@
     <link rel="icon" type="image.png" href="~/MyImages/cat--5-512-85909.png" />
 
     <!-- FONTS -->
-    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">
-    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300&subset=latin" rel="stylesheet" type="text/css">
+    <link href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
     <!-- MY GOOGLE FONT -->
     <link href="https://fonts.googleapis.com/css?family=Satisfy" rel="stylesheet">
@@ -50,7 +51,7 @@
                 <button type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <img src="@Url.Action("LoggedInUserPhoto", "Home", new { userId = User.Identity.GetUserId() })" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px; overflow: hidden;">
+                    <img src="" alt="" class="pull-xs-left m-r-2 border-round" style="width: 54px; height: 54px; overflow: hidden;">
                 }
                 else
                 {
@@ -300,7 +301,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <img src="@Url.Action("LoggedInUserPhoto", "Home", new { userId = User.Identity.GetUserId() })" alt="" class="px-navbar-image">
+                            <img src="" alt="" class="px-navbar-image">
                             <span class="hidden-md">@NameHelper.UserFirstName()</span>
                         }
                         else
@@ -383,17 +384,19 @@
     <script>_pxDemo_loadStylesheet('~/assets/demo/demo.css');</script>
     <!-- / Demo assets -->
     <!-- holder.js -->
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.0/holder.js"></script>
 
     <!-- Pace.js -->
     <script src="~/assets/pace/pace.min.js"></script>
     <script src="~/assets/demo/demo.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
-    <script src="~/assets/js/pixeladmin.js"></script>
+    <script src="~/assets/js/pixeladmin.min.js"></script>
 
     <!-- Google Map -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8v9ns6XWE6njm1g3m8SExU6yN2-qi3xo&callback=initMap&sensor=false" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8v9ns6XWE6njm1g3m8SExU6yN2-qi3xo&callback=initMap" async defer></script>
 
     <!-- MY SCRIPTS -->
     <script src="~/Scripts/sweetalert.min.js"></script>
