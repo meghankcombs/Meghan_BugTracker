@@ -1,50 +1,29 @@
 ﻿@model Meghan_BugTracker.Models.Project
 
-@{
-    ViewBag.Title = "Edit";
-}
-
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Project</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+<div class="px-content">
+    <div class="page-header">
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Project / </span>Edit</h1>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-title">Edit Project</div>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+            <fieldset class="form-group">
+                <label for="form-group-input-1">Name</label>
+                <input type="text" class="form-control" name="Name" id="form-group-input-1" value="@Model.Name">
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="form-group-input-2">Description</label>
+                <input type="text" class="form-control" name="Description" id="form-group-input-2" rows="5" maxlength="1000" value="@Model.Description">
+                <small class="text-muted">Maximum length is 1000 characters</small>
+            </fieldset>
+            <fieldset class="form-group text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </fieldset>
+        }
+    </div>
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

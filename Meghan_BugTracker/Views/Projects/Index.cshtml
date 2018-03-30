@@ -1,50 +1,74 @@
 ﻿@model IEnumerable<Meghan_BugTracker.Models.Project>
 
+<div class="px-content">
+    <div class="page-header">
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-users"></i>Projects</span></h1>
+    </div>
 
-<h2>Projects</h2>
-
-<p>
-    @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
-    {
-        @Html.ActionLink("Create New", "Create")
-    }
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var proj in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => proj.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => proj.Description)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id=proj.Id }) |
-
+    <div class="panel">
+        <div class="panel-heading">
             @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
             {
-                @Html.ActionLink("Tickets", "ProjectTickets", "Tickets", new { projectId = proj.Id }, null) @:|
-                @Html.ActionLink("Edit", "Edit", "Projects", new { id = proj.Id }, null) @:|
-                @Html.ActionLink("Delete", "Delete", "Projects", new { id = proj.Id }, null)
+                <a href="@Url.Action("Create", "Projects")" class="panel-title">Create New</a>
             }
-
-            @if (User.IsInRole("Developer"))
+            else
             {
-                @Html.ActionLink("My Tickets", "DevProjectTickets", "Tickets", new { projectId = proj.Id }, null)
+                <div class="panel-title">Projects</div>
             }
+        </div>
+        <div class="panel-body">
+            <div class="table-primary">
+                <table class="table table-striped table-bordered" id="projectTable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var proj in Model)
+                        {
+                            <tr class="odd gradeX">
+                                <td></td>
+                                <td>@proj.Name</td>
+                                <td>@proj.Description</td>
+                                <td>@Url.Action("Details", "Projects", new { id = proj.Id })Details</td>
+                                <td class="center">
+                                    <div class="btn-group" style="margin-top: 4px;">
+                                        @if(User.IsInRole("Admin"))
+                                        {
+                                            <a href="@Url.Action("ProjectTickets", "Tickets", new { projectId = proj.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Tickets"><i class="fa fa-ticket"></i></a>
+                                        }
+                                        @if(User.IsInRole("Project Manager"))
+                                        {
+                                            <a href="@Url.Action("PMProjectTickets", "Tickets", new { projectId = proj.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Tickets"><i class="fa fa-ticket"></i></a>
+                                        }
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Project Manager"))
+                                        {
+                                            <a href="@Url.Action("Edit", "Projects", new { id = proj.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
+                                            <a href="@Url.Action("Delete", "Projects", new { id = proj.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Delete"><i class="fa fa-trash"></i></a>
+                                        }
 
-        </td>
-    </tr>
+                                        @if (User.IsInRole("Developer"))
+                                        {
+                                            <a href="@Url.Action("DevProjectTickets", "Tickets", new { projectId = proj.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Tickets"><i class="fa fa-ticket"></i></a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $('#projectTable').DataTable();
+    </script>
 }
-
-</table>

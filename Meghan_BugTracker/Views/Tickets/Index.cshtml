@@ -2,148 +2,61 @@
 @using Microsoft.AspNet.Identity
 @model IEnumerable<Meghan_BugTracker.Models.Ticket>
 
+<div class="px-content">
+    <div class="page-header">
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-users"></i>Tickets</span></h1>
+    </div>
 
-<h2>Tickets</h2>
-<table>
-    <tbody>
-        <tr>
-            <td>
-                @if (User.IsInRole("Submitter"))
+    <div class="panel">
+        <div class="panel-heading">
+            @if (User.IsInRole("Submitter"))
             {
-                    @Html.ActionLink("Create Ticket", "Create")
-                }
-            </td>
-            <td></td>
-            <td>@Html.ActionLink("Attachments", "Index", "TicketAttachments")</td>
-            <td></td>
-            <td>@Html.ActionLink("Comments", "Index", "TicketComments")</td>
-            <td></td>
-            <td>@Html.ActionLink("History", "Index", "TicketHistories")</td>
-            <td></td>
-            <td>@Html.ActionLink("Notifications", "Index", "TicketNotifications")</td>
-        </tr>
-    </tbody>
-</table>
-
-<table id="ticketTable" class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayName("Assigned To")
-            </th>
-            <th>
-                @Html.DisplayName("Created By")
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Project.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketPriority.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketStatus.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketType.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketComments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketAttachments)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Created)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Updated)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var ticket in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => ticket.AssignedToUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => ticket.OwnerUser.FirstName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => ticket.Project.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => ticket.TicketPriority.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => ticket.TicketStatus.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => ticket.TicketType.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => ticket.Title)
-                </td>
-                <td>
-                    @ticket.TicketComments.Count
-                </td>
-                <td>
-                    @ticket.TicketAttachments.Count
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => ticket.Created)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => ticket.Updated)
-                </td>
-                <td>
-                    @if (User.IsInRole("Admin"))
-                    {
-                        @Html.ActionLink("Comment", "Create", "TicketComments", new { id = ticket.Id }, null) @:|
-                        @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = ticket.Id }, null) @:|
-                    }
-
-                    @if (User.IsInRole("Project Manager"))
-                    {
-                        var ticketHelper = new TicketsHelper();
-                        if (ticketHelper.IsTicketOnPMProject(ticket.Id))
+                <a href="@Url.Action("Create", "Tickets")" class="panel-title">Create New</a>
+            }
+            else
+            {
+                <div class="panel-title">Tickets</div>
+            }
+        </div>
+        <div class="panel-body">
+            <div class="table-primary">
+                <table class="table table-striped table-bordered" id="ticketTable">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Created</th>
+                            <th>On Project</th>
+                            <th>Assigned To</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var ticket in Model)
                         {
-                            @Html.ActionLink("Comment", "Create", "TicketComments", new { id = ticket.Id }, null) @:|
-                            @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = ticket.Id }, null) @:|
+                        <tr class="odd gradeX">
+                            <td>@ticket.Title</td>
+                            <td>@ticket.Created.ToShortDateString() by @ticket.OwnerUser.FirstName</td>
+                            <td>@ticket.AssignedToUser.FirstName</td>
+                            <td>@ticket.TicketPriority.Name</td>
+                            <td>@ticket.TicketStatus.Name</td>
+                            <td>@ticket.TicketType.Name</td>
+                            <td class="center">
+                                <div class="btn-group" style="margin-top: 4px;">
+                                    <a href="@Url.Action("Details", "Tickets", new { id = ticket.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Details"><i class="fa fa-list"></i></a>
+                                    <a href="@Url.Action("Edit", "Tickets", new { id = ticket.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
+                                </div>
+                            </td>
+                        </tr>
                         }
-                    }
-
-                    @if (User.IsInRole("Developer"))
-                    {
-                        if (TicketsHelper.IsUserOnTicket(User.Identity.GetUserId(), ticket.Id))
-                        {
-                            @Html.ActionLink("Comment", "Create", "TicketComments", new { id = ticket.Id }, null) @:|
-                            @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = ticket.Id }, null) @:|
-                        }
-                    }
-
-                    @if (User.IsInRole("Submitter"))
-                    {
-                        if (TicketsHelper.DoesUserOwnTicket(User.Identity.GetUserId(), ticket.Id))
-                        {
-                            @Html.ActionLink("Comment", "Create", "TicketComments", new { id = ticket.Id }, null) @:|
-                            @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = ticket.Id }, null) @:|
-                        }
-                    }
-                    
-                    @Html.ActionLink("Attachments", "Index", "TicketAttachments", new { id = ticket.Id }, null) |
-                    @Html.ActionLink("Edit", "Edit", new { id = ticket.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = ticket.Id })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section scripts
 {
@@ -151,3 +64,44 @@
         $('#ticketTable').DataTable();
     </script>
 }
+
+@* USE FOR TICKET DETAILS PAGE
+    <td>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Comment", "Create", "TicketComments", new { id = ticket.Id }, null) @:|
+        @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = ticket.Id }, null) @:|
+    }
+
+    @if (User.IsInRole("Project Manager"))
+    {
+        var ticketHelper = new TicketsHelper();
+        if (ticketHelper.IsTicketOnPMProject(ticket.Id))
+        {
+            @Html.ActionLink("Comment", "Create", "TicketComments", new { id = ticket.Id }, null) @:|
+            @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = ticket.Id }, null) @:|
+        }
+    }
+
+    @if (User.IsInRole("Developer"))
+    {
+        if (TicketsHelper.IsUserOnTicket(User.Identity.GetUserId(), ticket.Id))
+        {
+            @Html.ActionLink("Comment", "Create", "TicketComments", new { id = ticket.Id }, null) @:|
+            @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = ticket.Id }, null) @:|
+        }
+    }
+
+    @if (User.IsInRole("Submitter"))
+    {
+        if (TicketsHelper.DoesUserOwnTicket(User.Identity.GetUserId(), ticket.Id))
+        {
+            @Html.ActionLink("Comment", "Create", "TicketComments", new { id = ticket.Id }, null) @:|
+            @Html.ActionLink("Attach", "Create", "TicketAttachments", new { id = ticket.Id }, null) @:|
+        }
+    }
+
+    @Html.ActionLink("Attachments", "Index", "TicketAttachments", new { id = ticket.Id }, null) |
+    @Html.ActionLink("Edit", "Edit", new { id = ticket.Id }) |
+    @Html.ActionLink("Details", "Details", new { id = ticket.Id })
+</td>*@

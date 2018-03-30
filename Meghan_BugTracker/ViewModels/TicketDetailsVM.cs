@@ -6,9 +6,10 @@ using System.Web;
 
 namespace Meghan_BugTracker.ViewModels
 {
-    public class CommentVM
+    public class TicketDetailsVM
     {
         public Ticket Ticket { get; set; }
         public TicketComment TicketComment { get; set; }
+        public TicketAttachment TicketAttachment { get; set; }
     }
 }

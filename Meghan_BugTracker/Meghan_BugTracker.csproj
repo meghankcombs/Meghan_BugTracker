@@ -206,6 +206,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="HelperModels\EmailModel.cs" />
+    <Compile Include="Helpers\HistoriesHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
     <Compile Include="Helpers\TicketsHelper.cs" />
@@ -226,7 +227,7 @@
     <Compile Include="Models\TicketType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\CommentVM.cs" />
+    <Compile Include="ViewModels\TicketDetailsVM.cs" />
     <Compile Include="ViewModels\DashboardVM.cs" />
   </ItemGroup>
   <ItemGroup>

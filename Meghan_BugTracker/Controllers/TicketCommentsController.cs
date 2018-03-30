@@ -114,36 +114,42 @@ namespace Meghan_BugTracker.Controllers
         }
 
         // GET: TicketComments/Edit/5
-        [Authorize]
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TicketComment ticketComment = db.TicketComments.Find(id);
-            if (ticketComment == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
-            return View(ticketComment);
-        }
+        //[Authorize]
+        //public ActionResult Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    TicketComment ticketComment = db.TicketComments.Find(id);
+        //    if (ticketComment == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
+        //    ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
+        //    return View(ticketComment);
+        //}
 
         // POST: TicketComments/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Comment,Created,TicketId,UserId")] TicketComment ticketComment)
+        public ActionResult Edit([Bind(Include = "Id,TicketId,UserId,Created,Comment")] TicketComment ticketComment)
         {
+            ticketComment.Id = int.Parse(Request.Form[1]);
+            ticketComment.TicketId = int.Parse(Request.Form[2]);
+            ticketComment.UserId = Request.Form[3];
+            ticketComment.Created = DateTime.Parse(Request.Form[4]);
+            ticketComment.Comment = Request.Form[5];
+
+            ViewBag.PreviousUrl = System.Web.HttpContext.Current.Request.UrlReferrer.ToString();
+
             if (ModelState.IsValid)
             {
                 db.Entry(ticketComment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(ViewBag.PreviousUrl);
             }
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
             return View(ticketComment);
         }
 

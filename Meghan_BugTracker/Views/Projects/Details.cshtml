@@ -5,29 +5,43 @@
 
 <div class="px-content">
     <div class="page-header">
-        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i></span>@Model.Name</h1>
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Project / </span>Details</h1>
     </div>
     <div class="row">
-        <div class="col-md-6">
-            <div class="panel">
-                <div class="panel-heading">
-                    <a href="@Url.Action("Index", "Home")" class="panel-title"><i class="fa fa-arrow-circle-left"></i> Home</a>
+        <div class="col-md-8">
+            <div class="table-primary">
+                <div class="table-header">
+                    <div class="table-caption">
+                        @Model.Name Details
+                    </div>
                 </div>
-                <div class="widget-notifications-item">
-                    <div class="widget-notifications-title text-danger">PROJECT USERS <i class="fa fa-users fa-danger"></i></div>
-                    @foreach (var user in projHelper.UsersOnProject(Model.Id))
-                    {
-                        <div class="widget-notifications-description">@user.FirstName <strong>@user.LastName</strong></div>
-                    }
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Users</th>
+                            <th>Tickets</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            @foreach (var user in projHelper.UsersOnProject(Model.Id))
+                            {
+                                <td>@user.FirstName <strong>@user.LastName</strong></td>
+                            }
+                            @foreach (var tix in Model.Tickets)
+                            {
+                                <td>@tix.Title</td>
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-footer text-left">
+                    <a href="@Url.Action("Edit", "Projects", new { id = Model.Id })" class="btn btn-primary">Edit</a>
                 </div>
-                <div class="widget-notifications-item">
-                    <div class="widget-notifications-title text-info">PROJECT TICKETS <i class="fa fa-ticket fa-info"></i></div>
-                    @foreach (var tix in Model.Tickets)
-                    {
-                        <div class="widget-notifications-description">@tix.Title</div>
-                    }
-                </div>
-                <a href="@Url.Action("Edit", "Projects", new { id = Model.Id })" class="widget-more-link">EDIT PROJECT</a>
             </div>
         </div>
     </div>

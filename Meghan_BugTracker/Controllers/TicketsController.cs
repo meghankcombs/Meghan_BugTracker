@@ -81,7 +81,7 @@ namespace Meghan_BugTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var commentVM = new CommentVM();
+            var commentVM = new TicketDetailsVM();
 
             Ticket ticket = db.Tickets.Find(id);
 
