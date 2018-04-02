@@ -81,16 +81,18 @@ namespace Meghan_BugTracker.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var commentVM = new TicketDetailsVM();
-
-            Ticket ticket = db.Tickets.Find(id);
+            Ticket ticket = db.Tickets.Where(t => t.Id == id)
+                                    .Include(t => t.TicketAttachments)
+                                    .Include(t => t.TicketComments)
+                                    .Include(t => t.TicketHistories)
+                                    .Include(t => t.TicketNotifications)
+                                    .FirstOrDefault();
 
             if (ticket == null)
             {
                 return HttpNotFound();
             }
-            commentVM.Ticket = ticket;
-            return View(commentVM);
+            return View(ticket);
         }
 
         // GET: Tickets/Create

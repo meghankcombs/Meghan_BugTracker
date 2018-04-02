@@ -83,19 +83,20 @@ namespace Meghan_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.ReturnUrl = Request.UrlReferrer;
             return View(project);
         }
 
         // POST: Projects/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Project project)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Project project, string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Redirect(returnUrl);
             }
             return View(project);
         }

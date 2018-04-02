@@ -139,15 +139,16 @@ namespace Meghan_BugTracker.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketAttachment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
+            ViewBag.ReturnUrl = Request.UrlReferrer;
+            //ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketAttachment.TicketId);
+            //ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);
             return View(ticketAttachment);
         }
 
         // POST: TicketAttachments/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TicketId,FileUrl,Description,Created,UserId")] TicketAttachment ticketAttachment, HttpPostedFileBase file)
+        public ActionResult Edit([Bind(Include = "Id,TicketId,FileUrl,Description,Created,UserId")] TicketAttachment ticketAttachment, HttpPostedFileBase file, string returnUrl)
         {
             if (ModelState.IsValid)
             {
@@ -161,7 +162,7 @@ namespace Meghan_BugTracker.Controllers
                 ticketAttachment.UserId = User.Identity.GetUserId();
                 db.Entry(ticketAttachment).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return Redirect(returnUrl);
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketAttachment.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketAttachment.UserId);

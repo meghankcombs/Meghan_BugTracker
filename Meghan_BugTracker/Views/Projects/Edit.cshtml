@@ -11,6 +11,7 @@
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
             @Html.HiddenFor(model => model.Id)
             <fieldset class="form-group">
                 <label for="form-group-input-1">Name</label>

@@ -1,10 +1,10 @@
 ﻿@using Meghan_BugTracker.Helpers
 @using Microsoft.AspNet.Identity
-@model Meghan_BugTracker.ViewModels.TicketDetailsVM
+@model Meghan_BugTracker.Models.Ticket
 
 <div class="px-content">
     <div class="page-header">
-        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>@Model.Ticket.Title / </span>Details</h1>
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>@Model.Title / </span>Details</h1>
     </div>
 
     <!-- DETAILS -->
@@ -15,11 +15,11 @@
                 <div class="panel-heading">
                     <h3 class="widget-profile-header">
                         Description
-                        <span class="widget-profile-secondary-text">@Model.Ticket.Created.ToShortDateString()</span>
+                        <span class="widget-profile-secondary-text">@Model.Created.ToShortDateString()</span>
                     </h3>
                 </div>
                 <div class="panel-body">
-                    @Model.Ticket.Description
+                    @Model.Description
                 </div>
             </div>
         </div>
@@ -34,15 +34,15 @@
                 <div class="widget-profile-counters">
                     <a class="col-xs-4">
                         <span class="widget-profile-counter">Priority</span>
-                        @Model.Ticket.TicketPriority.Name
+                        @Model.TicketPriority.Name
                     </a>
                     <a class="col-xs-4">
                         <span class="widget-profile-counter">Status</span>
-                        @Model.Ticket.TicketStatus.Name
+                        @Model.TicketStatus.Name
                     </a>
                     <a class="col-xs-4">
                         <span class="widget-profile-counter">Type</span>
-                        @Model.Ticket.TicketType.Name
+                        @Model.TicketType.Name
                     </a>
                 </div>
             </div>
@@ -51,14 +51,25 @@
             <!-- ASSIGNED TO -->
             <div class="panel panel-danger panel-dark panel-body-colorful widget-profile widget-profile-centered">
                 <div class="panel-heading">
-                    <img src="@Url.Content(Model.Ticket.AssignedToUser.UserPhoto)" alt="" class="widget-profile-avatar">
-                    <h3 class="widget-profile-header">
-                        @Model.Ticket.AssignedToUser.FirstName @Model.Ticket.AssignedToUser.LastName
-                        <a class="widget-profile-secondary-text">Developer</a>
-                    </h3>
+                    @if(Model.AssignedToUser != null)
+                    {
+                        <img src="@Url.Content(Model.AssignedToUser.UserPhoto)" alt="" class="widget-profile-avatar">
+                        <h3 class="widget-profile-header">
+                            @Model.AssignedToUser.FirstName @Model.AssignedToUser.LastName
+                            <a class="widget-profile-secondary-text">Developer</a>
+                        </h3>
+                    }
+                    else
+                    {
+                        <img src="~/MyImages/user_default.png" alt="" class="widget-profile-avatar">
+                        <h3 class="widget-profile-header">
+                            Unassigned
+                            <a class="widget-profile-secondary-text">Developer</a>
+                        </h3>
+                    }
                 </div>
                 <div class="panel-body">
-                    On Project: @Model.Ticket.Project.Name
+                    On Project: @Model.Project.Name
                 </div>
             </div>
         </div>
@@ -86,7 +97,7 @@
                                 </tr>
                             </thead>
                             <tbody class="valign-middle">
-                                @foreach (var attachment in Model.Ticket.TicketAttachments)
+                                @foreach (var attachment in Model.TicketAttachments)
                                 {
                                     <tr>
                                         <td>@attachment.User.FirstName @attachment.User.LastName on @attachment.Created.ToShortDateString()</td>
@@ -115,13 +126,26 @@
                                         <td>@attachment.Description</td>
                                         <td class="center">
                                             <div class="btn-group" style="margin-top: 4px;">
-                                                <a href="@Url.Action("Create", "TicketAttachments", new { id = attachment.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Add Attachment"><i class="fa fa-file-o"></i></a>
+                                                <a href="@Url.Action("Edit", "TicketAttachments", new { id = attachment.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
                                             </div>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
+                        <div class="panel-body text-xs-center">
+                            @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.Hidden("TicketId", Model.Id)
+                                <label type="button" class="btn btn-primary">
+                                    Add Attachment
+                                    <input type="file" name="UserPhoto" id="MKCfile" class="form-control" style="display: none;">
+                                </label>
+                                <button type="submit" class="btn btn-default">Add</button>
+                                <div id="file-selected" class="m-t-2 text-muted font-size-12"></div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -146,7 +170,7 @@
                                 </tr>
                             </thead>
                             <tbody class="valign-middle">
-                                @foreach (var comment in Model.Ticket.TicketComments)
+                                @foreach (var comment in Model.TicketComments)
                                 {
                                     <tr>
                                         <td>
@@ -156,7 +180,7 @@
                                         <td>@comment.Comment</td>
                                         <td class="center">
                                             <div class="btn-group" style="margin-top: 4px;">
-                                                <a href="@Url.Action("Edit", "TicketComments", new { id = comment.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></a>
+                                                <a href="@Url.Action("Edit", "TicketComments", new { id = comment.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Edit"><i class="fa fa-edit"></i></a>
                                                 <a href="@Url.Action("Delete", "TicketComments", new { id = comment.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Delete"><i class="fa fa-trash"></i></a>
                                             </div>
                                         </td>
@@ -168,9 +192,12 @@
                             @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
                                 @Html.AntiForgeryToken()
-                                @Html.Hidden("TicketId", Model.Ticket.Id)
-                                <textarea rows="3" name="Comment" class="form-control widget-tree-comments-input" placeholder="Write your comment..."></textarea>
-                                <button type="submit" class="btn btn-primary btn-sm">Post</button>
+                                @Html.Hidden("TicketId", Model.Id)
+                                <fieldset class="form-group">
+                                    <label for="form-group-input-2">Add Comment</label>
+                                    <textarea rows="3" name="Comment" class="form-control widget-tree-comments-input" placeholder="Write your comment..."></textarea>
+                                </fieldset>
+                                <button type="submit" class="btn btn-primary btn-sm">Add</button>
                             }
                         </div>
                     </div>
@@ -180,38 +207,6 @@
         <!-- / COMMENTS -->
     </div>
     <!-- /ROW -->
-
-    <!-- EDIT MODAL -->
-    <div class="modal fade" id="editModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Edit Comment</h4>
-                </div>
-                @using (Html.BeginForm("Edit", "TicketComments", FormMethod.Post, new { id = "editCommentForm" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(model => model.TicketComment.Id, new { @class = "passedInData", @name = "Id" })
-                    @Html.HiddenFor(model => model.TicketComment.TicketId, new { @class = "passedInData", @name = "TicketId" })
-                    @Html.HiddenFor(model => model.TicketComment.UserId, new { @class = "passedInData", @name = "UserId" })
-                    @Html.HiddenFor(model => model.TicketComment.Created, new { @class = "passedInData", @name = "Created" })
-                    <div class="modal-body">
-                        <fieldset class="form-group">
-                            <label for="form-group-input-2">New Comment</label>
-                            @Html.TextAreaFor(model => model.TicketComment.Comment, new { @class = "passedInData", @name = "Comment" })
-                            <small class="text-muted">Maximum length is 500 characters</small>
-                        </fieldset>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                }
-            </div>
-        </div>
-    </div>
-    <!-- END EDIT MODAL -->
 
     <hr />
 
@@ -234,7 +229,7 @@
                                 </tr>
                             </thead>
                             <tbody class="valign-middle">
-                                @foreach (var history in Model.Ticket.TicketHistories)
+                                @foreach (var history in Model.TicketHistories)
                                 {
                                     <tr>
                                         <td>@history.User.FirstName @history.User.LastName on @history.ChangedDate.ToShortDateString()</td>
@@ -270,7 +265,7 @@
                                 </tr>
                             </thead>
                             <tbody class="valign-middle">
-                                @foreach (var notification in Model.Ticket.TicketNotifications)
+                                @foreach (var notification in Model.TicketNotifications)
                                 {
                                     <tr>
                                         <td>
@@ -304,135 +299,96 @@
         $('#historyTable').DataTable();
         $('#notificationTable').DataTable();
 
-        $(function () {
-        $("#editCommentForm").submit(function (event) {
-            event.preventDefault();
-            var form = $(this);
-            var fdata = new FormData();
-            //grabs data by its name
-            $(".passedInData").each(function (x, y) {
-                fdata.append($(y).attr("name"), $(y).val());
-            });
-            //grabs antiforgerytoken
-            $("input[name='__RequestVerificationToken'").first().each(function (x, y) {
-                fdata.append($(y).attr("name"), $(y).val());
-            });
-
-            $.ajax({
-                type: "POST",
-                url: "@Url.Action("Edit", "TicketComments", null)",
-                data: fdata
-            });
-        });
-    });
+        $('#MKCfile').bind('change', function () {
+            var path = $(this).val(); //gets value of file
+            var fileName = path.replace(/^.*\\/, ''); //removes "fakepath" in Chrome
+            $('#file-selected').html(fileName);
+        })
     </script>
 }
 
 @*<div class="row">
-    <!--DETAILS-->
-    <div class="col-md-4">
-        <div class="panel">
-            <div class="panel-heading">
-                <div class="panel-title">@Model.Ticket.Title</div>
-            </div>
-            <div class="widget-notifications-item">
-                <div class="widget-notifications-title text-danger">CREATED BY</div>
-                <div class="widget-notifications-description">@Model.Ticket.OwnerUser.FirstName <strong>@Model.Ticket.OwnerUser.LastName</strong></div>
-                <div class="widget-notifications-date">On @Model.Ticket.Created.ToShortDateString()</div>
-            </div>
-            <div class="widget-notifications-item">
-                <div class="widget-notifications-title text-info">ASSIGNED TO</div>
-                @if (Model.Ticket.AssignedToUser != null)
-                {
-                    <div class="widget-notifications-description">@Model.Ticket.AssignedToUser.FirstName <strong>@Model.Ticket.AssignedToUser.LastName</strong></div>
-                }
-                else
-                {
-                    <div class="widget-notifications-description">No assigned users</div>
-                }
-            </div>
-            <div class="widget-notifications-item">
-                <div class="widget-notifications-title text-default">DESCRIPTION</div>
-                <div class="widget-notifications-description">@Model.Ticket.Description</div>
-            </div>
-            <div class="widget-notifications-item">
-                <div class="widget-notifications-title text-success">PRIORITY, STATUS, TYPE</div>
-                <div class="widget-notifications-description">@Model.Ticket.TicketPriority.Name, @Model.Ticket.TicketStatus.Name, @Model.Ticket.TicketType.Name</div>
-            </div>
-            <div class="widget-notifications-item">
-                <div class="widget-notifications-title text-warning"># OF ATTACHMENTS</div>
-                <div class="widget-notifications-description">
-                    <a href="@Url.Action("TicketAttachmentIndex", "TicketAttachments", new { ticketId = Model.Ticket.Id })">@Model.Ticket.TicketAttachments.Count</a>
-                </div>
-            </div>
-            <div class="widget-notifications-item">
-                <div class="widget-notifications-title text-info"># OF COMMENTS</div>
-                <div class="widget-notifications-description">
-                    <a href="@Url.Action("TicketCommentIndex", "TicketComments", new { ticketId = Model.Ticket.Id })">@Model.Ticket.TicketComments.Count</a>
-                </div>
-            </div>
-
-            <div class="widget-notifications-item">
-                <div class="widget-notifications-title text-danger"># OF CHANGES</div>
-                <div class="widget-notifications-description">
-                    <a href="@Url.Action("TicketHistoryIndex", "TicketHistories", new { ticketId = Model.Ticket.Id })">@Model.Ticket.TicketHistories.Count</a>
-                </div>
-            </div>
-            <a href="@Url.Action("Edit", "Tickets", new { id = Model.Ticket.Id })" class="widget-more-link">EDIT TICKET</a>
-        </div>
-    </div>
-    <!--/DETAILS-->
-    <!--COMMENTS-->
-    <div class="col-md-8">
-        <div class="panel">
-            <div class="panel-heading">
-                <span class="panel-title">Comments</span>
-            </div>
-            @foreach (var comment in Model.Ticket.TicketComments)
-            {
-                <div class="widget-comments-item">
-                    <img src="~/assets/demo/avatars/5.jpg" alt="" class="widget-comments-avatar">
-                    <div class="widget-comments-header">
-                        <a title="">@comment.User.FirstName @comment.User.LastName</a> commented on <a href="#" title="">@Model.Ticket.Title</a>
-                    </div>
-                    <div class="widget-comments-text">
-                        @comment.Comment
-                    </div>
-                    <div class="widget-comments-footer">
-                        @comment.Created.ToShortDateString()
-                        <div class="pull-right">
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    </div>
-
-</div><!--END ROW-->
-@if (User.IsInRole("Admin"))
-{
-    <div class="row">
-        <div class="col-md-12">
+        <!--DETAILS-->
+        <div class="col-md-4">
             <div class="panel">
                 <div class="panel-heading">
-                    <div class="panel-title"><i class="fa fa-comment"></i> Leave Comment</div>
+                    <div class="panel-title">@Model.Ticket.Title</div>
                 </div>
-                @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                <div class="widget-notifications-item">
+                    <div class="widget-notifications-title text-danger">CREATED BY</div>
+                    <div class="widget-notifications-description">@Model.Ticket.OwnerUser.FirstName <strong>@Model.Ticket.OwnerUser.LastName</strong></div>
+                    <div class="widget-notifications-date">On @Model.Ticket.Created.ToShortDateString()</div>
+                </div>
+                <div class="widget-notifications-item">
+                    <div class="widget-notifications-title text-info">ASSIGNED TO</div>
+                    @if (Model.Ticket.AssignedToUser != null)
+                    {
+                        <div class="widget-notifications-description">@Model.Ticket.AssignedToUser.FirstName <strong>@Model.Ticket.AssignedToUser.LastName</strong></div>
+                    }
+                    else
+                    {
+                        <div class="widget-notifications-description">No assigned users</div>
+                    }
+                </div>
+                <div class="widget-notifications-item">
+                    <div class="widget-notifications-title text-default">DESCRIPTION</div>
+                    <div class="widget-notifications-description">@Model.Ticket.Description</div>
+                </div>
+                <div class="widget-notifications-item">
+                    <div class="widget-notifications-title text-success">PRIORITY, STATUS, TYPE</div>
+                    <div class="widget-notifications-description">@Model.Ticket.TicketPriority.Name, @Model.Ticket.TicketStatus.Name, @Model.Ticket.TicketType.Name</div>
+                </div>
+                <div class="widget-notifications-item">
+                    <div class="widget-notifications-title text-warning"># OF ATTACHMENTS</div>
+                    <div class="widget-notifications-description">
+                        <a href="@Url.Action("TicketAttachmentIndex", "TicketAttachments", new { ticketId = Model.Ticket.Id })">@Model.Ticket.TicketAttachments.Count</a>
+                    </div>
+                </div>
+                <div class="widget-notifications-item">
+                    <div class="widget-notifications-title text-info"># OF COMMENTS</div>
+                    <div class="widget-notifications-description">
+                        <a href="@Url.Action("TicketCommentIndex", "TicketComments", new { ticketId = Model.Ticket.Id })">@Model.Ticket.TicketComments.Count</a>
+                    </div>
+                </div>
+
+                <div class="widget-notifications-item">
+                    <div class="widget-notifications-title text-danger"># OF CHANGES</div>
+                    <div class="widget-notifications-description">
+                        <a href="@Url.Action("TicketHistoryIndex", "TicketHistories", new { ticketId = Model.Ticket.Id })">@Model.Ticket.TicketHistories.Count</a>
+                    </div>
+                </div>
+                <a href="@Url.Action("Edit", "Tickets", new { id = Model.Ticket.Id })" class="widget-more-link">EDIT TICKET</a>
+            </div>
+        </div>
+        <!--/DETAILS-->
+        <!--COMMENTS-->
+        <div class="col-md-8">
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">Comments</span>
+                </div>
+                @foreach (var comment in Model.Ticket.TicketComments)
                 {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("TicketId", Model.Ticket.Id)
-                    <textarea rows="3" name="Comment" class="form-control widget-tree-comments-input" placeholder="Write your comment..."></textarea>
-                    <button type="submit" class="btn btn-primary btn-sm">Post</button>
+                    <div class="widget-comments-item">
+                        <img src="~/assets/demo/avatars/5.jpg" alt="" class="widget-comments-avatar">
+                        <div class="widget-comments-header">
+                            <a title="">@comment.User.FirstName @comment.User.LastName</a> commented on <a href="#" title="">@Model.Ticket.Title</a>
+                        </div>
+                        <div class="widget-comments-text">
+                            @comment.Comment
+                        </div>
+                        <div class="widget-comments-footer">
+                            @comment.Created.ToShortDateString()
+                            <div class="pull-right">
+                            </div>
+                        </div>
+                    </div>
                 }
             </div>
         </div>
-    </div>
-}
 
-@if (User.IsInRole("Project Manager"))
-{
-    TicketsHelper tixHelper = new TicketsHelper();
-    if (tixHelper.IsTicketOnPMProject(Model.Ticket.Id) == true)
+    </div><!--END ROW-->
+    @if (User.IsInRole("Admin"))
     {
         <div class="row">
             <div class="col-md-12">
@@ -451,53 +407,76 @@
             </div>
         </div>
     }
-}
 
-@if (User.IsInRole("Developer"))
-{
-    if (TicketsHelper.IsUserOnTicket(User.Identity.GetUserId(), Model.Ticket.Id))
+    @if (User.IsInRole("Project Manager"))
     {
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <div class="panel-title"><i class="fa fa-comment"></i> Leave Comment</div>
+        TicketsHelper tixHelper = new TicketsHelper();
+        if (tixHelper.IsTicketOnPMProject(Model.Ticket.Id) == true)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div class="panel-title"><i class="fa fa-comment"></i> Leave Comment</div>
+                        </div>
+                        @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("TicketId", Model.Ticket.Id)
+                            <textarea rows="3" name="Comment" class="form-control widget-tree-comments-input" placeholder="Write your comment..."></textarea>
+                            <button type="submit" class="btn btn-primary btn-sm">Post</button>
+                        }
                     </div>
-                    @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("TicketId", Model.Ticket.Id)
-                        <textarea rows="3" name="Comment" class="form-control widget-tree-comments-input" placeholder="Write your comment..."></textarea>
-                        <button type="submit" class="btn btn-primary btn-sm">Post</button>
-                    }
                 </div>
             </div>
-        </div>
+        }
     }
-}
 
-@if (User.IsInRole("Submitter"))
-{
-    if (TicketsHelper.DoesUserOwnTicket(User.Identity.GetUserId(), Model.Ticket.Id))
+    @if (User.IsInRole("Developer"))
     {
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel">
-                    <div class="panel-heading">
-                        <div class="panel-title"><i class="fa fa-comment"></i> Leave Comment</div>
+        if (TicketsHelper.IsUserOnTicket(User.Identity.GetUserId(), Model.Ticket.Id))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div class="panel-title"><i class="fa fa-comment"></i> Leave Comment</div>
+                        </div>
+                        @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("TicketId", Model.Ticket.Id)
+                            <textarea rows="3" name="Comment" class="form-control widget-tree-comments-input" placeholder="Write your comment..."></textarea>
+                            <button type="submit" class="btn btn-primary btn-sm">Post</button>
+                        }
                     </div>
-                    @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        @Html.Hidden("TicketId", Model.Ticket.Id)
-                        <textarea rows="3" name="Comment" class="form-control widget-tree-comments-input" placeholder="Write your comment..."></textarea>
-                        <button type="submit" class="btn btn-primary btn-sm">Post</button>
-                    }
                 </div>
             </div>
-        </div>
+        }
     }
-}*@
+
+    @if (User.IsInRole("Submitter"))
+    {
+        if (TicketsHelper.DoesUserOwnTicket(User.Identity.GetUserId(), Model.Ticket.Id))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel">
+                        <div class="panel-heading">
+                            <div class="panel-title"><i class="fa fa-comment"></i> Leave Comment</div>
+                        </div>
+                        @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("TicketId", Model.Ticket.Id)
+                            <textarea rows="3" name="Comment" class="form-control widget-tree-comments-input" placeholder="Write your comment..."></textarea>
+                            <button type="submit" class="btn btn-primary btn-sm">Post</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }*@
 
 
 @* USE FOR TICKET DETAILS PAGE

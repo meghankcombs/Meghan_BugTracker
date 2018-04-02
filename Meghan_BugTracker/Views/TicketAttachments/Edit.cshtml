@@ -1,51 +1,46 @@
 ﻿@model Meghan_BugTracker.Models.TicketAttachment
 
-@{
-    ViewBag.Title = "Edit";
-}
-
-<h2>Edit</h2>
-
-
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>TicketAttachment</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
-        @Html.HiddenFor(model => model.TicketId)
-        @Html.HiddenFor(model => model.Created)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.FileUrl, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input name="file" type="file" class="form-control" />
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+<div class="px-content">
+    <div class="page-header">
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i>Attachment / </span>Edit</h1>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
+    <div class="panel">
+        <div class="panel-heading">
+            <div class="panel-title">Edit Attachment</div>
+        </div>
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="returnUrl" value="@ViewBag.returnUrl" />
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.Created)
+            @Html.HiddenFor(model => model.TicketId)
+            <fieldset class="form-group">
+                <label type="button" class="btn btn-primary">
+                    Add Attachment
+                    <input type="file" name="FileUrl" id="MKCfile" class="form-control" value="@Model.FileUrl" style="display: none;">
+                </label>
+                <div id="file-selected" class="m-t-2 text-muted font-size-12"></div>
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="form-group-input-2">Description</label>
+                <input type="text" class="form-control" name="Description" id="form-group-input-2" rows="5" maxlength="1000" value="@Model.Description">
+                <small class="text-muted">Maximum length is 1000 characters</small>
+            </fieldset>
+            <fieldset class="form-group text-right">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </fieldset>
+        }
+    </div>
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@section scripts
+{
+    <script>
+        $('#MKCfile').bind('change', function () {
+            var path = $(this).val(); //gets value of file
+            var fileName = path.replace(/^.*\\/, ''); //removes "fakepath" in Chrome
+            $('#file-selected').html(fileName);
+        })
+    </script>
 }

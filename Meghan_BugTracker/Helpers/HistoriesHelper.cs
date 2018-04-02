@@ -13,6 +13,7 @@ namespace Meghan_BugTracker.Helpers
 
         public static string HistoryValueName(int ticketHistoryId, bool oldValue)
         {
+            //STILL NEEDS WORK
             var ticket = db.Tickets.Where(t => t.TicketHistories.Any(h => h.Id == ticketHistoryId)).FirstOrDefault();
             var value = ticket.GetType().GetProperty(ticket.TicketHistories.First(h => h.Id == ticketHistoryId).Property).GetValue(ticket);
             return value.ToString();
