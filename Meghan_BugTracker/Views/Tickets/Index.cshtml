@@ -4,14 +4,13 @@
 
 <div class="px-content">
     <div class="page-header">
-        <h1><span class="text-muted font-weight-light"><i class="page-header-icon fa fa-users"></i>Tickets</span></h1>
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Tickets</span></h1>
     </div>
-
     <div class="panel">
         <div class="panel-heading">
             @if (User.IsInRole("Submitter"))
             {
-                <a href="@Url.Action("Create", "Tickets")" class="panel-title">Create New</a>
+                <a href="@Url.Action("Create", "Tickets")" class="panel-title"><i class="fa fa-ticket"></i> Create New</a>
             }
             else
             {
@@ -39,7 +38,15 @@
                         <tr class="odd gradeX">
                             <td>@ticket.Title</td>
                             <td>@ticket.Created.ToShortDateString() by @ticket.OwnerUser.FirstName</td>
-                            <td>@ticket.AssignedToUser.FirstName</td>
+                            <td>@ticket.Project.Name</td>
+                            @if(ticket.AssignedToUser != null)
+                            {
+                                <td>@ticket.AssignedToUser.FirstName</td>
+                            }
+                            else
+                            {
+                                <td>Unassigned</td>
+                            }
                             <td>@ticket.TicketPriority.Name</td>
                             <td>@ticket.TicketStatus.Name</td>
                             <td>@ticket.TicketType.Name</td>
@@ -57,6 +64,7 @@
         </div>
     </div>
 </div>
+
 
 @section scripts
 {

@@ -4,10 +4,6 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <ol class="breadcrumb page-breadcrumb">
-        <li><a>Home</a></li>
-    </ol>
-
     <div class="page-header">
         <div class="row">
             <div class="col-md-4 text-xs-center text-md-left text-nowrap">
@@ -24,8 +20,6 @@
             <div class="m-b-2 visible-xs visible-sm clearfix"></div>
         </div>
     </div>
-
-    <hr class="page-block m-t-0">
 
     <div class="row">
         <div class="col-md-6">
@@ -208,7 +202,7 @@
 @if (!User.Identity.IsAuthenticated)
 {
     <ol class="breadcrumb page-breadcrumb">
-        <li><a href="index.html">Home</a></li>
+        <li><a>Home</a></li>
         <li class="active">Example Dashboard</li>
     </ol>
 

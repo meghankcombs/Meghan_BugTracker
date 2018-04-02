@@ -3,46 +3,64 @@
 
 @{ ProjectsHelper projHelper = new ProjectsHelper(); }
 
-<div class="px-content">
-    <div class="page-header">
-        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-ios-keypad"></i>Project / </span>Details</h1>
-    </div>
+<div class="page-header">
     <div class="row">
-        <div class="col-md-8">
-            <div class="table-primary">
-                <div class="table-header">
-                    <div class="table-caption">
-                        @Model.Name Details
-                    </div>
-                </div>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Users</th>
-                            <th>Tickets</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            @foreach (var user in projHelper.UsersOnProject(Model.Id))
-                            {
-                                <td>@user.FirstName <strong>@user.LastName</strong></td>
-                            }
-                            @foreach (var tix in Model.Tickets)
-                            {
-                                <td>@tix.Title</td>
-                            }
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="table-footer text-left">
-                    <a href="@Url.Action("Edit", "Projects", new { id = Model.Id })" class="btn btn-primary">Edit</a>
-                </div>
+        <div class="col-md-4 text-xs-center text-md-left text-nowrap">
+            <h1><i class="page-header-icon ion-ios-keypad"></i>@Model.Name</h1>
+        </div>
+        <hr class="page-wide-block visible-xs visible-sm">
+        <div class="col-xs-12 width-md-auto width-lg-auto width-xl-auto pull-md-right">
+            <a href="@Url.Action("Edit", "Projects", new { id = Model.Id })" class="btn btn-primary btn-block"><span class="btn-label-icon left ion-ios-gear"></span>Edit Project</a>
+        </div>
+        <!-- Spacer -->
+        <div class="m-b-2 visible-xs visible-sm clearfix"></div>
+    </div>
+</div>
+
+<div class="row box-examples">
+
+    <div class="col-md-5">
+        <div class="box">
+            <div class="box-cell col-xs-5 b-r-1 valign-middle text-xs-center bg-warning font-size-24">
+                <i class="fa fa-ticket"></i>&nbsp;&nbsp;<strong>Tickets</strong>
             </div>
+
+            <div class="box-cell">
+                <div class="box-container">
+                @foreach (var tix in Model.Tickets)
+                {
+                    <div class="box-row">
+                        <div class="box-cell p-a-1 valign-middle">
+                            @tix.Title
+                            <i class="box-icon pull-xs-right fa fa-ticket"></i>
+                        </div>
+                    </div>
+                }
+                </div> <!-- / .box-container -->
+            </div> <!-- / .box-cell -->
         </div>
     </div>
+
+    <div class="col-md-7">
+        <div class="box">
+            <div class="box-cell col-xs-5 b-r-1 valign-middle text-xs-center bg-danger font-size-24">
+                <i class="fa fa-users"></i>&nbsp;&nbsp;<strong>Users</strong>
+            </div>
+
+            <div class="box-cell">
+                <div class="box-container">
+                @foreach (var user in projHelper.UsersOnProject(Model.Id))
+                {
+                    <div class="box-row">
+                        <div class="box-cell p-a-1 valign-middle">
+                            @user.FirstName <strong>@user.LastName</strong>
+                            <i class="box-icon pull-xs-right fa fa-user-o"></i>
+                        </div>
+                    </div>
+                }
+                </div> <!-- / .box-container -->
+            </div> <!-- / .box-cell -->
+        </div>
+    </div>
+
 </div>
