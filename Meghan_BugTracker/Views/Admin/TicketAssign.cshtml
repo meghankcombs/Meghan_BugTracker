@@ -1,10 +1,10 @@
 ﻿<div class="px-content">
     <div class="page-header">
-        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i></span>Assign Project</h1>
+        <h1><span class="text-muted font-weight-light"><i class="page-header-icon ion-android-checkbox-outline"></i></span>Assign Ticket</h1>
     </div>
     <div class="panel">
         <div class="panel-heading">
-            <span class="panel-title">Example</span>
+            <span class="panel-title"></span>
         </div>
         <div class="panel-body">
         @using (Html.BeginForm("TicketAssign", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -12,7 +12,7 @@
             @Html.AntiForgeryToken()
             @Html.Hidden("userId", (string)ViewBag.UserId) //cast: stating what type the ViewBag is i.e. string in this instance
 
-            <div class="form-group">
+            <div class="form-group text-left">
                 <label for="validation-multiselect" class="col-sm-3 control-label">Assign Tickets</label>
                 <div class="col-sm-9">
                     @Html.ListBox("AllTickets", null, htmlAttributes: new { @class = "form-control" })

@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Meghan_BugTracker.Models.Project>
+﻿@using Meghan_BugTracker.Helpers;
+@using Meghan_BugTracker.Models;
+@model IEnumerable<Meghan_BugTracker.Models.Project>
 
 <div class="px-content">
     <div class="page-header">
@@ -34,11 +36,11 @@
                                 <td class="center">
                                     <div class="btn-group" style="margin-top: 4px;">
                                         <a href="@Url.Action("Details", "Projects", new { id = proj.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Details"><i class="fa fa-list"></i></a>
-                                        @if(User.IsInRole("Admin"))
+                                        @if (User.IsInRole("Admin"))
                                         {
                                             <a href="@Url.Action("ProjectTickets", "Tickets", new { projectId = proj.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Tickets"><i class="fa fa-ticket"></i></a>
                                         }
-                                        @if(User.IsInRole("Project Manager"))
+                                        @if (User.IsInRole("Project Manager"))
                                         {
                                             <a href="@Url.Action("PMProjectTickets", "Tickets", new { projectId = proj.Id })" class="btn btn-xs btn-primary btn-outline myIndexBtns" data-toggle="tooltip" title="Tickets"><i class="fa fa-ticket"></i></a>
                                         }

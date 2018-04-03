@@ -149,7 +149,7 @@
                         @foreach (var comment in Model.RecentComments)
                         {
                             <div class="widget-comments-item">
-                                <img src="@Url.Action("LoggedInUserPhoto", "Home", new { userId = User.Identity.GetUserId() })" class="widget-comments-avatar">
+                                <img src="~/MyImages/user_default.png" class="widget-comments-avatar">
                                 <div class="widget-comments-header">
                                     <a>@comment.User.FirstName</a> commented on <a href="@Url.Action("Details", "Tickets", new { id = comment.Ticket.Id })" title="">@comment.Ticket.Title</a>
                                 </div>
@@ -201,11 +201,6 @@
 
 @if (!User.Identity.IsAuthenticated)
 {
-    <ol class="breadcrumb page-breadcrumb">
-        <li><a>Home</a></li>
-        <li class="active">Example Dashboard</li>
-    </ol>
-
     <div class="page-header">
         <div class="row">
             <div class="col-md-4 text-xs-center text-md-left text-nowrap">
@@ -225,8 +220,6 @@
             </form>*@
         </div>
     </div>
-
-    <hr class="page-block m-t-0">
 
     <div class="row">
         <div class="col-md-6">

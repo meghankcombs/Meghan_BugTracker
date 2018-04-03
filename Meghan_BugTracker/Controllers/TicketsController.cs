@@ -177,30 +177,32 @@ namespace Meghan_BugTracker.Controllers
         // POST: Tickets/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")] Ticket ticket, string returnUrl)
+        public async Task<ActionResult> Edit([Bind(Include = 
+            "Id,Title,Description,Created,Updated,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,AssignedToUserId")]
+            Ticket newTicket, string returnUrl)
         {
-            var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+            var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == newTicket.Id); //ticket before editing
             if (ModelState.IsValid)
             {
-                ticket.Updated = DateTime.Now;
-                db.Entry(ticket).State = EntityState.Modified;
+                newTicket.Updated = DateTime.Now;
+                db.Entry(newTicket).State = EntityState.Modified;
                 db.SaveChanges();
 
-                //passing in this ticket you're about to edit BEFORE you edit and comparing it to the edited version after saving
-                ticketHelper.AddTicketHistory(oldTicket, ticket);
+                //takes in old and new tickets 
+                ticketHelper.AddTicketHistory(oldTicket, newTicket);
 
                 //pass relevant data into method
-                await ticketHelper.AddTicketNotification(ticket.Id, oldTicket.AssignedToUserId, ticket.AssignedToUserId);
+                await ticketHelper.AddTicketNotification(newTicket.Id, oldTicket.AssignedToUserId, newTicket.AssignedToUserId);
 
                 return Redirect(returnUrl);
             }
-            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", ticket.AssignedToUserId);
-            ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", ticket.TicketTypeId);
-            return View(ticket);
+            ViewBag.AssignedToUserId = new SelectList(db.Users, "Id", "FirstName", newTicket.AssignedToUserId);
+            //ViewBag.OwnerUserId = new SelectList(db.Users, "Id", "FirstName", ticket.OwnerUserId);
+            //ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
+            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "Name", newTicket.TicketPriorityId);
+            ViewBag.TicketStatusId = new SelectList(db.TicketStatus, "Id", "Name", newTicket.TicketStatusId);
+            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "Name", newTicket.TicketTypeId);
+            return View(newTicket);
         }
 
         // GET: Tickets/Delete/5
@@ -225,7 +227,8 @@ namespace Meghan_BugTracker.Controllers
             Ticket ticket = db.Tickets.Find(id);
             db.Tickets.Remove(ticket);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.PreviousUrl = System.Web.HttpContext.Current.Request.UrlReferrer.ToString();
+            return Redirect(ViewBag.PreviousUrl);
         }
 
         protected override void Dispose(bool disposing)

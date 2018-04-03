@@ -105,11 +105,12 @@ namespace Meghan_BugTracker.Controllers
                 ticketComment.Created = DateTime.Now;
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                ViewBag.PreviousUrl = System.Web.HttpContext.Current.Request.UrlReferrer.ToString();
+                return Redirect(ViewBag.PreviousUrl);
             }
 
-            ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
+            //ViewBag.TicketId = new SelectList(db.Tickets, "Id", "Title", ticketComment.TicketId);
+            //ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketComment.UserId);
             return View(ticketComment);
         }
 
@@ -168,7 +169,8 @@ namespace Meghan_BugTracker.Controllers
             TicketComment ticketComment = db.TicketComments.Find(id);
             db.TicketComments.Remove(ticketComment);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.PreviousUrl = System.Web.HttpContext.Current.Request.UrlReferrer.ToString();
+            return Redirect(ViewBag.PreviousUrl);
         }
 
         protected override void Dispose(bool disposing)

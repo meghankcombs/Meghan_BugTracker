@@ -1,7 +1,6 @@
 ﻿@model Meghan_BugTracker.Models.Project
 @using Meghan_BugTracker.Helpers
 
-@{ ProjectsHelper projHelper = new ProjectsHelper(); }
 
 <div class="page-header">
     <div class="row">
@@ -18,8 +17,20 @@
 </div>
 
 <div class="row box-examples">
-
-    <div class="col-md-5">
+    <div class="col-md-4">
+        <!-- Centered -->
+        <div class="panel panel-danger panel-dark panel-body-colorful widget-profile widget-profile-centered">
+            <div class="panel-heading">
+                <h3 class="widget-profile-header">
+                    Description
+                </h3>
+            </div>
+            <div class="panel-body">
+                @Model.Description
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
         <div class="box">
             <div class="box-cell col-xs-5 b-r-1 valign-middle text-xs-center bg-warning font-size-24">
                 <i class="fa fa-ticket"></i>&nbsp;&nbsp;<strong>Tickets</strong>
@@ -27,40 +38,17 @@
 
             <div class="box-cell">
                 <div class="box-container">
-                @foreach (var tix in Model.Tickets)
-                {
-                    <div class="box-row">
-                        <div class="box-cell p-a-1 valign-middle">
-                            @tix.Title
-                            <i class="box-icon pull-xs-right fa fa-ticket"></i>
+                    @foreach (var tix in Model.Tickets)
+                    {
+                        <div class="box-row">
+                            <div class="box-cell p-a-1 valign-middle">
+                                @tix.Title
+                                <i class="box-icon pull-xs-right fa fa-ticket"></i>
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
                 </div> <!-- / .box-container -->
             </div> <!-- / .box-cell -->
         </div>
     </div>
-
-    <div class="col-md-7">
-        <div class="box">
-            <div class="box-cell col-xs-5 b-r-1 valign-middle text-xs-center bg-danger font-size-24">
-                <i class="fa fa-users"></i>&nbsp;&nbsp;<strong>Users</strong>
-            </div>
-
-            <div class="box-cell">
-                <div class="box-container">
-                @foreach (var user in projHelper.UsersOnProject(Model.Id))
-                {
-                    <div class="box-row">
-                        <div class="box-cell p-a-1 valign-middle">
-                            @user.FirstName <strong>@user.LastName</strong>
-                            <i class="box-icon pull-xs-right fa fa-user-o"></i>
-                        </div>
-                    </div>
-                }
-                </div> <!-- / .box-container -->
-            </div> <!-- / .box-cell -->
-        </div>
-    </div>
-
 </div>

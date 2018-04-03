@@ -429,6 +429,7 @@
     <Content Include="MyImages\BugTracker Deliverables %28Week 2%29.pdf" />
     <Content Include="MyImages\Project Deliverables - Week 6 - BugTracker.pdf" />
     <Content Include="MyImages\Test Doc attachment.docx" />
+    <Content Include="MyImages\Test PDF attachment.pdf" />
     <None Include="Properties\PublishProfiles\meghan-mvcbugtracker - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\meghan-mvcbugtracker - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />

@@ -4,7 +4,7 @@
     </div>
     <div class="panel">
         <div class="panel-heading">
-            <span class="panel-title">Example</span>
+            <span class="panel-title"></span>
         </div>
         <div class="panel-body">
             @using (Html.BeginForm("ProjectAssign", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -12,7 +12,7 @@
                 @Html.AntiForgeryToken()
                 @Html.Hidden("userId", (string)ViewBag.UserId) //cast: stating what type the ViewBag is i.e. string in this instance
 
-                <div class="form-group">
+                <div class="form-group text-left">
                     @*@Html.Label("Projects", htmlAttributes: new { @class = "control-label col-md-2" })*@
                     <label for="validation-multiselect" class="col-sm-3 control-label">Assign Projects</label>
                     <div class="col-sm-9">

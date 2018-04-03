@@ -10,12 +10,14 @@
         <div class="row">
             @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "col-md-8 col-lg-9", role = "form" }))
             {
+                @Html.AntiForgeryToken()
                 <div class="p-x-1">
                     <fieldset class="form-group form-group-lg">
                         <label for="MKCfile" class="btn btn-warning btn-sm">
                             Upload Photo
                             <input id="MKCfile" type="file" name="UserPhoto" style="display: none;">
                         </label>
+                        <div id="file-selected" class="m-t-2 text-muted font-size-12"></div>
                     </fieldset>
                     <fieldset class="form-group form-group-lg">
                         <label for="account-firstname">First Name</label>
@@ -24,6 +26,10 @@
                     <fieldset class="form-group form-group-lg">
                         <label for="account-lastname">Last Name</label>
                         <input type="text" name="LastName" class="form-control">
+                    </fieldset>
+                    <fieldset class="form-group form-group-lg">
+                        <label for="account-lastname">Display Name</label>
+                        <input type="text" name="DisplayName" class="form-control">
                     </fieldset>
                     <fieldset class="form-group form-group-lg">
                         <label for="account-email">Email</label>

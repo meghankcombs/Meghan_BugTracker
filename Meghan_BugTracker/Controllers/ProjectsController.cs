@@ -125,7 +125,8 @@ namespace Meghan_BugTracker.Controllers
             Project project = db.Projects.Find(id);
             db.Projects.Remove(project);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.PreviousUrl = System.Web.HttpContext.Current.Request.UrlReferrer.ToString();
+            return Redirect(ViewBag.PreviousUrl);
         }
 
         protected override void Dispose(bool disposing)

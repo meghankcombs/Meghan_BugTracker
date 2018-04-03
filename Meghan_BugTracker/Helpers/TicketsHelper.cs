@@ -83,44 +83,77 @@ namespace Meghan_BugTracker.Helpers
 
         public void AddTicketHistory(Ticket oldTicket, Ticket newTicket)
         {
-            var propList = new List<string>
-            {
-                "Title",
-                "Description",
-                "ProjectId",
-                "AssignedToUserId",
-                "TicketTypeId",
-                "TicketStatusId",
-                "TicketPriorityId"
-            };
+            List<TicketHistory> histories = new List<TicketHistory>();
 
-            //Write a for loop that loops through the properties of a Ticket
-            foreach (var property in propList)
+            if (oldTicket.Title != newTicket.Title)
             {
-                //Check to see if some properties are null
-                if (newTicket.GetType().GetProperty(property).GetValue(newTicket) == null)
-                    newTicket.GetType().GetProperty(property).SetValue(newTicket, "");
-                if (oldTicket.GetType().GetProperty(property).GetValue(oldTicket) == null)
-                    oldTicket.GetType().GetProperty(property).SetValue(oldTicket, "");
-                
-                var newValue = newTicket.GetType().GetProperty(property) == null ? "" : newTicket.GetType().GetProperty(property).GetValue(newTicket).ToString();
-                var oldValue = oldTicket.GetType().GetProperty(property) == null ? "" : oldTicket.GetType().GetProperty(property).GetValue(oldTicket).ToString();
-
-                if(newValue != oldValue)
+                histories.Add(new TicketHistory()
                 {
-                    var newTicketHistory = new TicketHistory();
-                    newTicketHistory.UserId = HttpContext.Current.User.Identity.GetUserId();
-                    newTicketHistory.ChangedDate = DateTime.Now;
-                    newTicketHistory.TicketId = newTicket.Id;
-
-                    newTicketHistory.Property = property;
-                    newTicketHistory.OldValue = oldValue;
-                    newTicketHistory.NewValue = newValue;
-
-                    db.TicketHistories.Add(newTicketHistory);
-                    db.SaveChanges();
-                }
+                    OldValue = oldTicket.Title,
+                    NewValue = newTicket.Title,
+                    Property = "Title"
+                });
             }
+            
+            if(oldTicket.Description != newTicket.Description)
+            {
+                histories.Add(new TicketHistory()
+                {
+                    OldValue = oldTicket.Description,
+                    NewValue = newTicket.Description,
+                    Property = "Description"
+                });
+            }
+
+            if(oldTicket.AssignedToUserId != newTicket.AssignedToUserId)
+            {
+                histories.Add(new TicketHistory()
+                {
+                    OldValue = db.Users.Find(oldTicket.AssignedToUserId).DisplayName,
+                    NewValue = db.Users.Find(newTicket.AssignedToUserId).DisplayName,
+                    Property = "Assigned User"
+                });
+            }
+
+            if(oldTicket.TicketTypeId != newTicket.TicketTypeId)
+            {
+                histories.Add(new TicketHistory()
+                {
+                    OldValue = db.TicketTypes.Find(oldTicket.TicketTypeId).Name,
+                    NewValue = db.TicketTypes.Find(newTicket.TicketTypeId).Name,
+                    Property = "Ticket Type"
+                });
+            }
+
+            if(oldTicket.TicketPriorityId != newTicket.TicketPriorityId)
+            {
+                histories.Add(new TicketHistory()
+                {
+                    OldValue = db.TicketPriorities.Find(oldTicket.TicketPriorityId).Name,
+                    NewValue = db.TicketPriorities.Find(newTicket.TicketPriorityId).Name,
+                    Property = "Ticket Priority"
+                });
+            }
+
+            if(oldTicket.TicketStatusId != newTicket.TicketStatusId)
+            {
+                histories.Add(new TicketHistory()
+                {
+                    OldValue = db.TicketStatus.Find(oldTicket.TicketStatusId).Name,
+                    NewValue = db.TicketStatus.Find(newTicket.TicketStatusId).Name,
+                    Property = "Ticket Status"
+                });
+            }
+
+            for(int i = 0; i < histories.Count; i++)
+            {
+                histories[i].TicketId = newTicket.Id;
+                histories[i].UserId = HttpContext.Current.User.Identity.GetUserId();
+                histories[i].ChangedDate = DateTime.Now;
+                db.TicketHistories.Add(histories[i]);
+            }
+
+            db.SaveChanges();
         }
 
         public List<TicketHistory> ListTicketsHistories(int ticketId)
@@ -346,3 +379,61 @@ namespace Meghan_BugTracker.Helpers
 
     }
 }
+
+//-----------OLD ADD TICKET HISTORY CODE-----------------
+//if (property.Name != null && property.Name == "Title"
+//    || property.Name == "Description"
+//    || property.Name == "AssignedToUserId"
+//    || property.Name == "TicketTypeId"
+//    || property.Name == "TicketPriorityId"
+//    || property.Name == "TicketStatusId")
+//{
+//var oldInt = oldTicket.GetType().GetProperty(property).GetValue(oldTicket);
+//var newInt = newTicket.GetType().GetProperty(property).GetValue(newTicket);
+//var oldValue = oldTicket.GetType().GetProperty(property).GetValue(oldTicket).ToString();
+//var newValue = newTicket.GetType().GetProperty(property).GetValue(newTicket).ToString();
+
+//if (newValue != oldValue)
+//{
+//    var newTicketHistory = new TicketHistory();
+//    newTicketHistory.UserId = HttpContext.Current.User.Identity.GetUserId();
+//    newTicketHistory.ChangedDate = DateTime.Now;
+//    newTicketHistory.TicketId = newTicket.Id;
+//    newTicketHistory.Property = property;
+
+//    if (property == "Title")
+//    {
+//        oldValue = db.Tickets.Find(oldInt).Title;
+//        newValue = db.Tickets.Find(newInt).Title;
+//    }
+//    if (property == "Description")
+//    {
+//        oldValue = db.Tickets.Find(oldInt).Description;
+//        newValue = db.Tickets.Find(newInt).Description;
+//    }
+//    if (property == "AssignedToUserId")
+//    {
+//        oldValue = db.Tickets.Find(oldInt).AssignedToUser.FirstName;
+//        newValue = db.Tickets.Find(newInt).AssignedToUser.FirstName;
+//    }
+//    if (property == "TicketTypeId")
+//    {
+//        oldValue = db.Tickets.Find(oldInt).TicketType.Name;
+//        newValue = db.Tickets.Find(newInt).TicketType.Name;
+//    }
+//    if (property == "TicketPriorityId")
+//    {
+//        oldValue = db.Tickets.Find(oldInt).TicketPriority.Name;
+//        newValue = db.Tickets.Find(newInt).TicketPriority.Name;
+//    }
+//    if (property == "TicketStatusId")
+//    {
+//        oldValue = db.Tickets.Find(oldInt).TicketStatus.Name;
+//        newValue = db.Tickets.Find(newInt).TicketStatus.Name;
+//    }
+
+//    newTicketHistory.OldValue = oldValue;
+//    newTicketHistory.NewValue = newValue;
+
+//    db.TicketHistories.Add(newTicketHistory);
+//    db.SaveChanges();

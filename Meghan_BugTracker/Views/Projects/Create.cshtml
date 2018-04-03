@@ -8,22 +8,24 @@
         <div class="panel-heading">
             <div class="panel-title">New Project</div>
         </div>
-        @using (Html.BeginForm())
-        {
-        @Html.AntiForgeryToken()
-            <fieldset class="form-group">
-                <label for="form-group-input-1">Name</label>
-                <input type="text" class="form-control" name="Name" id="form-group-input-1" placeholder="Project Name">
-            </fieldset>
-            <fieldset class="form-group">
-                <label for="form-group-input-2">Description</label>
-                <input type="text" class="form-control" name="Description" id="form-group-input-2" rows="5" maxlength="1000" placeholder="Project Description">
-                <small class="text-muted">Maximum length is 1000 characters</small>
-            </fieldset>
-            <fieldset class="form-group text-right">
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </fieldset>
-        }
+        <div class="panel-body">
+            @using (Html.BeginForm())
+            {
+            @Html.AntiForgeryToken()
+                <fieldset class="form-group">
+                    <label for="form-group-input-1">Name</label>
+                    <input type="text" class="form-control" name="Name" id="form-group-input-1" placeholder="Project Name">
+                </fieldset>
+                <fieldset class="form-group">
+                    <label for="form-group-input-2">Description</label>
+                    <input type="text" class="form-control" name="Description" id="form-group-input-2" rows="5" maxlength="1000" placeholder="Project Description">
+                    <small class="text-muted">Maximum length is 1000 characters</small>
+                </fieldset>
+                <fieldset class="form-group text-right">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </fieldset>
+            }
+        </div>
     </div>
 </div>
 
