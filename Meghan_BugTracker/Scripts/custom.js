@@ -198,7 +198,8 @@ $(function() {
 $(function() {
     $('#support-tickets').perfectScrollbar();
     $('#recent-projects').perfectScrollbar();
-    $('#comments').perfectScrollbar();
+    $('#index-comments').perfectScrollbar();
+    $('#index-histories').perfectScrollbar();
     $('#threads').perfectScrollbar();
 });
 

@@ -141,10 +141,10 @@
             <!-- Recent comments -->
             <div class="panel panel-primary panel-dark">
                 <div class="panel-heading">
-                    <span class="panel-title"><i class="panel-title-icon fa fa-comment-o text-danger"></i>Comments</span>
+                    <span class="panel-title"><i class="panel-title-icon fa fa-comment-o"></i>Comments</span>
                 </div>
                 <div class="tab-content p-a-0">
-                    <div id="comments" class="ps-block tab-pane fade in active" style="height: 300px">
+                    <div id="index-comments" class="ps-block" style="height: 300px">
 
                         @foreach (var comment in Model.RecentComments)
                         {
@@ -181,7 +181,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="support-tickets" class="ps-block" style="height: 300px">
+                <div id="threads" class="ps-block" style="height: 300px">
                     @foreach (var history in Model.RecentHistories)
                     {
                         <div class="widget-support-tickets-item">
