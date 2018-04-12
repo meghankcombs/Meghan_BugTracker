@@ -99,7 +99,7 @@ namespace Meghan_BugTracker.Controllers
         [Authorize(Roles = "Submitter")]
         public ActionResult Create()
         {
-            //As the  Submitter,  I can only create  Tickets for  Projects  I am on...
+            //As the Submitter, I can only create Tickets for Projects I am on...
             var myProjects = projectHelper.ListUserProjects(User.Identity.GetUserId());
             if(myProjects.Count == 0)
             {

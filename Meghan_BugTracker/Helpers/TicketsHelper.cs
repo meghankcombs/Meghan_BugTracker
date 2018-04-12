@@ -280,6 +280,7 @@ namespace Meghan_BugTracker.Helpers
                 //Set Body
                 ticketNotification.Body = msgBody.ToString();
 
+                //Add new notification to db and save
                 db.TicketNotifications.Add(ticketNotification);
                 db.SaveChanges();
 
